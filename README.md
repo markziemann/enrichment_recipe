@@ -22,14 +22,16 @@ from CRAN and Bioconductor.
 This will create the Docker image which can be used locally.
 Change the name of the image for your project.
 
+replace `username` with your own alias.
+
 ```
-docker build -t mziemann/r_example .
+docker build -t username/r_example .
 ```
 
 You can get a command line inside the image like this.
 
 ```
-docker run -it -d mziemann/r_example bash
+docker run -it -d username/r_example bash
 ```
 
 Type `exit` to leave the container
@@ -50,7 +52,7 @@ docker ps -a
 Then commit the changes.
 
 ```
-docker commit container_name mziemann/r_example
+docker commit container_name username/r_example
 ```
 
 Now it can be pushed to DockerHub so it is available to anyone on the web.
@@ -58,7 +60,7 @@ Note that you will need to create an account with Dockerhub and login on
 the command line for it to work.
 
 ```
-docker push mziemann/r_example
+docker push username/r_example
 ```
 
 Now the image can be accessed from other computers and by other users.
@@ -66,7 +68,7 @@ Now the image can be accessed from other computers and by other users.
 ## Download the image
 
 ```
-docker pull mziemann/r_example
+docker pull username/r_example
 ```
 
 ## Run the image interactively
@@ -74,7 +76,7 @@ docker pull mziemann/r_example
 Get a bash prompt inside the container.
 
 ```
-docker run --rm -it --entrypoint /bin/bash mziemann/r_example
+docker run --rm -it --entrypoint /bin/bash username/r_example
 ```
 
 ## On a shared system
@@ -85,7 +87,7 @@ Installation and usage manual documentation can be found here:
 https://indigo-dc.github.io/udocker/
 
 ```
-udocker run mziemann/r_example /bin/bash
+udocker run username/r_example /bin/bash
 ```
 
 At this point you can work on your app, develop your scripts, etc.
