@@ -69,7 +69,7 @@ RUN apt-get install -y r-base
 ########################################
 RUN mkdir -p /root/.ssh && \
     chmod 0700 /root/.ssh && \
-    ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 
 ########################################
 # now downloading a bunch of dependancies
@@ -82,7 +82,7 @@ RUN mkdir sw
 ########################################
 # Get the ncRNA repo
 ########################################
-RUN git clone git@github.com:markziemann/udocker_r_example.git
+RUN git clone https://github.com/markziemann/udocker_r_example.git
 ENV DIRPATH /udocker_r_example
 WORKDIR $DIRPATH
 RUN chmod -R 777 /udocker_r_example
