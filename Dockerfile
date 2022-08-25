@@ -82,17 +82,17 @@ RUN mkdir sw
 ########################################
 # Get the ncRNA repo
 ########################################
-RUN git clone https://github.com/casbap/ncRNA.git
-ENV DIRPATH /ncRNA
+RUN git clone git@github.com:markziemann/udocker_r_example.git
+ENV DIRPATH /udocker_r_example
 WORKDIR $DIRPATH
-RUN chmod -R 777 /ncRNA
+RUN chmod -R 777 /udocker_r_example
 
 ########################################
 # Get R packages based on own script
 ########################################
 RUN echo "TZ=Etc/UTC" >> /root/.Renviron
 
-RUN Rscript /ncRNA/docker/rpkgs.R
+RUN Rscript /udocker_r_example/docker/rpkgs.R
 
 ########################################
 # set entrypoint
