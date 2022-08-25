@@ -92,7 +92,7 @@ RUN chmod -R 777 /udocker_r_example
 ########################################
 RUN echo "TZ=Etc/UTC" >> /root/.Renviron
 
-RUN Rscript /udocker_r_example/docker/rpkgs.R
+RUN Rscript /udocker_r_example/rpkgs.R
 
 ########################################
 # set entrypoint
