@@ -31,31 +31,35 @@ docker build -t username/r_example .
 You can get a command line inside the image like this.
 
 ```
-docker run -it -d username/r_example bash
+docker run -it --entrypoint /bin/bash username/r_example
 ```
+
+You can then see that the project scripts are available.
+In this case example.Rmd contains the workflow.
+It was run during the build process, but it can be repeated if you like.
+At the command line, you can open R and type `rmarkdown::render("example.Rmd")`
+to run the script.
+Exit R with `q()`
 
 Type `exit` to leave the container
 
-It is not recommended to make changes to the image setup, as it is
-better to change the dockerfile (more reproducible).
+If you want to retrieve some data from a container, it is possible with the
+`docker cp` command.
 
-If you did make changes to the image, by default these are not saved.
-If you do want to retain those changes, you'll need to commit the changes.
-
-You can list the used docker containers with `ps` and get the container
-ID.
+But first, you need to identify the last container, which contains the data of interest.
 
 ```
 docker ps -a
 ```
 
-Then commit the changes.
+Now copy the html report from inside the container to the working directory.
 
 ```
-docker commit container_name username/r_example
+docker cp $(docker ps -alq):udocker_r_example/example.html .
 ```
 
-Now it can be pushed to DockerHub so it is available to anyone on the web.
+If you're happy with the performance of the container, 
+it can be pushed to DockerHub so it is available to anyone on the web.
 Note that you will need to create an account with Dockerhub and login on
 the command line for it to work.
 
@@ -64,6 +68,11 @@ docker push username/r_example
 ```
 
 Now the image can be accessed from other computers and by other users.
+
+You may also want to archive the docker container as an tar.
+This will enable sharing of your container on a site like Zenodo.
+This is a good idea, as thre is no guarantee dockerhub will provide
+services long into the future.
 
 ## Download the image
 
