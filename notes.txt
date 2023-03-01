@@ -1,0 +1,30 @@
+https://davetang.org/muse/2019/12/04/reproducible-bioinformatics/
+
+The BioContainers initiative https://biocontainers.pro/
+
+Building containerized workflows using the BioDepot-workflow-builder (Bwb)
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6883158/
+
+Packaging, containerization, and virtualization of computational omics methods:
+Advances, challenges, and opportunities
+https://arxiv.org/pdf/2203.16261.pdf
+
+Practical Computational Reproducibility in the Life Sciences
+https://www.sciencedirect.com/science/article/pii/S2405471218301406
+
+A path to moderate the reproducibility crisis in bioinformatics
+http://www.bioinformatics.deib.polimi.it/geco/workshop/reproducibility.pdf
+www.reproducible-bioinformatics.org
+https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-018-2296-x
+
+Ten Simple Rules for Reproducible Computational Research
+https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1003285
+
+The reproducibility crisis in science: A statistical counterattack (Roger Peng)
+https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1740-9713.2015.00827.x
+
+Reproducible research in computational science
+https://pubmed.ncbi.nlm.nih.gov/22144613/
+
+Reproducibility standards for machine learning in the life sciences
+https://www.nature.com/articles/s41592-021-01256-7#Sec4
