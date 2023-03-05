@@ -1,5 +1,5 @@
 ---
-title: "Enrichment analysis with gold standard reproducibility."
+title: "An example of extremely reproducible enrichment analysis."
 author: "Mark Ziemann & Anusuiya Bora"
 date: "`r Sys.Date()`"
 output:
@@ -15,8 +15,6 @@ theme: cosmo
 Source: https://github.com/markziemann/udocker_r_example
 
 Alt titles:
-
-* "Recipes for extremely reproducible enrichment analysis"
 
 ## Intro
 
@@ -109,7 +107,6 @@ suppressPackageStartupMessages({
   library("getDEE2")
   library("DESeq2")
   library("kableExtra")
-  library("vioplot")
   library("clusterProfiler")
   library("eulerr")
 })

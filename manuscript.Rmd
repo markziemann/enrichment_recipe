@@ -1,5 +1,6 @@
 ---
-title: "Enrichment analysis with gold standard reproducibility"
+title: "A recipe for extremely reproducible enrichment analysis"
+Enrichment analysis with gold standard reproducibility"
 author: "Mark Ziemann and Anusuiya Bora"
 date: "`r Sys.Date()`"
 output:
@@ -14,7 +15,7 @@ theme: cosmo
 
 <b>Alt titles:<b>
 
-* "Recipes for extremely reproducible enrichment analysis"
+* "Enrichment analysis with gold standard reproducibility"
 
 * "A guide to completely reproducible enrichment analysis"
 
