@@ -43,3 +43,10 @@ https://pubmed.ncbi.nlm.nih.gov/32685199/
 
 Container-based bioinformatics with Pachyderm
 https://pubmed.ncbi.nlm.nih.gov/30101309/
+
+Simplifying the development of portable, scalable, and reproducible workflows
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8514239/
+
+Easyreporting simplifies the implementation of Reproducible Research layers in R software
+https://pubmed.ncbi.nlm.nih.gov/33970927/
+
