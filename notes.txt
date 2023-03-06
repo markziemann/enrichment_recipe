@@ -31,3 +31,15 @@ https://www.nature.com/articles/s41592-021-01256-7#Sec4
 
 Tools and techniques for computational reproducibility 
 https://academic.oup.com/gigascience/article/5/1/s13742-016-0135-4/2720991?login=false
+
+Reproducible, scalable, and shareable analysis pipelines with bioinformatics workflow managers
+https://www.nature.com/articles/s41592-021-01254-9
+
+Compi: a framework for portable and reproducible pipelines
+https://pubmed.ncbi.nlm.nih.gov/34239974/
+
+Publishing computational research - a review of infrastructures for reproducible and transparent scholarly communication
+https://pubmed.ncbi.nlm.nih.gov/32685199/
+
+Container-based bioinformatics with Pachyderm
+https://pubmed.ncbi.nlm.nih.gov/30101309/
