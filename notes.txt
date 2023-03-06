@@ -50,3 +50,83 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8514239/
 Easyreporting simplifies the implementation of Reproducible Research layers in R software
 https://pubmed.ncbi.nlm.nih.gov/33970927/
 
+
+# deleted text from example.Rmd
+
+Previously my team have written about methodological problems in enrichment analysis.
+These include statistical problems, like lack of FDR correction, lack of correct background
+ and poor reporting of methodological details (Wijesooriya et al, 2022).
+
+Therefore there is a need for community-agreed guidelines for conducting and presenting
+enrichment analysis work, which is something that has been noted by others
+(Timmons et al, 2015; Reimand et al 2019), but has only recently been addressed (Zhao & Rhee 2023).
+
+The purpose of this work is to offer a postive examplar of an enrichment analysis
+that fills all criteria:
+
+1. Statistically rigourous.
+
+2. Well documented in the manuscript and public code.
+
+3. Maximally reproducible.
+
+While rigour and good documentation are features of enrichment analyses in high quality specialist
+genomics journals, reproducibility remains a distinct weakness.
+
+When trying to reproduce or replicate the work of others we are often frustrated by
+the unavailability of input data, of functional annotations, of code, and full descriptions
+of results.
+
+For example, while conducting a replication study of 20 journal articles, we found that
+one of the most frequently used web-tools, DAVID bioinformatics, was going to move from
+version 6.7 to version 6.8, with no option to continue using v6.7.
+
+Changes such as these mean that the results of many journal articles can no longer be
+independently replicated, only a couple of years after original publication.
+
+As time passes and software versions update, it will become ever more difficult to replicate
+previous analyses.
+This means that it will be impossible to audit many research articles if those findings come
+under question.
+
+Although it doesn't need to be this way due to the precise nature of modern computers and software.
+In order for bioinformatics analysis to be 100% reproducible requires a few key elements.
+These are:
+
+* Input data
+
+* Set of instructions (analysis code).
+
+* Operating system
+
+With these things working together, it is possible for a data analysis workflow to be 100%
+replicable and auditable for many years into the future.
+
+To achieve this requires some planning:
+
+1. Input data needs to be deposited to a public and persistent location.
+
+2. Analysis code packaged in a working Docker container.
+
+A Docker container is a minimal operating system that has the necessary software to complete a task.
+Docker is used extensively in web development, to rapidly set up many modular services into
+full stacks of functionality.
+For example using Docker containers, a website front end and back end can be set up once, and then
+deployed at huge scale (eg thousands of instances) with minimal work involved.
+
+In addition, Docker containers ensure consistent behaviour across different types of computing
+infrastructure, so it doesn't matter whether the container is run on a linux workstation,
+desktop windows PC or cloud server, the end results should be identical.
+
+While there have been many general guides to computatonal reproducibility in the literature,
+there is a need for boilerplate code templates that researchers can quickly adapt/tweak for their own
+projects.
+
+The demand for this is expected to be huge, as there are massive numbers of published articles featuring
+such analyses.
+Just in 2022, there were 9,917 PubMed articles with the keywords pathway/enrichment/ontology analysis
+in the title or abstract alone.
+
+The more rigourous, well documented and reproducible these studies are, we will find less wasted
+research resources and greater trust/support from the general community.
+

@@ -12,94 +12,18 @@ output:
 theme: cosmo
 ---
 
-Source: https://github.com/markziemann/udocker_r_example
+Source: https://github.com/markziemann/enrichment_recipe
 
-Alt titles:
+## Introduction
 
-## Intro
+This guide is a Rmarkdown script that conducts differential expression and enrichment analysis,
+which are very popular workflows for transcriptome data.
 
-Previously my team have written about methodological problems in enrichment analysis.
-These include statistical problems, like lack of FDR correction, lack of correct background
- and poor reporting of methodological details (Wijesooriya et al, 2022).
+This is meant to be a boilerplate template, which you can remix and modify to suit your analytical
+needs.
 
-Therefore there is a need for community-agreed guidelines for conducting and presenting
-enrichment analysis work, which is something that has been noted by others
-(Timmons et al, 2015; Reimand et al 2019), but has only recently been addressed (Zhao & Rhee 2023).
-
-The purpose of this work is to offer a postive examplar of an enrichment analysis
-that fills all criteria:
-
-1. Statistically rigourous.
-
-2. Well documented in the manuscript and public code.
-
-3. Maximally reproducible.
-
-While rigour and good documentation are features of enrichment analyses in high quality specialist
-genomics journals, reproducibility remains a distinct weakness.
-
-When trying to reproduce or replicate the work of others we are often frustrated by
-the unavailability of input data, of functional annotations, of code, and full descriptions
-of results.
-
-For example, while conducting a replication study of 20 journal articles, we found that
-one of the most frequently used web-tools, DAVID bioinformatics, was going to move from
-version 6.7 to version 6.8, with no option to continue using v6.7.
-
-Changes such as these mean that the results of many journal articles can no longer be
-independently replicated, only a couple of years after original publication.
-
-As time passes and software versions update, it will become ever more difficult to replicate
-previous analyses.
-This means that it will be impossible to audit many research articles if those findings come
-under question.
-
-Although it doesn't need to be this way due to the precise nature of modern computers and software.
-In order for bioinformatics analysis to be 100% reproducible requires a few key elements.
-These are:
-
-* Input data
-
-* Set of instructions (analysis code).
-
-* Operating system
-
-With these things working together, it is possible for a data analysis workflow to be 100%
-replicable and auditable for many years into the future.
-
-To achieve this requires some planning:
-
-1. Input data needs to be deposited to a public and persistent location.
-
-2. Analysis code packaged in a working Docker container.
-
-A Docker container is a minimal operating system that has the necessary software to complete a task.
-Docker is used extensively in web development, to rapidly set up many modular services into
-full stacks of functionality.
-For example using Docker containers, a website front end and back end can be set up once, and then
-deployed at huge scale (eg thousands of instances) with minimal work involved.
-
-In addition, Docker containers ensure consistent behaviour across different types of computing
-infrastructure, so it doesn't matter whether the container is run on a linux workstation,
-desktop windows PC or cloud server, the end results should be identical.
-
-While there have been many general guides to computatonal reproducibility in the literature,
-there is a need for boilerplate code templates that researchers can quickly adapt/tweak for their own
-projects.
-
-The demand for this is expected to be huge, as there are massive numbers of published articles featuring
-such analyses.
-Just in 2022, there were 9,917 PubMed articles with the keywords pathway/enrichment/ontology analysis
-in the title or abstract alone.
-
-The more rigourous, well documented and reproducible these studies are, we will find less wasted
-research resources and greater trust/support from the general community.
-
-## Data set being analysed 
-
-For this guide I will be using bulk RNA-seq data from a previous study, which is
-deposited at NCBI GEO and SRA under accession numbers: GSE55123 and SRP038101 (Lund et al, 2014).
-The experiment is designed to investigate the effect of Azacitidine treatment on AML3 cells.
+In the code chunk below called `libs`, you can add and remove required R library dependancies.
+Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
 
 ```{r,libs}
 
@@ -108,14 +32,22 @@ suppressPackageStartupMessages({
   library("DESeq2")
   library("kableExtra")
   library("clusterProfiler")
+  library("fgsea")
   library("eulerr")
 })
 
 ```
 
+For this guide I will be using bulk RNA-seq data from a previous study, which is
+deposited at NCBI GEO and SRA under accession numbers: GSE55123 and SRP038101 (Lund et al, 2014).
+The experiment is designed to investigate the effect of Azacitidine treatment on AML3 cells.
+
 The raw data have been processed by the DEE2 project, and the summary gene expression counts are
 available at the dee2.io website, and programmatically with the getDEE2 bioconductor package
 (Ziemann et al, 2019).
+
+Alternatively, you could fetch data from another resource like NCBI GEO, Zenodo or from the host
+storage drive.
 
 ```{r,fetch}
 
@@ -139,10 +71,10 @@ ss %>%
 
 ```
 
-## Analysis of read counts
+## Data quality control
 
-Although I know this data set is good as I was involved in the project,
-it is a good idea to show at least the number of reads for each sample.
+QC is important, even if you are using public transcriptome data.
+For RNA-seq it is a good idea to show the number of reads for each sample.
 
 ```{r,counts1}
 
@@ -151,110 +83,13 @@ barplot(rev(colSums(mx)),horiz=TRUE,las=1,main="number of reads per sample in SR
 
 ```
 
-Now we can have a look at the read count distribution for one of the samples.
+## Differential expression analysis
 
-```{r,dist1}
-
-# look at the distribution of counts
-l <- lapply(1:ncol(mx),function(i) log10( mx[,i] +1 ))
-names(l) <- colnames(mx)
-l <- rev(l)
-
-hist(l[[6]],main="Distribution of read counts in SRR1171523",
-  xlab="log10(readcounts+1)",breaks=30)
-
-abline(v=1,col="red",lty=2)
-
-```
-
-We can see that most genes have a very low read count, consistent
-with most genes being undetectable in any sample.
-
-Based on this typical distribution of read counts, I would consider
-any gene with fewer than 10 reads as not detected.
-This could be considered a strict detection threshold.
-Setting a strict threshold like this could be helpful in selecting
-genes that are likely to validate with qRT-PCR.
-
-I will run DESeq2 with and without this threshold to see how
-it impacts the results.
-
-## Differential expression analysis with and without filtering
-
-To see whether this has any effect on downstream analysis, DESeq2 will
-be run on the same dataset without any filtering, with light filtering and with
-strict filtering.
-
-Here I define light filter threshold as the lowest baseline expression level that
-DE genes start to appear.
-I know this contrast will yield thousands of DE genes, so this is a reasonable
-way to set the detection threshold.
-The DE genes with lowest baseline expression showed mean read counts of about 2.
+I will be using DESeq2 for DE analysis, the count matrix is prefiltered using
+a detection threshold of 10 reads per sample across all samples.
+All genes that meet the detection threshold will comprise the background list.
 
 ```{r,de1}
-
-# DESeq2 without any fitering
-dds <- DESeqDataSetFromMatrix(countData = mx , colData = ss, design = ~ trt )
-res <- DESeq(dds)
-z <- results(res)
-vsd <- vst(dds, blind=FALSE)
-zz <- cbind(as.data.frame(z),mx)
-de <- as.data.frame(zz[order(zz$pvalue),])
-
-sig <- subset(de,padj<0.05)
-
-head(de,10) %>%
-  kbl(caption="Top DE genes for Aza treatment (unfiltered)") %>%
-  kable_paper("hover", full_width = F)
-
-DET=nrow(mx)
-NSIG=nrow(sig)
-NUP=nrow(subset(sig,log2FoldChange>0))
-NDN=nrow(subset(sig,log2FoldChange<0))
-
-HEADER=paste(DET,"genes included;",NSIG,"w/FDR<0.05;",NUP,"up;",NDN,"down")
-
-plot(log10(de$baseMean) ,de$log2FoldChange,
-  cex=0.6,pch=19,col="darkgray",
-  main="no detection filter",
-  xlab="log10(basemean)",ylab="log2(fold change)")
-
-points(log10(sig$baseMean) ,sig$log2FoldChange,
-  cex=0.6,pch=19,col="red")
-
-mtext(HEADER)
-
-abline(v=1,lty=2)
-
-deup <- rownames(subset(de,padj<=0.05 & log2FoldChange>0))
-deup <- unique(sapply(strsplit(deup," "),"[[",2))
-
-dedn <- rownames(subset(de,padj<=0.05 & log2FoldChange<0))
-dedn <- unique(sapply(strsplit(dedn," "),"[[",2))
-
-all <- rownames(de)
-all <- unique(sapply(strsplit(all," "),"[[",2))
-
-```
-
-look at the lowest basemean genes
-
-```{r,low}
-
-sig <- sig[order(sig$baseMean),]
-
-head(sig,10) %>%
-  kbl(caption="lowest basemean genes") %>%
-  kable_paper("hover", full_width = F)
-
-```
-
-The counts look quite low.
-Not sure that these DEGs could be validated with qRT-PCR.
-
-## Now run DESeq2 with filtering
-
-```{r,de2}
 
 mxf <- mx[which(rowMeans(mx)>=10),]
 dim(mxf)
@@ -266,7 +101,7 @@ zz <-cbind(as.data.frame(z),mxf)
 def <-as.data.frame(zz[order(zz$pvalue),])
 
 head(def,10) %>%
-  kbl(caption="Top DE genes for Aza treatment (filtered)") %>%
+  kbl(caption="Top DE genes for Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
 sigf <- subset(def,padj<=0.05)
@@ -299,10 +134,23 @@ bg <- unique(sapply(strsplit(bg," "),"[[",2))
 
 ```
 
-## Now run ORA based enrichment analysis
+In the next sections I will run enrichment analysis with over-representation test
+and compare it to functional class scoring.
 
-I will run enrichment analysis using the correct correct background list,
-and compare the results to the incorrect whole genome background.
+## Enrichment using over-representation test
+
+I've compiled a reporting checklist:
+
+| Reporting criteria | Method/resource used |
+| --- | --- |
+| Origin of gene sets | Reactome (current date) |
+| Tool used | ClusterProfiler (check version at foot of report) |
+| Statistical test used | hypergeometric test |
+| P-value correction for multiple comparisons | FDR method |
+| Background list | Genes with >=10 reads per sample on average across all samples |
+| Gene Selection Criteria | DESeq2 FDR<0.05 |
+| ORA directionality | Separate tests for up- and down-regulation |
+| Data availability | via DEE2 at accession SRP038101 (human) |
 
 ```{r,gs}
 
@@ -313,70 +161,69 @@ if (! file.exists("ReactomePathways.gmt")) {
 }
 
 genesets2 <- read.gmt("ReactomePathways.gmt")
+gsets <- gmtPathways("ReactomePathways.gmt")
 
 ```
 
-### ORA with correct background list.
-
 Firstly with the upregulated genes
 
-```{r,ora2up}
+```{r,oraup}
 
-ora2_up <- as.data.frame(enricher(gene = defup ,
+ora_up <- as.data.frame(enricher(gene = defup ,
   universe = bg,  maxGSSize = 5000, TERM2GENE = genesets2,
   pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
 
-ora2_up$geneID <- NULL
-ora2_up <- subset(ora2_up,p.adjust<0.05 & Count >=10)
-ora2_ups <- rownames(ora2_up)
+ora_up$geneID <- NULL
+ora_up <- subset(ora_up,p.adjust<0.05 & Count >=10)
+ora_ups <- rownames(ora_up)
 
-gr <- as.numeric(sapply(strsplit(ora2_up$GeneRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora2_up$GeneRatio,"/"),"[[",2))
+gr <- as.numeric(sapply(strsplit(ora_up$GeneRatio,"/"),"[[",1)) /
+  as.numeric(sapply(strsplit(ora_up$GeneRatio,"/"),"[[",2))
 
-br <- as.numeric(sapply(strsplit(ora2_up$BgRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora2_up$BgRatio,"/"),"[[",2))
+br <- as.numeric(sapply(strsplit(ora_up$BgRatio,"/"),"[[",1)) /
+  as.numeric(sapply(strsplit(ora_up$BgRatio,"/"),"[[",2))
 
-ora2_up$es <- gr/br
-ora2_up <- ora2_up[order(-ora2_up$es),]
-ora2_up$Description=NULL
+ora_up$es <- gr/br
+ora_up <- ora_up[order(-ora_up$es),]
+ora_up$Description=NULL
 
-head(ora2_up) %>%
-  kbl(row.names = FALSE, caption="Top upregulated pathways in Aza treatment (filtered)") %>%
+head(ora_up) %>%
+  kbl(row.names = FALSE, caption="Top upregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-topup2 <- rev(head(ora2_up$es,20))
-names(topup2) <- rev(head(ora2_up$ID,20))
+topup2 <- rev(head(ora_up$es,20))
+names(topup2) <- rev(head(ora_up$ID,20))
 
 ```
 
 Now with the downregulated genes
 
-```{r,ora2dn}
+```{r,oradn}
 
-ora2_dn <- as.data.frame(enricher(gene = defdn ,
+ora_dn <- as.data.frame(enricher(gene = defdn ,
   universe = bg,  maxGSSize = 5000, TERM2GENE = genesets2,
   pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
 
-ora2_dn$geneID <- NULL
-ora2_dn <- subset(ora2_dn,p.adjust<0.05 & Count >=10)
-ora2_dns <- rownames(ora2_dn)
+ora_dn$geneID <- NULL
+ora_dn <- subset(ora_dn,p.adjust<0.05 & Count >=10)
+ora_dns <- rownames(ora_dn)
 
-gr <- as.numeric(sapply(strsplit(ora2_dn$GeneRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora2_dn$GeneRatio,"/"),"[[",2))
+gr <- as.numeric(sapply(strsplit(ora_dn$GeneRatio,"/"),"[[",1)) /
+  as.numeric(sapply(strsplit(ora_dn$GeneRatio,"/"),"[[",2))
 
-br <- as.numeric(sapply(strsplit(ora2_dn$BgRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora2_dn$BgRatio,"/"),"[[",2))
+br <- as.numeric(sapply(strsplit(ora_dn$BgRatio,"/"),"[[",1)) /
+  as.numeric(sapply(strsplit(ora_dn$BgRatio,"/"),"[[",2))
 
-ora2_dn$es <- gr/br
-ora2_dn <- ora2_dn[order(-ora2_dn$es),]
-ora2_dn$Description=NULL
+ora_dn$es <- gr/br
+ora_dn <- ora_dn[order(-ora_dn$es),]
+ora_dn$Description=NULL
 
-head(ora2_dn) %>%
-  kbl(row.names = FALSE, caption="Top downregulated pathways in Aza treatment (filtered)") %>%
+head(ora_dn) %>%
+  kbl(row.names = FALSE, caption="Top downregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-topdn2 <- head(ora2_dn$es,20)
-names(topdn2) <- head(ora2_dn$ID,20)
+topdn2 <- head(ora_dn$es,20)
+names(topdn2) <- head(ora_dn$ID,20)
 
 ```
 
@@ -393,102 +240,36 @@ barplot(c(topdn2,topup2),
   main="top DE Reactomes",
   xlab="ES")
 
-mtext("correct background")
+mtext("ORA test")
 
 ```
 
-### ORA with whole genome background list.
+## Enrichment analysis with functional class scoring
 
-Firstly with the upregulated genes
+```{r,fgsea}
 
-```{r,ora1up}
-
-ora1_up <- as.data.frame(enricher(gene = defup ,
-  universe = all,  maxGSSize = 5000, TERM2GENE = genesets2,
-  pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
-
-ora1_up$geneID <- NULL
-ora1_up <- subset(ora1_up,p.adjust<0.05 & Count >=10)
-ora1_ups <- rownames(ora1_up)
-
-gr <- as.numeric(sapply(strsplit(ora1_up$GeneRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora1_up$GeneRatio,"/"),"[[",2))
-
-br <- as.numeric(sapply(strsplit(ora1_up$BgRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora1_up$BgRatio,"/"),"[[",2))
-
-ora1_up$es <- gr/br
-ora1_up <- ora1_up[order(-ora1_up$es),]
-ora1_up$Description=NULL
-
-head(ora1_up) %>%
-  kbl(row.names = FALSE, caption="Top upregulated pathways in Aza treatment (unfiltered)") %>%
-  kable_paper("hover", full_width = F)
-
-topup1 <- rev(head(ora1_up$es,20))
-names(topup1) <- rev(head(ora1_up$ID,20))
+def2 <- def
+def2$genename <- sapply(strsplit(rownames(def2)," "),"[[",2)
+def2 <- def2[,c("stat","genename")]
+def2 <- aggregate(. ~ genename, def2, sum)
+stat <- def2$stat
+names(stat) <- def2$genename
+fgseaRes <- fgsea(pathways=gsets, stats=stat, minSize=10, nPermSimple = 10000)
+fgseaRes <- fgseaRes[order(fgseaRes$pval),]
+fgsea_up <- subset(fgseaRes,padj<0.05 & ES>0)
+fgsea_ups <- fgsea_up$pathway
+fgsea_dn <- subset(fgseaRes,padj<0.05 & ES<0)
+fgsea_dns <- fgsea_dn$pathway
 
 ```
-
-Now with the downregulated genes
-
-```{r,ora1dn}
-
-ora1_dn <- as.data.frame(enricher(gene = defdn ,
-  universe = all,  maxGSSize = 5000, TERM2GENE = genesets2,
-  pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
-
-ora1_dn$geneID <- NULL
-ora1_dn <- subset(ora1_dn,p.adjust<0.05 & Count >=10)
-ora1_dns <- rownames(ora1_dn)
-
-gr <- as.numeric(sapply(strsplit(ora1_dn$GeneRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora1_dn$GeneRatio,"/"),"[[",2))
-
-br <- as.numeric(sapply(strsplit(ora1_dn$BgRatio,"/"),"[[",1)) /
-  as.numeric(sapply(strsplit(ora1_dn$BgRatio,"/"),"[[",2))
-
-ora1_dn$es <- gr/br
-ora1_dn <- ora1_dn[order(-ora1_dn$es),]
-ora1_dn$Description=NULL
-
-head(ora1_dn) %>%
-  kbl(row.names = FALSE, caption="Top downregulated pathways in Aza treatment (unfiltered)") %>%
-  kable_paper("hover", full_width = F)
-
-topdn1 <- head(ora1_dn$es,20)
-names(topdn1) <- head(ora1_dn$ID,20)
-
-```
-
-Make a barplot
-
-```{r,topbarplot1}
-
-par(mar=c(5,20,5,1))
-
-cols <- c(rep("blue",20),rep("red",20))
-
-barplot(c(topdn1,topup1),
-  horiz=TRUE,las=1,cex.names=0.65,col=cols,
-  main="top DE Reactomes",
-  xlab="ES")
-
-mtext("whole genome background")
-
-```
-
 
 ## Compare pathway results
 
 ```{r,venn1,fig.width=6,fig.height=6}
 
-v1 <- list("correct up"=ora2_ups, "wg up"=ora1_ups)
-
-v2 <- list("correct dn"=ora2_dns, "wg dn"=ora1_dns)
-
+v1 <- list("ORA up"=ora_ups, "FCS up"=fgsea_ups)
+v2 <- list("ORA dn"=ora_dns, "FCS dn"=fgsea_dns)
 par(mar=c(10,10,10,10))
-
 par(mfrow=c(2,1))
 plot(euler(v1),quantities = TRUE)
 plot(euler(v2),quantities = TRUE)
@@ -505,12 +286,15 @@ jaccard <- function(a, b) {
     return (intersection/union)
 }
 
-correct <- c(ora2_ups,ora2_dns)
-incorrect <- c(ora1_ups,ora1_dns)
+ora <- c(ora_ups,ora_dns)
+fcs <- c(fgsea_ups,fgsea_dns)
 
-jaccard(correct,incorrect)
+jaccard(ora,fcs)
 
 ```
+
+## Scatterplot
+
 
 ## Session information
 

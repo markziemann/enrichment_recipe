@@ -20,9 +20,21 @@ Docker container
 
 Dockerhub
 
+Source control
+
 git repository
 
 GitHub
+
+R
+
+Rmarkdown
+
+Rstudio
+
+Shell
+
+Command line
 
 ## Requirements
 
