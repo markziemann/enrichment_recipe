@@ -50,6 +50,11 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8514239/
 Easyreporting simplifies the implementation of Reproducible Research layers in R software
 https://pubmed.ncbi.nlm.nih.gov/33970927/
 
+Small steps toward reproducible data analyses
+https://standard-deviator.com/workshop/cpa_2020_small_steps_towards_reproducible_data_analysis/slides/cpa_2020_small_steps#1
+
+Scientific Data Analysis Pipelines and Reproducibility
+https://towardsdatascience.com/scientific-data-analysis-pipelines-and-reproducibility-75ff9df5b4c5
 
 # deleted text from example.Rmd
 
