@@ -20,9 +20,14 @@ RUN R -e 'install.packages(c("kableExtra","vioplot","gplots","eulerr"))'
 RUN R -e 'BiocManager::install(c("getDEE2","DESeq2","fgsea","clusterProfiler","mitch"))'
 
 # Clone the repository that contains the research code and execute it
-RUN git clone https://github.com/markziemann/udocker_r_example.git
+RUN git clone https://github.com/markziemann/enrichment_recipe.git
 
 # Set the container working directory
-ENV DIRPATH /udocker_r_example
+ENV DIRPATH /enrichment_recipe
 WORKDIR $DIRPATH
-RUN chmod -R 777 /udocker_r_example
+
+# Copy the REACTOME DB fromlocal disk to the container
+COPY ReactomePathways_2023-03-06.gmt /enrichment_recipe
+
+# change folder permissions so user can work freely
+RUN chmod -R 777 /enrichment_recipe

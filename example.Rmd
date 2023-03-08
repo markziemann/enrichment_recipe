@@ -143,7 +143,7 @@ I've compiled a reporting checklist:
 
 | Reporting criteria | Method/resource used |
 | --- | --- |
-| Origin of gene sets | Reactome (current date) |
+| Origin of gene sets | Reactome (2023-03-06) |
 | Tool used | ClusterProfiler (check version at foot of report) |
 | Statistical test used | hypergeometric test |
 | P-value correction for multiple comparisons | FDR method |
@@ -151,17 +151,12 @@ I've compiled a reporting checklist:
 | Gene Selection Criteria | DESeq2 FDR<0.05 |
 | ORA directionality | Separate tests for up- and down-regulation |
 | Data availability | via DEE2 at accession SRP038101 (human) |
+| Other parameters | Min gene set size of 10 |
 
 ```{r,gs}
 
-if (! file.exists("ReactomePathways.gmt")) {
-  download.file("https://reactome.org/download/current/ReactomePathways.gmt.zip", 
-    destfile="ReactomePathways.gmt.zip")
-  unzip("ReactomePathways.gmt.zip")
-}
-
-genesets2 <- read.gmt("ReactomePathways.gmt")
-gsets <- gmtPathways("ReactomePathways.gmt")
+genesets2 <- read.gmt("ReactomePathways_2023-03-06.gmt")
+gsets <- gmtPathways("ReactomePathways_2023-03-06.gmt")
 
 ```
 
@@ -246,6 +241,18 @@ mtext("ORA test")
 
 ## Enrichment analysis with functional class scoring
 
+| Reporting criteria | Method/resource used |
+| --- | --- |
+| Origin of gene sets | Reactome (2023-03-06) |
+| Tool used | FGSEA (check version at foot of report) |
+| Statistical test used | Kolmogorov-Smirnov test |
+| P-value correction for multiple comparisons | FDR method |
+| Background list | Genes with >=10 reads per sample on average across all samples |
+| Gene Selection Criteria | DESeq2 FDR<0.05 |
+| ORA directionality | Separate tests for up- and down-regulation |
+| Data availability | via DEE2 at accession SRP038101 (human) |
+| Other parameters | Min gene set size of 10 |
+
 ```{r,fgsea}
 
 def2 <- def
@@ -309,7 +316,3 @@ sessionInfo()
 ```
 
 </details>
-
-## References
-
-

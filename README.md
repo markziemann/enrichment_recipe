@@ -76,8 +76,8 @@ like using Rmarkdown instead of a normal word processor.
 
 This guide will walk you through the process of setting up your own reproducible
 workflow in a docker container.
-If you don't have access to a linux system with Docker, see our udocker (no root) and Windows
-guides below.
+If you don't have access to a linux system with Docker, see our udocker (no root) and 
+Windows guides below.
 
 ### 1. Set up the git repository
 
@@ -199,7 +199,8 @@ as it might expose your ssh key publicly.)
 If you want to retrieve some data from a container, it is possible with the
 `docker cp` command.
 
-But first, you need to identify the last used container, which contains the data of interest.
+But first, you need to identify the last used container, which contains the data of 
+interest.
 
 ```
 docker ps -alq
@@ -235,9 +236,8 @@ docker save example | gzip > example.tar.gz
 
 There are some situations where different instructions are required:
 
+* On a Windows PC.
+
 * On a shared linux/unix system without root access and no docker installation.
 In this scenario, I will demonstrate how to use udocker, which doesn't require
 root privledges to install or run images.
-
-* On a Windows PC.
-
