@@ -14,29 +14,46 @@ for differential expression and functional enrichment analysis.
 
 ## Glossary of terms
 
-Docker image
+Shell: A computer program that presents a command line interface which allows you to control your 
+computer using commands entered with a keyboard instead of controlling graphical user interfaces (GUIs)
 
-Docker container
+Root: In Unix/Linux operating systems, root is the highest permission elevation on a computer system.
+Root is also known as the Root User or a Super User.
+Root permission is typically reserved for those who are authorized to make operating system level
+changes.
 
-Dockerhub
+Source control/version control: It is the practice of tracking and managing changes to code. 
+Source control management systems provide a running history of code development and help to
+resolve conflicts when merging contributions from multiple sources. git is a popular source control
+client.
 
-Source control
+Code repository/repo: It's a centralized digital storage that developers use to make and manage changes
+to a set of files/folders that typically represent a software project.
+GitHub is a popular repo hosting service.
 
-git repository
+R: A statistical computing language used extensively in bioinformatics.
 
-GitHub
+R markdown: A simple and easy to use plain text language used to combine your R code, results from your
+data analysis (including plots and tables) and written commentary into a single nicely formatted and
+reproducible document (like a report, publication, thesis chapter or web page).
 
-R
+Rstudio: An integrated development environment for R, which means it is a program used to develop, 
+test and execute R codes, with a lot of features to make the process a bit less painfull.
 
-Rmarkdown
+Docker: A open source platform that enables developers to build, deploy, run, update and manage 
+containers.
 
-Rstudio
+Docker container: A unit of software that packages code and its dependencies so the application
+runs quickly and reliably across different computing environments.
+Containers required 
 
-Shell
+Docker image: An image is a snapshot of an environment, which can be shared.
 
-Command line
+Dockerhub: Docker Hub is a hosted repository service provided by Docker for finding and sharing
+container images. 
 
-Root
+Gene set database: A set of gene associations. These can be from different sources like Gene Ontology,
+KEGG or REACTOME, and they can be in a variety of formats.
 
 ## Requirements
 
