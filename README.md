@@ -36,6 +36,8 @@ Shell
 
 Command line
 
+Root
+
 ## Requirements
 
 To follow along with this workflow you'll need a computer with internet access,
@@ -74,6 +76,8 @@ like using Rmarkdown instead of a normal word processor.
 
 This guide will walk you through the process of setting up your own reproducible
 workflow in a docker container.
+If you don't have access to a linux system with Docker, see our udocker (no root) and Windows
+guides below.
 
 ### 1. Set up the git repository
 
@@ -87,7 +91,8 @@ If it is private, then authentication is requried to `clone` or `pull` the repo.
 
 If this is your first repository, then you will need to add an ssh key as a
 way to authenticate modifications to the repo.
-The process takes about a minute, and details can be found [here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+The process takes about a minute, and details can be found
+[here](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 
 You should now return to your project working directory on the command line.
 Clone the repo into your working directory.
@@ -107,8 +112,8 @@ We will modify these files in the next step.
 
 ```
 cd myproj
-wget https://raw.githubusercontent.com/markziemann/udocker_r_example/main/Dockerfile
-wget https://raw.githubusercontent.com/markziemann/udocker_r_example/main/example.Rmd
+wget https://raw.githubusercontent.com/markziemann/enrichment_recipe/main/Dockerfile
+wget https://raw.githubusercontent.com/markziemann/enrichment_recipe/main/example.Rmd
 ```
 
 ### 2. Customise the workflow
@@ -159,7 +164,7 @@ RUN cd udocker_r_example && R -e 'rmarkdown::render("example.Rmd")'
 
 Now we're ready to build the image.
 
-replace `username` with your own alias.
+replace `example` with your project's name.
 
 ```
 docker build -t example .
@@ -194,7 +199,7 @@ as it might expose your ssh key publicly.)
 If you want to retrieve some data from a container, it is possible with the
 `docker cp` command.
 
-But first, you need to identify the last container, which contains the data of interest.
+But first, you need to identify the last used container, which contains the data of interest.
 
 ```
 docker ps -alq
@@ -210,13 +215,9 @@ docker cp $(docker ps -alq):udocker_r_example/example.html .
 OPTIONAL: If you're happy with the performance of the container, 
 it can be pushed to DockerHub so it is available to anyone on the web.
 Note that you will need to create an account with Dockerhub and login on
-the command line for it to work.
-
-```
-docker push example
-```
-
-Now the image can be accessed from other computers and by other users.
+the command line for it to work.`docker push example` is the command you need.
+Once pushed, the image can be accessed from other computers and by other users with
+the `docker pull` command.
 
 You may also want to archive the docker image as an `tar` archive.
 This will enable sharing of your container on a site like Zenodo.
@@ -230,39 +231,13 @@ disk space.
 docker save example | gzip > example.tar.gz
 ```
 
-### 7. Confirming everything works
+## On other systems
 
-Download the image using `pull`.
+There are some situations where different instructions are required:
 
-```
-docker pull username/r_example
-```
+* On a shared linux/unix system without root access and no docker installation.
+In this scenario, I will demonstrate how to use udocker, which doesn't require
+root privledges to install or run images.
 
-## On a shared system
+* On a Windows PC.
 
-Without sudo access, you can use Udocker.
-
-Installation and usage manual documentation can be found here:
-https://indigo-dc.github.io/udocker/
-
-```
-udocker run username/r_example /bin/bash
-```
-
-At this point you can work on your app, develop your scripts, etc.
-You'll see that the Dockerfile does a `git clone` of a github repo so
-you will want to change it to your app.
-Once development of the repo is complete, you can rebuild the image and
-test the results are the same.
-
-## Access udocker files/results
-
-The containers that have been run are saved by default.
-They can be deleted with `udocker rm <container-id>`.
-
-If you want to retain some data and files from a container, they can be
-found in the following path.
-
-```
-cd .udocker/containers/
-```
