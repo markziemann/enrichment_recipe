@@ -154,7 +154,7 @@ I've compiled a reporting checklist:
 | Other parameters | Min gene set size of 10 |
 
 ```{r,gs}
-
+# from https://reactome.org/download/current/ReactomePathways.gmt.zip
 genesets2 <- read.gmt("ReactomePathways_2023-03-06.gmt")
 gsets <- gmtPathways("ReactomePathways_2023-03-06.gmt")
 
