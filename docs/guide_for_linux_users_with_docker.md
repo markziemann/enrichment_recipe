@@ -43,7 +43,7 @@ Clone the repo into your working directory.
 Here the username is `jsmith`, but you should use your own GitHub.com username.
 
 ```
-git clone jsmith/myproj
+git clone  git@github.com:jsmith/myproj.git
 ```
 
 If git is being used for the first time on this computer, you may get an error about
@@ -156,7 +156,7 @@ For example we can use this to copy the html report from inside the container to
 working directory.
 
 ```
-docker cp $(docker ps -alq):udocker_r_example/example.html .
+docker cp $(docker ps -alq):/enrichment_recipe/example.html .
 ```
 
 OPTIONAL: If you're happy with the performance of the container, 
@@ -177,4 +177,22 @@ disk space.
 ```
 docker save example | gzip > example.tar.gz
 ```
+
+### 7. Keep your GitHub repo updated
+
+To update your local repository with the essential files.
+This includes the `Dockerfile`, `Rmd` and any small input files, like gene lists or count matricies that
+need to be read into R.
+
+```
+git add Dockerfile example.Rmd
+```
+
+
+
+
+
+
+
+
 

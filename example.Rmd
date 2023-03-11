@@ -263,10 +263,29 @@ stat <- def2$stat
 names(stat) <- def2$genename
 fgseaRes <- fgsea(pathways=gsets, stats=stat, minSize=10, nPermSimple = 10000)
 fgseaRes <- fgseaRes[order(fgseaRes$pval),]
+
+```
+
+
+```{r,fgsea_sig}
+
 fgsea_up <- subset(fgseaRes,padj<0.05 & ES>0)
 fgsea_ups <- fgsea_up$pathway
 fgsea_dn <- subset(fgseaRes,padj<0.05 & ES<0)
 fgsea_dns <- fgsea_dn$pathway
+
+fgsea_up <-  data.frame(fgsea_up[order(-fgsea_up$ES),])
+
+fgsea_dn <-  data.frame(fgsea_dn[order(fgsea_dn$ES),])
+
+head(fgsea_up,10) %>%
+  kbl(row.names = FALSE, caption="FGSEA:Top upregulated pathways in Aza treatment") %>%
+  kable_paper("hover", full_width = F)
+
+
+head(fgsea_dn,10) %>%
+  kbl(row.names = FALSE, caption="FGSEA:Top downregulated pathways in Aza treatment") %>%
+  kable_paper("hover", full_width = F)
 
 ```
 
