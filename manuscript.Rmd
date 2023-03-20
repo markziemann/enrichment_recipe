@@ -34,81 +34,75 @@ asddsadasd
 
 ## Introduction
 
-Enrichment analysis is one of the most used methods in computational biology,
-and involves the summarisation of omics data to reflect biological changes, such as
-the detection of pathway activation in development or disease [1,2](Slonim 2002;Khatri et al, 2012).
+Reproducibility is essential to the scientific enterprise by confirming the validity of new discoveries
+[1](National Academies of Sciences 2019, p1).
+According to a 2016 survey of *Nature* readers, 52% of respondents agreed that there was "significant
+crisis" of reproducibility [2](Baker 2016).
+While bioinformatics and other branches of computational research are theoretically amenable to
+complete reproducibility, in reality this is rarely achieved due to lack of detail provided in methods
+sections, lack of shared data and lack of code [3](Peng 2011).
+Indeed even if data and code are shared, reproducibility still cannot be guaranteed due to the
+differences in computing environments over time, and the availability of dependancies [4](Perkel 2020).
+
+To address this, many articles have been written to endorse the use of "virtual machines" or
+"Docker containers" to encapsulate the operating system and dependancies along with the research code
+to facilitate a high degree of reproducibility [4-16](Perkel 2020; Stein 2010; Dudley & Butte 2010;
+Sandve et al, 2013; Piccolo & Frampton 2016; Grüning et al, 2014; Lewis et al, 2016;
+da Veiga Leprevost et al, 2017; Kulkarni et al, 2018; Pasquier et al, 2018; Hung et al, 2019;
+Brito et al, 2020; Piccolo et al, 2021).
+Despite the availability of such tools for over a decade, bioinformatics analyses using fully
+reproducible virtual machines or containers remains a miniscule fraction.
+
+In this article, we will focus on enrichment analysis, which is one of the most used methods in
+computational biology, and involves the summarisation of omics data to reflect biological changes,
+such as the detection of pathway activation in development or disease
+[17,18](Slonim 2002; Khatri et al, 2012).
 While enrichment analysis is undoubtedly a key method for the interpretation of large
 data sets, there are concerns that inadvertant misuse of these methods leads to
 unreliable results.
 These potential problems include (i) the lack of correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
-[3-6](Timmons et al, 2005; Reimand et al, 2019; Wijesooriya et al, 2022; Zhao & Rhee 2023).
-
-Another emerging problem is that while computational research is theoretically amenable to complete
-reproducibility, in reality this is rarely achieved in computation-intensive research due to lack
-of detail provided in methods sections, lack of shared data and lack of code [7](Peng 2011).
-
-The lack of reproducibility is particularly acute for enrichment analyses, as web-based and
-point-and-click tools appear to be far more popular than computer script based methods
-[5](Wijesooriya et al, 2022).
-Web-based tools are a potential concern, as it is known that algorithms and functional annotation
-sets undergo regular updates, but the historical versions are typically not archived, nor
-are versions regularly reported in publications, making later replication difficult if not
-impossible in most cases [5](Wijesooriya et al, 2022).
+[19-22](Timmons et al, 2005; Reimand et al, 2019; Wijesooriya et al, 2022; Zhao & Rhee 2023).
+Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
+the validity of the methods and results.
+We are concerned about the reliability of published enrichment analyses, as web-based and
+point-and-click tools appear to be far more popular than computer script based methods for this type
+of work [21](Wijesooriya et al, 2022).
+Web-based tools are a potential concern, algorithms and functional annotation sets undergo regular
+updates, but the historical versions are typically not archived, nor are versions regularly reported
+in publications, which hampers later reproducibility.
 Indeed, in some cases the entire web resource can become unavailable, and hence irreproducible due to
-a phenomenon known as link decay [8](Hennessey & Ge 2013).
+a phenomenon known as link decay [23](Hennessey & Ge 2013).
 
-A lack of reproducibility does not mean a study is invalid, however a lack of auditability means
-it cannot be ruled out that mistakes have been made in the enrichment analysis and that the results
-are biased or false.
-As omics data are becoming more routine in the drug development process and are used to
-inform clinical practice, reproducibility should become a minimum requirement for
-bioinformatics analysis of omics data.
-
-If research data and code are shared, reproducibility still cannot be guaranteed due to the
-differences in various computing environments such as Windows, Linux, Mac, which provide varying
-sets of libraries for programming languages to use.
-Even if the operating system is specified in the research methods, reproducibility can be difficult if the
-operating system is old or obscure, and where dependancies are unavailable.
-To address this, many articles have been written to endorse the use of "virtual machines" or "Docker containers"
-to encapsulate the operating system and dependancies along with the research code to facilitate
-a high degree of reproducibility [9-20](Stein 2010; Dudley & Butte 2010; Sandve et al, 2013;
-Piccolo & Frampton 2016; Grüning et al, 2014; Lewis et al, 2016; da Veiga Leprevost et al, 2017;
-Kulkarni et al, 2018; Pasquier et al, 2018; Hung et al, 2019; Brito et al, 2020; Piccolo et al, 2021).
-
-Despite the availability of such tools for over a decade and the outsized impact such analysis has
-on the conclusions of an omics study, enrichment analyses using fully reproducible virtual machines
-or containers remains a miniscule fraction of the overall share of enrichment analyses.
 A small number of enrichment analysis applications have been developed to have beneficial properties
-of being "containerised" and with archived hostorical versions [21,22](Ge et al, 2020; Perampalam & Dick 2020).
-This helps reproducibility greatly, but is insufficient as it lacks information about how the input data was
-used and a record of any parameter selections.
+of being "containerised" and with archived historical versions [24,25](Ge et al, 2020;
+Perampalam & Dick 2020).
+This helps reproducibility greatly, but is insufficient as it lacks information about how the input
+data was used and a record of any parameter selections.
 
 Therefore the most complete reproducibility solution is to use containerisation to provide a scripted
-workflow with prescribed links to research data, external databases and complete record of parameter selection.
-Designed correctly, these Docker images could encapsulate bioinformatics workflows and ensure their
+workflow with prescribed links to research data, external databases and complete record of parameter
+selection.
+Designed correctly, these containers could encapsulate bioinformatics workflows and ensure their
 computational reproducibility for decades to come, with just one or a few simple commands.
+There are multiple barriers to entry for such workflows including (i) the added difficulty compares to
+existing point-and-click solutions; (ii) time poorness of researchers to learn new skills; and (iii)
+there is a lack of step-by-step guides, and few existing templates which can be rapidly adapted.
 
-The barriers to entry include:
+We address this firstly by providing working templates for docker image and Rmarkdown scripts for
+common transcriptome and enrichment analysis routines.
+Secondly, we provide step-by-step written and video guides to help users customise these templates for
+their own work, deploy the analysis, verify the results, and archive the Docker image.
 
-* The fact that conventional web based and GUI tools are easier to use
-
-* It adds an overhead of effort to the project
-
-* There's no time to learn new stuff
-
-* It's not a requirement of the journal
-
-We address this by:
-
-* providing working templates for docker image and Rmarkdown scripts for common transcriptome and enrichment analysis
-routines.
-
-* Providing step-by-step guides to help users customise these templates for their own work, deploy the analysis,
-and verify the results.
-
-To highlight the need for extremely reproducible enrichment analysis, we first investigate the computational
-reproducibility of enrichment analyses shown in a sample of 20 journal articles published in 2019.
+But is this extra work really necessary?
+Although our previous work suggests that enrichment analyses on the whole lack reproducibility
+[5](Wijesooriya et al, 2022), we lack the empirical data confirming this directly.
+Therefore before recommending or prescribing Docker-based bioinformatics workflows, it is necessary
+to assess directly whether current standards are appropriate, by trying to reproduce the enrichment
+analyses of previously published studies.
+In the following section we investigate the computational reproducibility of enrichment analyses
+shown in a sample of 20 journal articles published in 2019.
+This should provide a sound basis for recommendations.
 
 ## Methods
 
@@ -165,28 +159,33 @@ research resources and greater trust/support from the general community.
 
 ## Bibliography
 
-1.  Slonim DK. From patterns to pathways: gene expression data analysis comes of age. Nat Genet [Internet]. 2002 [cited 2023 Mar 3];32 Suppl(S4):502–8. Available from: https://www.nature.com/articles/ng1033z
-2.  Khatri P, Sirota M, Butte AJ. Ten years of pathway analysis: current approaches and outstanding challenges. PLoS Comput Biol [Internet]. 2012 [cited 2023 Mar 3];8(2):e1002375. Available from: https://pubmed.ncbi.nlm.nih.gov/22383865/
-3.  Timmons JA, Szkop KJ, Gallagher IJ. Multiple sources of bias confound functional enrichment analysis of global -omics data. Genome Biol [Internet]. 2015;16(1):186. Available from: http://dx.doi.org/10.1186/s13059-015-0761-7
-4.  Reimand J, Isserlin R, Voisin V, Kucera M, Tannus-Lopes C, Rostamianfar A, et al. Pathway enrichment analysis and visualization of omics data using g:Profiler, GSEA, Cytoscape and EnrichmentMap. Nat Protoc [Internet]. 2019;14(2):482–517. Available from: http://dx.doi.org/10.1038/s41596-018-0103-9
-5.  Wijesooriya K, Jadaan SA, Perera KL, Kaur T, Ziemann M. Urgent need for consistent standards in functional enrichment analysis. PLoS Comput Biol [Internet]. 2022;18(3):e1009935. Available from: http://dx.doi.org/10.1371/journal.pcbi.1009935
-6.  Zhao K, Rhee SY. Interpreting omics data with pathway enrichment analysis. Trends Genet [Internet]. 2023 [cited 2023 Mar 1];0(0). Available from: https://www.cell.com/trends/genetics/fulltext/S0168-9525(23)00018-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0168952523000185%3Fshowall%3Dtrue
-7.  Peng RD. Reproducible research in computational science. Science [Internet]. 2011;334(6060):1226–7. Available from: http://dx.doi.org/10.1126/science.1213847
-8.  Hennessey J, Ge S. A cross disciplinary study of link decay and the effectiveness of mitigation techniques. BMC Bioinformatics [Internet]. 2013;14 Suppl 14(S14):S5. Available from: http://dx.doi.org/10.1186/1471-2105-14-S14-S5
-9.  Stein LD. The case for cloud computing in genome informatics. Genome Biol [Internet]. 2010;11(5):207. Available from: http://dx.doi.org/10.1186/gb-2010-11-5-207
-10.  Dudley JT, Butte AJ. In silico research in the era of cloud computing. Nat Biotechnol [Internet]. 2010;28(11):1181–5. Available from: http://dx.doi.org/10.1038/nbt1110-1181
-11.  Sandve GK, Nekrutenko A, Taylor J, Hovig E. Ten simple rules for reproducible computational research. PLoS Comput Biol [Internet]. 2013;9(10):e1003285. Available from: http://dx.doi.org/10.1371/journal.pcbi.1003285
-12.  Piccolo SR, Frampton MB. Tools and techniques for computational reproducibility. Gigascience [Internet]. 2016;5(1). Available from: http://dx.doi.org/10.1186/s13742-016-0135-4
-13.  Grüning B, Chilton J, Köster J, Dale R, Soranzo N, van den Beek M, et al. Practical computational reproducibility in the life sciences. Cell Syst [Internet]. 2018;6(6):631–5. Available from: http://dx.doi.org/10.1016/j.cels.2018.03.014
-14.  Lewis J, Breeze CE, Charlesworth J, Maclaren OJ, Cooper J. Where next for the reproducibility agenda in computational biology? BMC Syst Biol [Internet]. 2016;10(1). Available from: http://dx.doi.org/10.1186/s12918-016-0288-x
-15.  da Veiga Leprevost F, Grüning BA, Alves Aflitos S, Röst HL, Uszkoreit J, Barsnes H, et al. BioContainers: an open-source and community-driven framework for software standardization. Bioinformatics [Internet]. 2017;33(16):2580–2. Available from: http://dx.doi.org/10.1093/bioinformatics/btx192
-16.  Pasquier T, Lau MK, Han X, Fong E, Lerner BS, Boose ER, et al. Sharing and Preserving Computational Analyses for Posterity with encapsulator. Comput Sci Eng [Internet]. 2018;20(4):111–24. Available from: https://ieeexplore.ieee.org/abstract/document/8409369
-17.  Kulkarni N, Alessandrì L, Panero R, Arigoni M, Olivero M, Ferrero G, et al. Reproducible bioinformatics project: a community for reproducible bioinformatics analysis pipelines. BMC Bioinformatics [Internet]. 2018;19(Suppl 10):349. Available from: http://dx.doi.org/10.1186/s12859-018-2296-x
-18.  Hung LH, Hu J, Meiss T, Ingersoll A, Lloyd W, Kristiyanto D, et al. Building containerized workflows using the BioDepot-workflow-builder. Cell Syst [Internet]. 2019;9(5):508-514.e3. Available from: http://dx.doi.org/10.1016/j.cels.2019.08.007
-19.  Brito JJ, Li J, Moore JH, Greene CS, Nogoy NA, Garmire LX, et al. Recommendations to enhance rigor and reproducibility in biomedical research. Gigascience [Internet]. 2020 [cited 2023 Mar 9];9(6). Available from: https://pubmed.ncbi.nlm.nih.gov/32479592/
-20.  Piccolo SR, Ence ZE, Anderson EC, Chang JT, Bild AH. Simplifying the development of portable, scalable, and reproducible workflows. Elife [Internet]. 2021;10. Available from: http://dx.doi.org/10.7554/eLife.71069
-21.  Ge SX, Jung D, Yao R. ShinyGO: a graphical gene-set enrichment tool for animals and plants. Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];36(8):2628–9. Available from: https://pubmed.ncbi.nlm.nih.gov/31882993/
-22.  Perampalam P, Dick FA. BEAVR: a browser-based tool for the exploration and visualization of RNA-seq data. BMC Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];21(1):221. Available from: https://pubmed.ncbi.nlm.nih.gov/32471392/
+
+1.  National Academies of Sciences, Engineering, Medicine, Policy, Global Affairs, Committee on Science, Engineering, Medicine, Public Policy, et al. Reproducibility and Replicability in Science. Washington, D.C., DC: National Academies Press; 2019.
+2.  Baker M. 1,500 scientists lift the lid on reproducibility. Nature [Internet]. 2016 [cited 2023 Mar 20];533(7604):452–4. Available from: https://www.nature.com/articles/533452a
+3.  Peng RD. Reproducible research in computational science. Science [Internet]. 2011;334(6060):1226–7. Available from: http://dx.doi.org/10.1126/science.1213847
+4.  Perkel JM. Challenge to scientists: does your ten-year-old code still run? Nature [Internet]. 2020 [cited 2023 Mar 20];584(7822):656–8. Available from: https://www.nature.com/articles/d41586-020-02462-7
+5.  Stein LD. The case for cloud computing in genome informatics. Genome Biol [Internet]. 2010;11(5):207. Available from: http://dx.doi.org/10.1186/gb-2010-11-5-207
+6.  Dudley JT, Butte AJ. In silico research in the era of cloud computing. Nat Biotechnol [Internet]. 2010;28(11):1181–5. Available from: http://dx.doi.org/10.1038/nbt1110-1181
+7.  Sandve GK, Nekrutenko A, Taylor J, Hovig E. Ten simple rules for reproducible computational research. PLoS Comput Biol [Internet]. 2013;9(10):e1003285. Available from: http://dx.doi.org/10.1371/journal.pcbi.1003285
+8.  Piccolo SR, Frampton MB. Tools and techniques for computational reproducibility. Gigascience [Internet]. 2016;5(1). Available from: http://dx.doi.org/10.1186/s13742-016-0135-4
+9.  Grüning B, Chilton J, Köster J, Dale R, Soranzo N, van den Beek M, et al. Practical computational reproducibility in the life sciences. Cell Syst [Internet]. 2018;6(6):631–5. Available from: http://dx.doi.org/10.1016/j.cels.2018.03.014
+10.  Lewis J, Breeze CE, Charlesworth J, Maclaren OJ, Cooper J. Where next for the reproducibility agenda in computational biology? BMC Syst Biol [Internet]. 2016;10(1). Available from: http://dx.doi.org/10.1186/s12918-016-0288-x
+11.  da Veiga Leprevost F, Grüning BA, Alves Aflitos S, Röst HL, Uszkoreit J, Barsnes H, et al. BioContainers: an open-source and community-driven framework for software standardization. Bioinformatics [Internet]. 2017;33(16):2580–2. Available from: http://dx.doi.org/10.1093/bioinformatics/btx192
+12.  Pasquier T, Lau MK, Han X, Fong E, Lerner BS, Boose ER, et al. Sharing and Preserving Computational Analyses for Posterity with encapsulator. Comput Sci Eng [Internet]. 2018;20(4):111–24. Available from: https://ieeexplore.ieee.org/abstract/document/8409369
+13.  Kulkarni N, Alessandrì L, Panero R, Arigoni M, Olivero M, Ferrero G, et al. Reproducible bioinformatics project: a community for reproducible bioinformatics analysis pipelines. BMC Bioinformatics [Internet]. 2018;19(Suppl 10):349. Available from: http://dx.doi.org/10.1186/s12859-018-2296-x
+14.  Hung LH, Hu J, Meiss T, Ingersoll A, Lloyd W, Kristiyanto D, et al. Building containerized workflows using the BioDepot-workflow-builder. Cell Syst [Internet]. 2019;9(5):508-514.e3. Available from: http://dx.doi.org/10.1016/j.cels.2019.08.007
+15.  Brito JJ, Li J, Moore JH, Greene CS, Nogoy NA, Garmire LX, et al. Recommendations to enhance rigor and reproducibility in biomedical research. Gigascience [Internet]. 2020 [cited 2023 Mar 9];9(6). Available from: https://pubmed.ncbi.nlm.nih.gov/32479592/
+16.  Piccolo SR, Ence ZE, Anderson EC, Chang JT, Bild AH. Simplifying the development of portable, scalable, and reproducible workflows. Elife [Internet]. 2021;10. Available from: http://dx.doi.org/10.7554/eLife.71069
+17.  Slonim DK. From patterns to pathways: gene expression data analysis comes of age. Nat Genet [Internet]. 2002 [cited 2023 Mar 3];32 Suppl(S4):502–8. Available from: https://www.nature.com/articles/ng1033z
+18.  Khatri P, Sirota M, Butte AJ. Ten years of pathway analysis: current approaches and outstanding challenges. PLoS Comput Biol [Internet]. 2012 [cited 2023 Mar 3];8(2):e1002375. Available from: https://pubmed.ncbi.nlm.nih.gov/22383865/
+19.  Timmons JA, Szkop KJ, Gallagher IJ. Multiple sources of bias confound functional enrichment analysis of global -omics data. Genome Biol [Internet]. 2015;16(1):186. Available from: http://dx.doi.org/10.1186/s13059-015-0761-7
+20.  Reimand J, Isserlin R, Voisin V, Kucera M, Tannus-Lopes C, Rostamianfar A, et al. Pathway enrichment analysis and visualization of omics data using g:Profiler, GSEA, Cytoscape and EnrichmentMap. Nat Protoc [Internet]. 2019;14(2):482–517. Available from: http://dx.doi.org/10.1038/s41596-018-0103-9
+21.  Wijesooriya K, Jadaan SA, Perera KL, Kaur T, Ziemann M. Urgent need for consistent standards in functional enrichment analysis. PLoS Comput Biol [Internet]. 2022;18(3):e1009935. Available from: http://dx.doi.org/10.1371/journal.pcbi.1009935
+22.  Zhao K, Rhee SY. Interpreting omics data with pathway enrichment analysis. Trends Genet [Internet]. 2023 [cited 2023 Mar 1];0(0). Available from: https://www.cell.com/trends/genetics/fulltext/S0168-9525(23)00018-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0168952523000185%3Fshowall%3Dtrue
+23.  Hennessey J, Ge S. A cross disciplinary study of link decay and the effectiveness of mitigation techniques. BMC Bioinformatics [Internet]. 2013;14 Suppl 14(S14):S5. Available from: http://dx.doi.org/10.1186/1471-2105-14-S14-S5
+24.  Ge SX, Jung D, Yao R. ShinyGO: a graphical gene-set enrichment tool for animals and plants. Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];36(8):2628–9. Available from: https://pubmed.ncbi.nlm.nih.gov/31882993/
+25.  Perampalam P, Dick FA. BEAVR: a browser-based tool for the exploration and visualization of RNA-seq data. BMC Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];21(1):221. Available from: https://pubmed.ncbi.nlm.nih.gov/32471392/
+
 23.  Lund K, Cole JJ, VanderKraats ND, McBryan T, Pchelintsev NA, Clark W, et al. DNMT inhibitors reverse a specific signature of aberrant promoter DNA methylation and associated gene silencing in AML. Genome Biol [Internet]. 2014;15(8):406. Available from: http://dx.doi.org/10.1186/s13059-014-0406-2
 24.  Ziemann M, Kaspi A, El-Osta A. Digital expression explorer 2: a repository of uniformly processed RNA sequencing data. Gigascience [Internet]. 2019;8(4). Available from: http://dx.doi.org/10.1093/gigascience/giz022
 
