@@ -51,7 +51,7 @@ Sandve et al, 2013; Piccolo & Frampton 2016; Grüning et al, 2014; Lewis et al, 
 da Veiga Leprevost et al, 2017; Kulkarni et al, 2018; Pasquier et al, 2018; Hung et al, 2019;
 Brito et al, 2020; Piccolo et al, 2021).
 Despite the availability of such tools for over a decade, bioinformatics analyses using fully
-reproducible virtual machines or containers remains a miniscule fraction.
+reproducible virtual machines or containers remains only a small fraction.
 
 In this article, we will focus on enrichment analysis, which is one of the most used methods in
 computational biology, and involves the summarisation of omics data to reflect biological changes,
@@ -68,10 +68,10 @@ the validity of the methods and results.
 We are concerned about the reliability of published enrichment analyses, as web-based and
 point-and-click tools appear to be far more popular than computer script based methods for this type
 of work [21](Wijesooriya et al, 2022).
-Web-based tools are a potential concern, algorithms and functional annotation sets undergo regular
-updates, but the historical versions are typically not archived, nor are versions regularly reported
-in publications, which hampers later reproducibility.
-Indeed, in some cases the entire web resource can become unavailable, and hence irreproducible due to
+Web-based tools are a potential concern, firstly because sometimes methods are not completely described,
+and secondly, algorithms and functional annotation sets undergo regular updates.
+These historical versions are typically not archived, which hampers later reproducibility.
+In some cases the entire web resource can become unavailable, and hence irreproducible due to
 a phenomenon known as link decay [23](Hennessey & Ge 2013).
 
 A small number of enrichment analysis applications have been developed to have beneficial properties
@@ -85,9 +85,9 @@ workflow with prescribed links to research data, external databases and complete
 selection.
 Designed correctly, these containers could encapsulate bioinformatics workflows and ensure their
 computational reproducibility for decades to come, with just one or a few simple commands.
-There are multiple barriers to entry for such workflows including (i) the added difficulty compares to
+There are multiple barriers to entry for such workflows including (i) the added difficulty compared to
 existing point-and-click solutions; (ii) time poorness of researchers to learn new skills; and (iii)
-there is a lack of step-by-step guides, and few existing templates which can be rapidly adapted.
+a lack of step-by-step guides and templates aimed at beginner users.
 
 We address this firstly by providing working templates for docker image and Rmarkdown scripts for
 common transcriptome and enrichment analysis routines.
@@ -99,7 +99,8 @@ Although our previous work suggests that enrichment analyses on the whole lack r
 [5](Wijesooriya et al, 2022), we lack the empirical data confirming this directly.
 Therefore before recommending or prescribing Docker-based bioinformatics workflows, it is necessary
 to assess directly whether current standards are appropriate, by trying to reproduce the enrichment
-analyses of previously published studies.
+analyses of previously published studies, and examining whether the conclusions of those articles
+are supported or not.
 In the following section we investigate the computational reproducibility of enrichment analyses
 shown in a sample of 20 journal articles published in 2019.
 This should provide a sound basis for recommendations.
