@@ -187,8 +187,8 @@ head(ora_up) %>%
   kbl(row.names = FALSE, caption="Top upregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-topup2 <- rev(head(ora_up$es,20))
-names(topup2) <- rev(head(ora_up$ID,20))
+topup2 <- rev(head(ora_up$es,10))
+names(topup2) <- rev(head(ora_up$ID,10))
 
 ```
 
@@ -218,14 +218,14 @@ head(ora_dn) %>%
   kbl(row.names = FALSE, caption="Top downregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-topdn2 <- head(ora_dn$es,20)
-names(topdn2) <- head(ora_dn$ID,20)
+topdn2 <- head(ora_dn$es,10)
+names(topdn2) <- head(ora_dn$ID,10)
 
 ```
 
 Make a barplot
 
-```{r,topbarplot2}
+```{r,topbarplot2,fig.height=6}
 
 par(mar=c(5,20,5,1))
 
@@ -302,7 +302,7 @@ names(fgsea_dn_vec) <- fgsea_dn$pathway
 
 Make a barplot
 
-```{r,topbarplot3}
+```{r,topbarplot3,fig.height=6}
 
 par(mar=c(5,20,5,1))
 
