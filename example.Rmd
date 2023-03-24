@@ -115,7 +115,7 @@ HEADER=paste(DET,"detected genes;",NSIG,"w/FDR<0.05;",NUP,"up;",NDN,"down")
 
 plot(log10(def$baseMean) ,def$log2FoldChange,
   cex=0.6,pch=19,col="darkgray",
-  main="strict filter",
+  main="5-azacitidine treatment in AML3 cells",
   xlab="log10(basemean)",ylab="log2(fold change)")
 
 points(log10(sigf$baseMean) ,sigf$log2FoldChange,
