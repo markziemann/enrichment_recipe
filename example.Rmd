@@ -227,7 +227,7 @@ Make a barplot
 
 ```{r,topbarplot2}
 
-par(mar=c(5,25,5,1))
+par(mar=c(5,20,5,1))
 
 cols <- c(rep("blue",20),rep("red",20))
 
@@ -304,7 +304,7 @@ Make a barplot
 
 ```{r,topbarplot3}
 
-par(mar=c(5,25,5,1))
+par(mar=c(5,20,5,1))
 
 cols <- c(rep("blue",20),rep("red",20))
 
