@@ -355,10 +355,10 @@ In this case the top upregulated and downregulated pathways
 ```{r,eplot}
 
 upname <- head(fgsea_up,1)$pathway
-plotEnrichment(upname, stat, gseaParam = 1, ticksSize = 0.2)
+plotEnrichment(gsets[[upname]], stat, gseaParam = 1, ticksSize = 0.2)
 
 dnname <- head(fgsea_dn,1)$pathway
-plotEnrichment(dnname, stat, gseaParam = 1, ticksSize = 0.2)
+plotEnrichment(gsets[[dnname]], stat, gseaParam = 1, ticksSize = 0.2)
 
 ```
 
@@ -368,19 +368,19 @@ Now a heatmap of these gene sets.
 
 # reads per million normalisation
 rpm <- apply(mxf,2, function(x) { x/sum(x) * 1000000} )
+colnames(rpm) <- c("UNTR1","UNTR2","UNTR3","TRT1","TRT2","TRT3")
 gnames_up <- gsets[[which(names(gsets) == upname)]]
 gnames_dn <- gsets[[which(names(gsets) == dnname)]]
 gene_ids <- rownames(mxf)
 gene_names <- sapply(strsplit(gene_ids," "),"[[",2)
 rpm_up <- rpm[which(gene_names %in% gnames_up),]
 rpm_dn <- rpm[which(gene_names %in% gnames_dn),]
-
 colsidecols <- c("blue","blue","blue","red","red","red")
 heatmap.2(rpm_up,scale="row",trace="none",margins=c(10,10),main=upname,ColSideColors=colsidecols)
 heatmap.2(rpm_dn,scale="row",trace="none",margins=c(10,10),main=dnname,ColSideColors=colsidecols)
 
-
 ```
+
 ## Session information
 
 For reproducibility
