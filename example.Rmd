@@ -195,6 +195,7 @@ names(topup2) <- rev(head(ora_up$ID,10))
 Now with the downregulated genes
 
 ```{r,oradn}
+n_pw=10
 
 ora_dn <- as.data.frame(enricher(gene = defdn ,
   universe = bg,  maxGSSize = 5000, TERM2GENE = genesets2,
@@ -214,12 +215,12 @@ ora_dn$es <- gr/br
 ora_dn <- ora_dn[order(-ora_dn$es),]
 ora_dn$Description=NULL
 
-head(ora_dn) %>%
+head(ora_dn,n_pw) %>%
   kbl(row.names = FALSE, caption="Top downregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-topdn2 <- head(ora_dn$es,10)
-names(topdn2) <- head(ora_dn$ID,10)
+topdn2 <- head(ora_dn$es,n_pw)
+names(topdn2) <- head(ora_dn$ID,n_pw)
 
 ```
 
@@ -229,7 +230,7 @@ Make a barplot
 
 par(mar=c(5,20,5,1))
 
-cols <- c(rep("blue",20),rep("red",20))
+cols <- c(rep("blue",n_pw),rep("red",n_pw))
 
 barplot(c(topdn2,topup2),
   horiz=TRUE,las=1,cex.names=0.65,col=cols,
@@ -279,22 +280,21 @@ fgsea_up <-  data.frame(fgsea_up[order(-fgsea_up$ES),])
 
 fgsea_dn <-  data.frame(fgsea_dn[order(fgsea_dn$ES),])
 
-head(fgsea_up,10) %>%
+head(fgsea_up,n_pw) %>%
   kbl(row.names = FALSE, caption="FGSEA:Top upregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
 
-head(fgsea_dn,10) %>%
+head(fgsea_dn,n_pw) %>%
   kbl(row.names = FALSE, caption="FGSEA:Top downregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
-
-fgsea_up <- head(fgsea_up,20)
+fgsea_up <- head(fgsea_up,n_pw)
 fgsea_up_vec <- fgsea_up$ES
 names(fgsea_up_vec) <- fgsea_up$pathway
 fgsea_up_vec <- rev(fgsea_up_vec)
 
-fgsea_dn <- head(fgsea_dn,20)
+fgsea_dn <- head(fgsea_dn,n_pw)
 fgsea_dn_vec <- fgsea_dn$ES * -1
 names(fgsea_dn_vec) <- fgsea_dn$pathway
 
@@ -306,7 +306,7 @@ Make a barplot
 
 par(mar=c(5,20,5,1))
 
-cols <- c(rep("blue",20),rep("red",20))
+cols <- c(rep("blue",n_pw),rep("red",n_pw))
 
 barplot(c(fgsea_dn_vec,fgsea_up_vec),
   horiz=TRUE,las=1,cex.names=0.65,col=cols,
