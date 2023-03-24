@@ -7,8 +7,8 @@ output:
     toc: true
     toc_float: true
     code_folding: hide
-    fig_width: 7
-    fig_height: 7
+    fig_width: 5
+    fig_height: 5
 theme: cosmo
 ---
 
@@ -320,7 +320,7 @@ mtext("FCS test")
 
 ## Compare pathway results
 
-```{r,venn1,fig.width=6,fig.height=6}
+```{r,venn1}
 
 v1 <- list("ORA up"=ora_ups, "FCS up"=fgsea_ups)
 v2 <- list("ORA dn"=ora_dns, "FCS dn"=fgsea_dns)
@@ -376,8 +376,8 @@ gene_names <- sapply(strsplit(gene_ids," "),"[[",2)
 rpm_up <- rpm[which(gene_names %in% gnames_up),]
 rpm_dn <- rpm[which(gene_names %in% gnames_dn),]
 colsidecols <- c("blue","blue","blue","red","red","red")
-heatmap.2(rpm_up,scale="row",trace="none",margins=c(10,10),main=upname,ColSideColors=colsidecols)
-heatmap.2(rpm_dn,scale="row",trace="none",margins=c(10,10),main=dnname,ColSideColors=colsidecols)
+heatmap.2(rpm_up,scale="row",trace="none",margins=c(10,15),main=upname,ColSideColors=colsidecols)
+heatmap.2(rpm_dn,scale="row",trace="none",margins=c(10,15),main=dnname,ColSideColors=colsidecols)
 
 ```
 
