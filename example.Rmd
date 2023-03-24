@@ -226,7 +226,7 @@ names(topdn2) <- head(ora_dn$ID,n_pw)
 
 Make a barplot
 
-```{r,topbarplot2,fig.height=6}
+```{r,topbarplot2}
 
 par(mar=c(5,20,5,1))
 
@@ -302,7 +302,7 @@ names(fgsea_dn_vec) <- fgsea_dn$pathway
 
 Make a barplot
 
-```{r,topbarplot3,fig.height=6}
+```{r,topbarplot3}
 
 par(mar=c(5,20,5,1))
 
