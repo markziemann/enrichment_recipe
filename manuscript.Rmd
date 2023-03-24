@@ -34,6 +34,13 @@ asddsadasd
 
 ## Introduction
 
+```{r,libs}
+
+library("DiagrammeR")
+
+```
+
+
 Reproducibility is essential to the scientific enterprise by confirming the validity of new discoveries
 [1](National Academies of Sciences 2019, p1).
 According to a 2016 survey of *Nature* readers, 52% of respondents agreed that there was "significant
@@ -84,7 +91,7 @@ Therefore the most complete reproducibility solution is to use containerisation 
 workflow with prescribed links to research data, external databases and complete record of parameter
 selection.
 Designed correctly, these containers could encapsulate bioinformatics workflows and ensure their
-computational reproducibility for decades to come, with just one or a few simple commands.
+computational reproducibility for decades to come with just one or a few simple commands.
 There are multiple barriers to entry for such workflows including (i) the added difficulty compared to
 existing point-and-click solutions; (ii) time poorness of researchers to learn new skills; and (iii)
 a lack of step-by-step guides and templates aimed at beginner users.
@@ -110,39 +117,143 @@ This should provide a sound basis for recommendations.
 ### A systematic assessment of reproducibility in enrichment analysis
 
 <Anusuiya to populate>
+<references to start at [101](Author Year)>
 
 ### A container based approach to addressing reproducibility of enrichment analysis
 
-Here describe the set up of the system.
-The following text is a bit random and needs to be culled.
-Although it doesn't need to be this way due to the precise nature of modern computers and software.
-In order for bioinformatics analysis to be 100% reproducible requires a few key elements.
-These are:
+Infographic:
 
-* Input data
+* source control
 
-* Set of instructions (analysis code).
+* containerisation
 
-* Operating system
+* literate programming
 
-With these things working together, it is possible for a data analysis workflow to be 100%
-replicable and auditable for many years into the future.
+* documentation
 
-To achieve this requires some planning:
+The templates provided include the Dockerfile and an Rmarkdown-based workflow script.
+These templates are intended to be altered by the end user, but here is an overview of the contents of
+each.
 
-1. Input data needs to be deposited to a public and persistent location.
+The Dockerfile uses a base image from Bioconductor which should correspond to the latest available
+stable release version (currently 3.16), running on R v4.2.2 and Ubuntu 22.04.
+The image contains instruction for installing a few useful utilities including `nano` and `git` for
+modifying scripts, and `magic-wormhole` for transfering data between computers.
+It installs R packages from CRAN and Bioconductor repositories to fulfill common tasks in transcriptome
+analysis such as fetching RNA-seq counts from DEE2 with `getDEE2` [201](Ziemann et al, 2019),
+differential expression with `DESeq2` [202](Love & Huber, 2014),
+enrichment analysis with `clusterprofiler`, `fgsea` and `mitch`
+[203-205](Yu et al, 2012; Korotkevich et al, 2016; Kaspi & Ziemann 2020).
+It also contains instructions to clone a github repository, which contains the scripts that run the
+analytical workflow.
+Lastly, it copies a gene set library from Reactome [206](Gillespie et al, 2022) with a clear version
+history to guarantee provenance of the annotation data.
 
-2. Analysis code packaged in a working Docker container.
+The `example_workflow.Rmd` is the Rmarkdown based script that undertakes the enrichment analysis.
+Rmarkdown allows the unification of extended descriptions, code and results into a single document,
+which is becoming ubiquitous in bioinformatics and data science more generally
+[207](Grolemund & Wickham 2017, p423).
+The ability to provide extended descriptions is helpful for providing contextualising information about
+the purpose of the work, detailed methods and interpretations derived from the analysis.
+The Rmarkdown script contains code chunks that perform specific tasks including fetching an example
+data set from DEE2, inspecting data quality, differential expression and two types of enrichment
+analysis; over-representation analysis (ORA) and functional class scoring (FCS) (**Figure XX**).
+For each enrichment analysis conducted, a checklist is provided to comply with reporting guidelines
+[22](Zhao & Rhee 2023).
 
-A Docker container is a minimal operating system that has the necessary software to complete a task.
-Docker is used extensively in web development, to rapidly set up many modular services into
-full stacks of functionality.
-For example using Docker containers, a website front end and back end can be set up once, and then
-deployed at huge scale (eg thousands of instances) with minimal work involved.
+```{r,diagram,fig.cap = "Figure XX: Flow chart of example workflow."}
 
-In addition, Docker containers ensure consistent behaviour across different types of computing
-infrastructure, so it doesn't matter whether the container is run on a linux workstation,
-desktop windows PC or cloud server, the end results should be identical.
+grViz("digraph flowchart {
+      node [fontname = Helvetica, shape = rectangle]
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab1 -> tab2 -> tab3 -> tab4 -> tab6;
+      tab3 -> tab5 -> tab6 }
+      [1]: 'Fetch RNA-seq from DEE2'
+      [2]: 'Quality control'
+      [3]: 'Differential expression'
+      [4]: 'Over-representation analysis'
+      [5]: 'Functional class scoring'
+      [6]: 'Euler diagram'
+")
+
+```
+
+To demonstrate the utility of this workflow, we present the results of an example data analysis;
+it is a comparison of control and 5-azacitidine-treated AML3 cell transcriptomes with RNA-seq
+in triplicate [208] (Lund et al, 2014).
+
+We use this analysis to try to understand better the effect of DNA methylatransferase inhibitors on
+genome regulation and elaborate upon previous findings by Lund et al (2014), which mainly focused on
+the relationship between RNA expression and DNA methylation, but did not show results of a
+transcriptome-only enrichment analysis.
+
+Furthermore, we provide a comparison of the two most common approaches for enrichment analysis; ORA and
+FCS, and give guidance for interpreting results of such tests.
+
+After fetching the data from DEE2, the number of reads per sample was confirmed to be in the range of
+11-16M.
+Genes with fewer than 10 reads per sample on average were removed from the analysis, leaving 13,168
+genes.
+Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
+1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells.
+
+These differentially expressed gene sets were subjected to ORA analysis separately, using the list of
+13,168 genes as the background, and gene sets from REACTOME.
+
+With ORA, we observed 149 upregulated and 48 downregulated gene sets.
+
+We prioritised the enrichment analysis by enrichment score, a pseudo measure for effect size,
+which tends to highlight smaller and more specific gene sets undergoing more drastic differential
+expression, rather than large gene sets that undergo very small expression changes.
+This led to the identification of upregulated pathways related to nuclear RNA export,
+glucokinase regulation and G1/S DNA replication pathways; while downregulated pathways
+were associated with interferon signaling, interleukin signaling, granulopoiesis and NADPH oxidase
+(host defence).
+
+After FCS, we identified 241 upregulated genesets and 155 downregulated genesets.
+FCS upregulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
+and defective homologous recombination repair.
+Downregulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
+
+Regarding upregulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
+Jaccard index of 0.54, however these method disagreed in downregulated pathways, with a Jaccard
+index of only 0.27.
+
+
+
+201.  Ziemann M, Kaspi A, El-Osta A. Digital expression explorer 2: a repository of uniformly processed RNA sequencing data. Gigascience [Internet]. 2019;8(4). Available from: http://dx.doi.org/10.1093/gigascience/giz022
+202.  Love MI, Huber W, Anders S. Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2. Genome Biol [Internet]. 2014;15(12):550. Available from: http://dx.doi.org/10.1186/s13059-014-0550-8
+203.  Yu G, Wang LG, Han Y, He QY. clusterProfiler: an R package for comparing biological themes among gene clusters. OMICS [Internet]. 2012;16(5):284–7. Available from: http://dx.doi.org/10.1089/omi.2011.0118
+204.  Korotkevich G, Sukhov V, Budin N, Shpak B, Artyomov MN, Sergushichev A. Fast gene set enrichment analysis [Internet]. bioRxiv. 2016. p. 060012. Available from: http://biorxiv.org/content/early/2021/02/01/060012.abstract
+205.  Kaspi A, Ziemann M. Mitch: Multi-contrast pathway enrichment for multi-omics and single-cell profiling data. BMC Genomics [Internet]. 2020;21(1):447. Available from: http://dx.doi.org/10.1186/s12864-020-06856-9
+206.  Gillespie M, Jassal B, Stephan R, Milacic M, Rothfels K, Senff-Ribeiro A, et al. The reactome pathway knowledgebase 2022. Nucleic Acids Res [Internet]. 2022;50(D1):D687–92. Available from: http://dx.doi.org/10.1093/nar/gkab1028
+207.  Grolemund G, Wickham H. R for Data Science. Sebastopol, CA: O’Reilly Media; 2017.
+208.  Lund K, Cole JJ, VanderKraats ND, McBryan T, Pchelintsev NA, Clark W, et al. DNMT inhibitors reverse a specific signature of aberrant promoter DNA methylation and associated gene silencing in AML. Genome Biol [Internet]. 2014;15(8):406. Available from: http://dx.doi.org/10.1186/s13059-014-0406-2
+
+
+Table XX: The software bundles in the example image.
+R package dependancies not shown.
+
+| Software | Version | Purpose |
+| --- | --- | --- |
+| Ubuntu | 22.04 | Operating System |
+| R | 4.2.2 | Statistical computing language |
+| nano | 6.2 | text editing |
+| git | 2.34.1 | source control |
+| R/kableExtra | 1.3.4 | render formatted tables |
+| R/vioplot | 0.4.0 | violin charts |
+| R/gplots | 3.1.3 | heatmaps |
+| R/eulerr | 7.0.0 | Venn diagrams |
+| BioC/getDEE2 | 1.8.0 | fetch example RNA-seq data |
+| BioC/DESeq2 | 1.38.3 | differential expression |
+| BioC/fgsea | 1.24.0 | functional class scoring |
+| BioC/clusterProfiler | 4.6.1 | over-representation analysis |
+| Bioc/mitch | 1.10.0 | multi-contrast enrichment |
 
 ## Concluding remarks
 
@@ -182,12 +293,13 @@ research resources and greater trust/support from the general community.
 19.  Timmons JA, Szkop KJ, Gallagher IJ. Multiple sources of bias confound functional enrichment analysis of global -omics data. Genome Biol [Internet]. 2015;16(1):186. Available from: http://dx.doi.org/10.1186/s13059-015-0761-7
 20.  Reimand J, Isserlin R, Voisin V, Kucera M, Tannus-Lopes C, Rostamianfar A, et al. Pathway enrichment analysis and visualization of omics data using g:Profiler, GSEA, Cytoscape and EnrichmentMap. Nat Protoc [Internet]. 2019;14(2):482–517. Available from: http://dx.doi.org/10.1038/s41596-018-0103-9
 21.  Wijesooriya K, Jadaan SA, Perera KL, Kaur T, Ziemann M. Urgent need for consistent standards in functional enrichment analysis. PLoS Comput Biol [Internet]. 2022;18(3):e1009935. Available from: http://dx.doi.org/10.1371/journal.pcbi.1009935
-22.  Zhao K, Rhee SY. Interpreting omics data with pathway enrichment analysis. Trends Genet [Internet]. 2023 [cited 2023 Mar 1];0(0). Available from: https://www.cell.com/trends/genetics/fulltext/S0168-9525(23)00018-5?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0168952523000185%3Fshowall%3Dtrue
+22.  Zhao K, Rhee SY. Interpreting omics data with pathway enrichment analysis. Trends Genet [Internet]. 2023 [cited 2023 Mar 1];0(0). Available from: https://www.cell.com/trends/genetics/fulltext/S0168-9525(23)00018-5
 23.  Hennessey J, Ge S. A cross disciplinary study of link decay and the effectiveness of mitigation techniques. BMC Bioinformatics [Internet]. 2013;14 Suppl 14(S14):S5. Available from: http://dx.doi.org/10.1186/1471-2105-14-S14-S5
 24.  Ge SX, Jung D, Yao R. ShinyGO: a graphical gene-set enrichment tool for animals and plants. Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];36(8):2628–9. Available from: https://pubmed.ncbi.nlm.nih.gov/31882993/
 25.  Perampalam P, Dick FA. BEAVR: a browser-based tool for the exploration and visualization of RNA-seq data. BMC Bioinformatics [Internet]. 2020 [cited 2023 Mar 9];21(1):221. Available from: https://pubmed.ncbi.nlm.nih.gov/32471392/
 
-23.  Lund K, Cole JJ, VanderKraats ND, McBryan T, Pchelintsev NA, Clark W, et al. DNMT inhibitors reverse a specific signature of aberrant promoter DNA methylation and associated gene silencing in AML. Genome Biol [Internet]. 2014;15(8):406. Available from: http://dx.doi.org/10.1186/s13059-014-0406-2
-24.  Ziemann M, Kaspi A, El-Osta A. Digital expression explorer 2: a repository of uniformly processed RNA sequencing data. Gigascience [Internet]. 2019;8(4). Available from: http://dx.doi.org/10.1093/gigascience/giz022
+
+
+
 
 

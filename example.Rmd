@@ -226,7 +226,7 @@ Make a barplot
 
 ```{r,topbarplot2}
 
-par(mar=c(5,20,5,1))
+par(mar=c(5,25,5,1))
 
 cols <- c(rep("blue",20),rep("red",20))
 
@@ -287,7 +287,35 @@ head(fgsea_dn,10) %>%
   kbl(row.names = FALSE, caption="FGSEA:Top downregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
+
+fgsea_up <- head(fgsea_up,20)
+fgsea_up_vec <- fgsea_up$ES
+names(fgsea_up_vec) <- fgsea_up$pathway
+fgsea_up_vec <- rev(fgsea_up_vec)
+
+fgsea_dn <- head(fgsea_dn,20)
+fgsea_dn_vec <- fgsea_dn$ES * -1
+names(fgsea_dn_vec) <- fgsea_dn$pathway
+
 ```
+
+Make a barplot
+
+```{r,topbarplot3}
+
+par(mar=c(5,25,5,1))
+
+cols <- c(rep("blue",20),rep("red",20))
+
+barplot(c(fgsea_dn_vec,fgsea_up_vec),
+  horiz=TRUE,las=1,cex.names=0.65,col=cols,
+  main="top DE Reactomes",
+  xlab="ES")
+
+mtext("FCS test")
+
+```
+
 
 ## Compare pathway results
 
