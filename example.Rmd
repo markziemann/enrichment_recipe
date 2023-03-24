@@ -374,7 +374,9 @@ gnames_dn <- gsets[[which(names(gsets) == dnname)]]
 gene_ids <- rownames(mxf)
 gene_names <- sapply(strsplit(gene_ids," "),"[[",2)
 rpm_up <- rpm[which(gene_names %in% gnames_up),]
+rownames(rpm_up) <- sapply(strsplit(rownames(rpm_up)," "),"[[",2)
 rpm_dn <- rpm[which(gene_names %in% gnames_dn),]
+rownames(rpm_dn) <- sapply(strsplit(rownames(rpm_dn)," "),"[[",2)
 colsidecols <- c("blue","blue","blue","red","red","red")
 heatmap.2(rpm_up,scale="row",trace="none",margins=c(10,15),main=upname,ColSideColors=colsidecols)
 heatmap.2(rpm_dn,scale="row",trace="none",margins=c(10,15),main=dnname,ColSideColors=colsidecols)
