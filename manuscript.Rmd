@@ -127,15 +127,58 @@ The selection of 20 articles from 2019 is based on the following factors:
   * The tool used for enrichment analysis is “DAVID” (Database for Annotation, Visualization, and Integrated Discovery)
   * Ensuring that the complete gene list is available to perform replication analysis successfully. 
 
-To keep the work available and accessible at all times, google cloud storage is used to store several types of files. A google spreadsheet is maintained to track the
-progress. The sheet contains details like PMCID, type of organism, availability of gene set, usage of DAVID, and details about the utilization of the background gene
-list by the authors. The Google spreadsheet is attached as supplementary file 1 named as “Anusuiya_PMC_2019”. 
+To keep the work available and accessible at all times, google cloud storage is used to store several types of files. A google spreadsheet is maintained to 
+track the progress. The sheet contains details like PMCID, type of organism, availability of gene set, usage of DAVID, and details about the utilization of the background gene list by the authors. The Google spreadsheet is attached as supplementary file 1 named as “Anusuiya_PMC_2019”. 
 
-The articles are searched for the dataset of dysregulated (upregulated and downregulated, either combined or separately) genes. It is important to understand how the
-list of specific gene lists was obtained by the researchers. This is usually mentioned in the materials and methods section of the paper. The list of genes found in
-the articles is stored in the spreadsheet named “Anusuiya_gene_list”. The gene list is maintained for our analysis under their respective PMCIDs. Special attention is
-given to detecting gene name errors that are usually in converted date formats when procured from excel sheets from the original paper. On request, the gene list file
-can be shared.
+The articles are searched for the dataset of dysregulated (upregulated and downregulated, either combined or separately) genes. It is important to understand 
+how the list of specific gene lists was obtained by the researchers. This is usually mentioned in the materials and methods section of the paper. The list of 
+genes found in the articles is stored in the spreadsheet named “Anusuiya_gene_list”. The gene list is maintained for our analysis under their respective PMCIDs.
+Special attention is given to detecting gene name errors that are usually in converted date formats when procured from excel sheets from the original paper. On
+request, the gene list file can be shared.
+
+The reproducibility analysis is performed using the respective methodologies stated by the 20 articles using DAVID. It is important to note that the DAVID 6.8 
+server has been replaced by DAVID 2021 server, starting from June 1, 2022. For our analysis, DAVID 6.8 version was used for replication procedures. It was 
+ensured that our analyses got completed by 31 May 2022. 
+
+The following steps are performed using the DAVID web server:
+1. On google, the term “DAVID functional annotation” is searched. It can also be accessed through this link https://david.ncifcrf.gov/home.jsp.
+2. Click on “Start Analysis” present on top of the homepage.
+3. Click on the “Upload” tab.
+4. Select and copy the list of genes (specific to the paper being analyzed). Paste it under the “Enter Gene list/Paste a list” option.
+5. Select the identifier as “OFFICIAL_GENE_SYMBOL”
+6. Under the “Select Species” option, type “Homo sapiens” and click on the selection. 
+7. Select the list type as “Gene List”. Click on “Submit List”.
+8. Step 2 page comes up. Click on the “Functional Annotation Tool” option.
+9. The “Annotation Summary Results” page appears. 
+10. It can be observed that the current gene list and the current background show up. 
+11. Click on the tick next to “Check Defaults”, on top of the page, to unselect all the options that are selected by default by the server. 
+12. Under “Gene Ontology”, select the checkboxes of “GOTERM_BP_DIRECT”, GOTERM_CC_DIRECT” and “GOTERM_MF_DIRECT”.
+13. Click on “Functional Annotation Chart”. A new window opens up with a table of results containing the gene ontology terms. 
+14. Select the terms up to the prescribed P Value criteria from the paper. Other options like FDR values, Fischer Test values can be obtained by expanding 
+“options” above the results table and clicking on the required options. Click on Rerun using options.
+15. The table loads up with additional options. Select as per the P-Value criteria and keep the results in another document for future use.
+16. Go back to the “Annotation Summary Results” page again to obtain KEGG Pathway results.
+17. Expand the “Pathways” option. Click on “Chart” next to the KEGG_Pathway heading or the “Functional Chart”. 
+18. Step 14 can be performed accordingly for KEGG Pathway results as well.
+
+A live google document is used to store all the results that consisted of Gene ontology terms (Biological Process, Cellular Component, and Molecular Function) 
+and KEGG Pathway results. Terms and pathway results are included till the mentioned P values or corrected P Values from the paper (generally, P<0.005). 
+
+Each article is re-read, keeping note of sections like Abstract, Results, Discussion, and Conclusion. It is checked whether the DAVID results obtained by the
+researchers are used in making the conclusions mentioned in the respective papers. This gives an idea of whether DAVID results were included to form conclusions 
+by the authors. 
+
+Critical evaluation for each article is performed, and they are rated from 1 to 3. The following are the reasons for rating papers from 1 to 3:
+* Paper is rated “1” when it shows poor reproducibility. Terms for GO and/or KEGG did not match at all upon replication analysis.
+* Paper is rated “2” when at least 50% of the terms are observed after replication. 50% or more should be observed for both GO and KEGG analysis since 
+conclusions were drawn using both terms in the articles.
+* Paper is rated “3” when it shows maximum reproducibility. The terms upon replication are observed again according to the ones mentioned in the paper. The 
+conclusion of the paper is comprehensible and accurate.
+
+A bar graph is created denoting the number of articles that come under categories 1, 2, and 3. This is created using the “Chart” tool in google spreadsheet. 
+
+A summary table is created that includes information about the parts of the paper that are reproduced using DAVID. It also states if replication analysis is 
+possible with subsequent reasoning. 
 
 
 ### A container based approach to addressing reproducibility of enrichment analysis
