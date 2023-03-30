@@ -131,7 +131,11 @@ To keep the work available and accessible at all times, google cloud storage is 
 progress. The sheet contains details like PMCID, type of organism, availability of gene set, usage of DAVID, and details about the utilization of the background gene
 list by the authors. The Google spreadsheet is attached as supplementary file 1 named as “Anusuiya_PMC_2019”. 
 
-The articles are searched for the dataset of dysregulated (upregulated and downregulated, either combined or separately) genes. It is important to understand how the list of specific gene lists was obtained by the researchers. This is usually mentioned in the materials and methods section of the paper. The list of genes found in the articles is stored in the spreadsheet named “Anusuiya_gene_list”. The gene list is maintained for our analysis under their respective PMCIDs. Special attention is given to detecting gene name errors that are usually in converted date formats when procured from excel sheets from the original paper. On request, the gene list file can be shared.
+The articles are searched for the dataset of dysregulated (upregulated and downregulated, either combined or separately) genes. It is important to understand how the
+list of specific gene lists was obtained by the researchers. This is usually mentioned in the materials and methods section of the paper. The list of genes found in
+the articles is stored in the spreadsheet named “Anusuiya_gene_list”. The gene list is maintained for our analysis under their respective PMCIDs. Special attention is
+given to detecting gene name errors that are usually in converted date formats when procured from excel sheets from the original paper. On request, the gene list file
+can be shared.
 
 
 ### A container based approach to addressing reproducibility of enrichment analysis
