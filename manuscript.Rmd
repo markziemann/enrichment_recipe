@@ -110,7 +110,7 @@ Therefore before recommending or prescribing Docker-based bioinformatics workflo
 to assess directly whether current standards are appropriate, by trying to reproduce the enrichment
 analyses of previously published studies, and examining whether the conclusions of those articles
 are supported or not.
-In the following section we investigate the computational reproducibility of enrichment analyses
+In the following section we investigate the computational reproducibility of enrichment analyses 
 shown in a sample of 20 journal articles published in 2019.
 This should provide a sound basis for recommendations.
 
@@ -120,6 +120,19 @@ This should provide a sound basis for recommendations.
 
 <Anusuiya to populate>
 <references to start at [101](Author Year)>
+<Wanted to check how this looks in the file>
+  
+The selection of 20 articles from 2019 is based on the following factors:
+  * “Homo sapiens” is the organism of the datasets
+  * The tool used for enrichment analysis is “DAVID” (Database for Annotation, Visualization, and Integrated Discovery)
+  * Ensuring that the complete gene list is available to perform replication analysis successfully. 
+
+To keep the work available and accessible at all times, google cloud storage is used to store several types of files. A google spreadsheet is maintained to track the
+progress. The sheet contains details like PMCID, type of organism, availability of gene set, usage of DAVID, and details about the utilization of the background gene
+list by the authors. The Google spreadsheet is attached as supplementary file 1 named as “Anusuiya_PMC_2019”. 
+
+The articles are searched for the dataset of dysregulated (upregulated and downregulated, either combined or separately) genes. It is important to understand how the list of specific gene lists was obtained by the researchers. This is usually mentioned in the materials and methods section of the paper. The list of genes found in the articles is stored in the spreadsheet named “Anusuiya_gene_list”. The gene list is maintained for our analysis under their respective PMCIDs. Special attention is given to detecting gene name errors that are usually in converted date formats when procured from excel sheets from the original paper. On request, the gene list file can be shared.
+
 
 ### A container based approach to addressing reproducibility of enrichment analysis
 
