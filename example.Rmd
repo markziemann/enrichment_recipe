@@ -84,6 +84,28 @@ barplot(rev(colSums(mx)),horiz=TRUE,las=1,main="number of reads per sample in SR
 
 ```
 
+Now make a MDS plot.
+
+```{r,mds1}
+
+mds <- cmdscale(dist(t(mx)))
+
+# expand plot area
+XMIN=min(mds[,1])*1.3
+XMAX=max(mds[,1])*1.3
+YMIN=min(mds[,2])*1.3
+YMAX=max(mds[,2])*1.3
+
+cols <- as.character(grepl("Treated",ss$Experiment_title))
+cols <- gsub("FALSE","lightblue",cols)
+cols <- gsub("TRUE","pink",cols)
+plot(mds, xlab="Coordinate 1", ylab="Coordinate 2",
+  xlim=c(XMIN,XMAX),ylim=c(YMIN,YMAX),
+  pch=19,cex=2,col=cols, main="MDS plot")
+text(cmdscale(dist(t(mx))), labels=colnames(mx) )
+
+```
+
 ## Differential expression analysis
 
 I will be using DESeq2 for DE analysis, the count matrix is prefiltered using

@@ -31,3 +31,24 @@ make the whole process reproducible.
 
 * `docs`: Step-by-step guides to getting your transcriptome analyses done in Docker.
 
+## To reproduce this workflow
+
+```
+docker pull mziemann/enrichment_recipe
+
+docker run -it -v ${pwd}/enrichment_recipe --entrypoint /bin/bash mziemann/enrichment_recipe
+```
+
+Then inside the container, execute the Rmarkdown script.
+
+```
+R -e 'rmarkdown::render("example.Rmd")
+```
+
+After it completes, exit R and the container.
+Then copy the report from the container to the working directory.
+
+```
+docker cp $(docker ps -aql):/enrichment_recipe/example.html .
+
+```
