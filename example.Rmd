@@ -111,11 +111,17 @@ text(cmdscale(dist(t(mx))), labels=colnames(mx) )
 I will be using DESeq2 for DE analysis, the count matrix is prefiltered using
 a detection threshold of 10 reads per sample across all samples.
 All genes that meet the detection threshold will comprise the background list.
+The first 6 rows of the count matrix are shows.
 
 ```{r,de1}
 
 mxf <- mx[which(rowMeans(mx)>=10),]
 dim(mxf)
+
+head(mxf,6) %>%
+  kbl(caption="Count matrix format") %>%
+  kable_paper("hover", full_width = F)
+
 dds <- DESeqDataSetFromMatrix(countData = mxf , colData = ss, design = ~ trt )
 res <- DESeq(dds)
 z <- results(res)
@@ -126,6 +132,12 @@ def <-as.data.frame(zz[order(zz$pvalue),])
 head(def,10) %>%
   kbl(caption="Top DE genes for Aza treatment") %>%
   kable_paper("hover", full_width = F)
+
+```
+
+Make a smear plot.
+
+```{r,smearplot}
 
 sigf <- subset(def,padj<=0.05)
 
@@ -145,15 +157,6 @@ points(log10(sigf$baseMean) ,sigf$log2FoldChange,
   cex=0.6,pch=19,col="red")
 
 mtext(HEADER)
-
-defup <- rownames(subset(def,padj<=0.05 & log2FoldChange>0))
-defup <- unique(sapply(strsplit(defup," "),"[[",2))
-
-defdn <- rownames(subset(def,padj<=0.05 & log2FoldChange<0))
-defdn <- unique(sapply(strsplit(defdn," "),"[[",2))
-
-bg <- rownames(def)
-bg <- unique(sapply(strsplit(bg," "),"[[",2))
 
 ```
 
@@ -176,6 +179,8 @@ I've compiled a reporting checklist:
 | Data availability | via DEE2 at accession SRP038101 (human) |
 | Other parameters | Min gene set size of 10 |
 
+Get the gene sets loaded in R.
+
 ```{r,gs}
 # from https://reactome.org/download/current/ReactomePathways.gmt.zip
 genesets2 <- read.gmt("ReactomePathways_2023-03-06.gmt")
@@ -183,7 +188,24 @@ gsets <- gmtPathways("ReactomePathways_2023-03-06.gmt")
 
 ```
 
-Firstly with the upregulated genes
+Now filter the gene names into three lists, up-regulated, down-regulated and
+background.
+Background is simply all genes that were detected.
+
+```{r,subset1}
+
+defup <- rownames(subset(def,padj<=0.05 & log2FoldChange>0))
+defup <- unique(sapply(strsplit(defup," "),"[[",2))
+
+defdn <- rownames(subset(def,padj<=0.05 & log2FoldChange<0))
+defdn <- unique(sapply(strsplit(defdn," "),"[[",2))
+
+bg <- rownames(def)
+bg <- unique(sapply(strsplit(bg," "),"[[",2))
+
+```
+
+Enrichment firstly with upregulated genes
 
 ```{r,oraup}
 
@@ -217,6 +239,7 @@ names(topup2) <- rev(head(ora_up$ID,10))
 Now with the downregulated genes
 
 ```{r,oradn}
+
 n_pw=10
 
 ora_dn <- as.data.frame(enricher(gene = defdn ,
