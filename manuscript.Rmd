@@ -180,10 +180,9 @@ Results are summarised in table and bar chart form.
   <img src = "https://user-images.githubusercontent.com/88286275/230719934-4fecbbb5-6cde-4167-895b-ee5baabb2459.png" width = "600">
 
 * table
-
-  The following tables gives a summary of the replication results of the articles:
+  The following table gives a summary of the replication results of the articles:
   
-| S.No. |	Pubmed ID	| Replication of (Table/Figure) | Replication was possible? 1. Were the terms the same as authors? 2. Were there other significant terms found which were not mentioned in the article? |	Summary | Replication Classified as 1, 2, 3 |
+| S.No.| Pubmed ID | Replication of (Table/Figure) | Replication was possible? 1. Were the terms the same as authors? 2. Were there other significant terms found which were not mentioned in the article? |	Summary | Replication Classified as 1, 2, 3 |
 | --- | -------- | ---- | ---- | ---- | ---- |
 | 1. | PMC6349697 | Figure 2C and 2D |	1. Yes, however, corrected p values are different after replication. 2. Yes, only BP terms were taken into account so several CC and MF significant terms were not mentioned in the paper. |	The basis of the selection of just 6 gene ontologies and 4 KEGG pathways shown in the paper needs to be addressed when there is a higher amount of significant GOs and pathways are observed after replication. It was impossible to determine if the article utilised a background gene list or not. The steps to perform DAVID analysis could have been elaborated in the paper. The results shown in the paper are observed after replication but only 6 BP GO significant terms are shown in the paper. |	3 [Considering top 6 BP Terms and KEGG pathways] |
 
