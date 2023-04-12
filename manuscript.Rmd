@@ -101,8 +101,8 @@ a phenomenon known as link decay [23](Hennessey & Ge 2013).
 A small number of enrichment analysis applications have been developed to have beneficial properties
 of being "containerised" and with archived historical versions [24,25](Ge et al, 2020;
 Perampalam & Dick 2020).
-This helps reproducibility greatly, but is insufficient as it lacks information about how the input
-data was used and a record of any parameter selections.
+This helps reproducibility greatly, but is not a complete solution as it lacks information about how
+the input data was used and a record of any parameter selections.
 
 Therefore the most complete reproducibility solution is to use containerisation to provide a scripted
 workflow with prescribed links to research data, external databases and complete record of parameter
@@ -165,9 +165,10 @@ Secondly, the statements made in the abstract, results, and discussion sections 
 and cross-checked with our results to understand whether those assertions survive reproduction or not.
 
 Each article was critically evaluated and given a score of one (1) to three (3).
-Articles rated 1 showed overall poor reproducibility, for example most GO and/or KEGG terms did not
-match upon reproduction, and the conclusions of the study were overall not supported.
-Aticles were rated 2 when at least 50% of the terms are observed as significant after replication,
+Articles rated 1 showed overall poor reproducibility.
+For example most GO and/or KEGG terms mentioned in the results and discussion were not confirmed
+upon reproduction, and the conclusions of the study were overall not supported.
+Articles were rated 2 when at least 50% of the terms are observed as significant after replication,
 according to the original study's significance threshold, and most conclusions were supported.
 Articles were rated 3 when they showed a high level of reproducibility, with 80% or more of the terms
 shown in the article observed again in reproduction, and all conclusions were supported in reproduction.

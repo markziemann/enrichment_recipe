@@ -36,7 +36,7 @@ make the whole process reproducible.
 ```
 docker pull mziemann/enrichment_recipe
 
-docker run -it -v ${pwd}/enrichment_recipe --entrypoint /bin/bash mziemann/enrichment_recipe
+docker run -it -v ${pwd}:/enrichment_recipe --entrypoint /bin/bash mziemann/enrichment_recipe
 ```
 
 Then inside the container, execute the Rmarkdown script.
