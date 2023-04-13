@@ -176,9 +176,16 @@ Results are summarised in table and bar chart form.
 
 ### Results and discussion
 
-* bar graph
+* Bar graph
  
   <img src = "https://user-images.githubusercontent.com/88286275/230719934-4fecbbb5-6cde-4167-895b-ee5baabb2459.png" width = "600">
+
+Bar graph denoting the level of reproducibility of the 20 journal articles. 
+  
+While going through the papers a lot of discrepancies were observed. Out of the 20 journal articles were analysed, 
+thirty five percent (35%) of the papers showed low levels of reproducibility, fifty percent (50%) of the papers showed 
+medium level of reproducibility and only fifteen percent (15 %) of the papers showed a high degree of reproducibility of 
+the DAVID analysis results. 
 
 * table
   The following table gives a summary of the replication results of the articles:
