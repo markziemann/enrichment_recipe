@@ -182,12 +182,13 @@ Results are summarised in table and bar chart form.
 
 Bar graph denoting the level of reproducibility of the 20 journal articles. 
   
-While going through the papers a lot of discrepancies were observed. Out of the 20 journal articles were analysed, 
+While going through the papers a lot of discrepancies were observed. Out of the 20 journal articles that were analysed, 
 thirty five percent (35%) of the papers showed low levels of reproducibility, fifty percent (50%) of the papers showed 
 medium level of reproducibility and only fifteen percent (15 %) of the papers showed a high degree of reproducibility of 
 the DAVID analysis results. 
 
-* table
+* Summary Table
+
   The following table gives a summary of the replication results of the articles:
   
 | S.No.| Pubmed ID | Replication of (Table/Figure) | 1. Was Replication possible? 2. Were there other significant terms found which were not mentioned in the article? |	Summary | Replication Classified as 1, 2, 3 |
