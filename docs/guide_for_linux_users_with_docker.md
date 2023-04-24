@@ -1,4 +1,4 @@
-# Guide for linux users users with Docker
+# A recipe for extremely reproducible enrichment analysis (linux users)
 
 Mark Ziemann and Anusuiya Bora
 
