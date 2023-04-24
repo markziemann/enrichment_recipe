@@ -101,7 +101,7 @@ This will install a stable version of docker that is packaged in the Ubuntu apt 
 probably won't be the latest version.
 If you need the latest version, follow the instructions at [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04).
 
-3. **Add users to the docker group.**
+**3. Add users to the docker group.**
 
 In order to use docker without constantly needing to use "sudo", it is recommended to add yourself and
 any other intended docker users to the docker group.
@@ -131,7 +131,7 @@ groups
 
 ### Validate the example workflow
 
-4. **Pull the image**
+**4. Pull the image**
 
 As docker is now installed, it is now possible to try to reproduce the example workflow described in
 our article.
@@ -143,7 +143,7 @@ docker pull mziemann/enrichment_recipe
 
 ```
 
-5. **Run a container**
+**5. Run a container**
 
 Now run the docker container, getting a bash prompt.
 This command also "binds" the present working directory to the working directory inside the container. 
@@ -156,7 +156,7 @@ docker run -it -v ${pwd}:/enrichment_recipe --entrypoint /bin/bash mziemann/enri
 
 if you run 'ls' here, you will see the project's Rmd scripts and the Reactome gmt file.
 
-6. **Run the R workflow**
+**6. Run the R workflow**
 
 Now open R.
 
@@ -178,7 +178,7 @@ This will regenerate the analysis that was shown in the article.
 The report is saved to "example.html"
 If the workflow completed successfully, you can exit R with `q()` and the container with `exit`.
 
-7. **Visually examine results**
+**7. Visually examine results**
 
 Visually examine the html file.
 It is easiest to do this outside of the container.
@@ -200,7 +200,7 @@ firefox example.html
 
 ### Create a GitHub repository
 
-8. **Install git**
+**8. Install git**
 
 `git` is a source control system that allows users to manage versions of software over time.
 Use the following code to install git on your local machine:
@@ -211,13 +211,13 @@ sudo apt install git -y
 
 ```
 
-9. **Create an account for GitHub**
+**9. Create an account for GitHub**
 
 GitHub.com is a website that hosts these software repositories, which has the benefit of making the
 code widely available.
 Visit the website and create an account.
 
-10. **Set up SSH keys for GitHub**
+**10. Set up SSH keys for GitHub**
 
 GitHub requires authentication with SSH keys.
 SSH (Secure Shell) keys are an access credential that is used in the SSH protocol.
@@ -258,7 +258,7 @@ Click on that then you will see a green button labeled "New SSH key".
 Hit it and paste the public key in the designated area and hit the green "Add SSH key" button.
 Do not upload the private key.
 
-11. **Create the repository**
+**11. Create the repository**
 
 A simple way to get git/GitHub working is to create a repo with Github and then clone it to the local
 computer.
@@ -287,7 +287,7 @@ If there is no licence in the repo, then it is assumed to be covered by copyrigh
 
 Once you are happy with your selections, hit the "Create repository" button
 
-12. **Start working with the repo locally**
+**12. Start working with the repo locally**
 
 So far the repository exists on Github.com but not on the local machine.
 Fix that by cloning the repo.
@@ -324,8 +324,7 @@ git clone git@github.com:yourname/your-repo-name.git
 
 And git should be able to complete the task for you.
 
-
-13. **Try a commit/push**
+**13. Try a commit/push**
 
 If you are new to git, then it can be a bit confusing.
 So it is best to try modifying the repo now, before working with code or data.
@@ -386,7 +385,7 @@ git push origin main
 
 ### Build a custom docker image for your project
 
-14. **Understand the Dockerfile and modify it to your needs**
+**14. Understand the Dockerfile and modify it to your needs**
 
 In this step you will build a docker image for your project.
 This will contain the operating system, R/Rstudio and the packages you need for your analysis.
@@ -485,7 +484,7 @@ the project working directory.
 The last command in the Dockerfile sets the working directory, you should change this to the name of
 your Github repo. 
 
-15. **Think about how you will link your data and code**
+**15. Think about how you will link your data and code**
 
 Linking is ensuring that the code "knows" where to obtain the data from, so that users don't get
 "file not found" errors.
@@ -529,7 +528,7 @@ This has the dual benefit of enhancing data reuse.
 
 Of the above options, only option 2 will require you to make any changes to the Dockerfile.
 
-16. **Build the new docker image**
+**16. Build the new docker image**
 
 Use the following command to build the new image.
 Where it says "yourname", put your Dockerhub alias.
@@ -544,7 +543,7 @@ docker build -t yourname/yourprojectname
 
 It may take up to 25 minutes to build it.
 
-17. **Check that the docker image works**
+**17. Check that the docker image works**
 
 The following command will run the image in a container and give you a bash shell prompt.
 
@@ -565,7 +564,7 @@ Here are the things you should check:
 Once verified, quit R with the `q()` command and once back on the shell prompt type "exit" to leave the
 docker container.
 
-18. **Commit and push the Dockerfile to your repo**
+**18. Commit and push the Dockerfile to your repo**
 
 Now that we know that the Dockerfile works, it is a good time to add it to your Github repo.
 If you are still working in the project (git) directory, you can run the following to update the Github
@@ -591,7 +590,7 @@ git push origin main
 
 ### Customise the Rmarkdown workflow to your needs
 
-19. **Understand the structure of the Rmd file**
+**19. Understand the structure of the Rmd file**
 
 In this section I will be walking you through the process of adapting the provided template Rmd
 workflow for your needs.
@@ -615,7 +614,6 @@ wget https://raw.githubusercontent.com/markziemann/enrichment_recipe/main/exampl
 
 ```
 
-
 Once downloaded, you can edit it with nano.
 If you only want to view the file, you can use the "less" command.
 If you want to change the file name, you can do that with the "mv" command.
@@ -626,7 +624,7 @@ mv example.Rmd myworkflow.Rmd
 
 ```
 
-20. **Change the header to your needs**
+**20. Change the header to your needs**
 
 The header is a section the very top of the Rmd file delineated with three hyphens `---`
 
@@ -653,7 +651,7 @@ The `Sys.Date()` command ensures that the date of execution is recorded in the f
 The other settings, like theme and figure size you should keep as-is for now until you have a working
 workflow.
 
-21. **Understand markdown text**
+**21. Understand markdown text**
 
 Let's take a look at the next section in the Rmd file immediately below the header, which is markdown.
 
@@ -663,11 +661,13 @@ Source: https://github.com/markziemann/enrichment_recipe
 
 ## Introduction
 
-This guide is a Rmarkdown script that conducts differential expression and enrichment analysis, which are very popular workflows for transcriptome data.
+This guide is a Rmarkdown script that conducts differential expression and enrichment analysis, which
+are very popular workflows for transcriptome data.
 
 This is meant to be a boilerplate template, which you can remix and modify to suit your analytical needs.
 
-In the code chunk below called `libs`, you can add and remove required R library dependancies. Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
+In the code chunk below called `libs`, you can add and remove required R library dependancies.
+Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
 
 ```
 
@@ -686,7 +686,7 @@ and bullet points, tables, and it is possible to embed images and videos.
 
 To understand the capabilities of Markdown further, visit this [guide](Free text can be used to write descriptions of background information, methods and results, which allows comprehensive documentation of workflows.).
 
-22. **Understand how code chunks are formatted**
+**22. Understand how code chunks are formatted**
 
 R code is embedded in an Rmarkdown script inside "chunks".
 There can be any number of chunks.
@@ -701,7 +701,7 @@ Providing a unique name for each chunk is a good idea, and helps in troubleshoot
 
 ```r
 
-'```{r,libs}
+\'```{r,libs}
 
 suppressPackageStartupMessages({
   library("getDEE2")
@@ -713,11 +713,11 @@ suppressPackageStartupMessages({
   library("gplots")
 })
 
-```'
+```\'
 
 ```
 
-23. **Understand the workflow**
+**23. Understand the workflow**
 
 Before you start making changes to the workflow, it is a good idea to understand the process first.
 The example.Rmd script contains instruction for the five-step workflow.
@@ -759,7 +759,7 @@ strongly enriched gene sets, and heatmaps to show the expression of member genes
 At the end of the Rmd script, there is a section called "Session Information" which describes the
 environment including R version and version of other packages.
 
-24. **Make targeted changes to your Rmd script**
+**24. Make targeted changes to your Rmd script**
 
 It isn't within the scope of this protocol to delve deeply into the details of each chunk, rather
 understand the modular nature of these chunks.
@@ -902,14 +902,14 @@ You may want to copy the html report out as well with the same approach.
 
 ### Update the software repository
 
-25. **Prepare changes**
+**25. Prepare changes**
 
 Now that the Rmd script is working, it is time to push these changes to the GitHub repo.
 Now is a good time to update the Dockerfile to remove unnecessary packages and add newly required ones.
 You may want to rebuild the image, knit the Rmd and inspect the html report for validity.
 Also take another look at the README and use nano to make any additional updates.
 
-26. **Commit and push changes**
+**26. Commit and push changes**
 
 Use the `git add` command to track the changes of all files you intend to update on the github repo.
 `git commit` to register the changes to the local repo and `git push` to propagate the changes to GitHub.
@@ -926,7 +926,7 @@ Then inspect the repo on github.com to ensure that all the neccessary files have
 
 ### Push the image to Dockerhub
 
-27. **Dockerhub push**
+**27. Dockerhub push**
 
 This is an optional step, which uploads your docker image to Dockerhub.
 This is a good idea if you want to share it openly, however Dockerhub is not a guaranteed data archive
@@ -970,7 +970,7 @@ Just substitute the names for your docker image and your Rmd script.
 
 ### Long term archiving
 
-28. **Save the image**
+**28. Save the image**
 
 As Dockerhub is not a guaranteed data archive, there's a good chance that over time the company in
 charge of Dockerhub removes images that are not monetised.
@@ -984,7 +984,7 @@ docker save yourname/yourprojectname | gzip > projectname.tar.gz
 
 ```
 
-29. **Reproducibility check**
+**29. Reproducibility check**
 
 Before uploading to a data archive, it is a good idea to check that the tar.gz is also reproducible.
 Try sending the tar.gz to another computer that has docker installed for reproduction.
@@ -1000,7 +1000,7 @@ docker import projectname.tar yourname/yourprojectname
 
 Again, use step 5 as a guide for reproduction.
 
-30. **Upload to Zenodo**
+**30. Upload to Zenodo**
 
 If you are new to Zenodo, you'll need to make a new user profile, then upload the image as a new
 dataset.
