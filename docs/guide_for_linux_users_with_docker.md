@@ -9,7 +9,7 @@ typically these are conducted irreproducibly with web-based and graphical interf
 omitting important methodological information.
 To enable complete reproducibility, the analysis needs to be conducted non-interactively, recording the
 versions of all dependancies.
-This is achieved using an Rmarkdown script running inside a docker container.
+This is achieved using an **Rmarkdown script** running inside a **docker container**.
 This allows all instructions to complete the workflow in a sequence, including parameters which
 sometimes are not described in methods sections.
 Rmarkdown and other literate programming approaches are useful for such workflows because the end
@@ -21,12 +21,14 @@ Containerisation with docker allows packaging of code, data and environment into
 unit.
 This means the workflow can be run on different types of computers (windows PC, Mac, server, cloud, etc)
 and yield the same result.
-This protocol also guides users through other best practices in computational research such as source
-control, documentation and data archiving.
+This protocol also guides users through other best practices in computational research such as 
+**code version control**, **documentation** and **data archiving**.
 This protocol is designed for Linux users who want to modify and remix the provided templates to
 undertake their own enrichment analysis.
 It requires a moderate level of shell scripting, some knowledge about docker containers, and moderate R
 scripting.
+
+![Pillars of computational research reproducibility](../img/pillarsV2.svg)
 
 ## Requirements
 
