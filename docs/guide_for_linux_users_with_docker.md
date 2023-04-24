@@ -28,7 +28,7 @@ undertake their own enrichment analysis.
 It requires a moderate level of shell scripting, some knowledge about docker containers, and moderate R
 scripting.
 
-![Pillars of computational research reproducibility](../img/pillarsV2.svg)
+![Pillars of computational research reproducibility](../img/pillarsV2.png)
 
 ## Requirements
 
