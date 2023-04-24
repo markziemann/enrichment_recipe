@@ -267,20 +267,20 @@ called "Repositories".
 Click the green button labeled "New".
 This will open up a new screen where you can set some options.
 
-a. It is important to give your repository a good, descriptive, but short name. Avoid spaces.
+**a.** It is important to give your repository a good, descriptive, but short name. Avoid spaces.
 
-b. Provide a one sentence description of your repository based on its purpose.
+**b.** Provide a one sentence description of your repository based on its purpose.
 
-c. You can select to keep the repository private or to make it public.
+**c.** You can select to keep the repository private or to make it public.
 Public is easier to work with if you don't mind that other people could be snooping at your work in
 progress. 
 
-d. It is recommended to add a README file to the new repo which can be worked on later.
+**d.** It is recommended to add a README file to the new repo which can be worked on later.
 
-e. Ignore the .gitignore for now (this is a list of file types that might be in the project working
+**e.** Ignore the .gitignore for now (this is a list of file types that might be in the project working
 directory but we don't want to have tracked by git).
 
-f. Choose a license.
+**f.** Choose a license.
 If you want your code to be made available to others without restrictive conditions you can pick a
 license such as the MIT license.
 If there is no licence in the repo, then it is assumed to be covered by copyright.
@@ -698,10 +698,11 @@ There is also an option to provide other information, such as a chunk name.
 In the below example, the chunk name is "libs" because in that chunk, libraries (packages) are being
 loaded.
 Providing a unique name for each chunk is a good idea, and helps in troubleshooting errors if they occur.
+(Ignore the single quotes in the chunk below).
 
 ```r
 
-\'```{r,libs}
+'```{r,libs}
 
 suppressPackageStartupMessages({
   library("getDEE2")
@@ -713,7 +714,7 @@ suppressPackageStartupMessages({
   library("gplots")
 })
 
-```\'
+```'
 
 ```
 
