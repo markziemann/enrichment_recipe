@@ -48,7 +48,7 @@ Also you will need some omics data to analyse. In this protocol we will begin wi
 
 ### Install Docker
 
-1. **Open a terminal.**
+**1. Open a terminal.**
 
 Docker is a tool for working with containers, including building and running them.
 It is essential for ensuring reprducibility.
@@ -69,7 +69,7 @@ You can also drag the terminal icon to the dock to keep it handy for later.
 
 If you prefer keyboard shortcuts, Ctrl + Alt + T will also get you a terminal window.
 
-2. **Update the system and install Docker.**
+**2. Update the system and install Docker.**
 
 Once in the terminal, type the following to update the sources and update all currently installed
 packages.
@@ -926,7 +926,7 @@ Then inspect the repo on github.com to ensure that all the neccessary files have
 
 ### Push the image to Dockerhub
 
-27. **Dockerhub push*
+27. **Dockerhub push**
 
 This is an optional step, which uploads your docker image to Dockerhub.
 This is a good idea if you want to share it openly, however Dockerhub is not a guaranteed data archive
