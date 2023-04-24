@@ -22,13 +22,18 @@ unit.
 This means the workflow can be run on different types of computers (windows PC, Mac, server, cloud, etc)
 and yield the same result.
 This protocol also guides users through other best practices in computational research such as 
-**code version control**, **documentation** and **data archiving**.
+**code version control**, **documentation** and **data archiving**, which we consider the five pillars
+of computational reproducibility (Figure 1).
+
 This protocol is designed for Linux users who want to modify and remix the provided templates to
 undertake their own enrichment analysis.
 It requires a moderate level of shell scripting, some knowledge about docker containers, and moderate R
 scripting.
 
 ![Pillars of computational research reproducibility](../img/pillarsV2.png)
+<p align = "center">
+Figure 1: The five pillars of computational reproducibility.
+</p>
 
 ## Requirements
 
