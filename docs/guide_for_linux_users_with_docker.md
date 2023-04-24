@@ -492,13 +492,13 @@ The template workflow provided uses public data that is fetched from a website.
 It is likely that you will need to change this so that you can analyse your own gene expression data.
 There are a few options worth discussing:
 
-a. **Include the data in the Github repo.**
+**a. Include the data in the Github repo.**
 If the data is very small, like a simple list of genes in a text file or an RNA-seq expression count
 matrix, then it might be appropriate to commit and push these to the Github repo.
 This only works well if the total data size is less than 100 MB, as large files can bloat the repo and
 make it slow to work with.
 
-b. **Copy the data into the Docker image during the build.**
+**b. Copy the data into the Docker image during the build.**
 If the data is a bit larger, it might be viable to copy it into the Docker image during the build
 process with the following command:
 
@@ -518,7 +518,7 @@ COPY /home/john/enrichment1/genelist1.txt  /myenrichment
 
 ```
 
-c. **Deposit the data to an archive.**
+**c. Deposit the data to an archive.**
 
 While the above two options are the most convenient, this is the most robust option for long term
 reproducibility.
@@ -723,24 +723,24 @@ suppressPackageStartupMessages({
 Before you start making changes to the workflow, it is a good idea to understand the process first.
 The example.Rmd script contains instruction for the five-step workflow.
 
-a. It begins with fetching some RNA-seq data from a website called Digital Expression Explorer 2
+**a.** It begins with fetching some RNA-seq data from a website called Digital Expression Explorer 2
 (dee2.io), in the form of a count matrix.
 The dataset is described at SRA under accession SRP038101, and was selected as it shows a robust effect
 of treating AML3 acute myeloid leukemia cells with 5-azacytidine, an analog of cytidine which is thought
 to inhibit DNA methyltransferases.
 
-b. It performs some rudimentary quality control including tabulating read counts for each sample and
+**b.** It performs some rudimentary quality control including tabulating read counts for each sample and
 creating a multidimensional scaling plot (MDS).
 MDS is similar to principal component analysis which is used to examine the variation between samples,
 both inter-group and intra-group variation.
 
-c. Then it conducts differential expression analysis with DESeq2.
+**c.** Then it conducts differential expression analysis with DESeq2.
 Just before running DESeq2, genes with fewer than 10 reads per sample are discarded.
 Setting a detection threshold like this is helpful for removing noise from lowly expressed genes.
 Genes with false discovery rate adjusted p-values (FDR)<0.05 were considered significant.
 The extent of differential expression was visualised with a smear plot.
 
-d. Step 4 is parallel enrichment analysis with two different algorithms; over-representation analysis
+**d.** Step 4 is parallel enrichment analysis with two different algorithms; over-representation analysis
 with clusterProfiler, and functional class scoring with fgsea.
 For clusterprofiler the significant up- and down-regulated genes were considered in separate tests using
 the enricher() function.
@@ -751,7 +751,7 @@ Top fgsea results are also depicted in a bar chart.
 Reactome pathways (downloaded 2023-03-06) were used for both ORA and FCS.
 Gene sets with FDR<0.05 were considered as significant.
 
-e. Then a comparison of the two enrichment approaches is conducted.
+**e.** Then a comparison of the two enrichment approaches is conducted.
 This includes an Euler diagram, which is a bit like a Venn diagram but the areas are proportional.
 The jaccard index is calculated, which is a measure of similarity.
 Finally, there are two additional visualisations, enrichment plots (from the fgsea analysis) for two
@@ -836,7 +836,7 @@ You may select this approach as an alternative to step 24.
 If you prefer the command line approach, you can safely skip this part and jump to step 25.
 
 
-a. Run the docker container. This will spawn a web service which can be accessed using your
+**a.** Run the docker container. This will spawn a web service which can be accessed using your
 
 ```bash
 
@@ -844,12 +844,12 @@ docker run -it -v  -e PASSWORD=bioc  -p 8787:8787 mziemann/enrichment_recipe
 
 ```
 
-b. In a web browser, visit localhost:8787/ it will prompt you for the username "rstudio" and password
+**b.** In a web browser, visit localhost:8787/ it will prompt you for the username "rstudio" and password
 "bioc".
 Then you will be greeted with the Rstudio window.
 When starting it, the home directory will be empty.
 
-c. To get a copy of the working script into your home directory where you can work with it we will need
+**c.** To get a copy of the working script into your home directory where you can work with it we will need
 to use the terminal built into the Rstudio interface.
 The terminal is located in the left panel with the "Terminal" pane, which is located next to the
 "Console" pane.
@@ -864,10 +864,10 @@ cp -r /enrichment_recipe/ ~
 
 ```
 
-d. The folder will now appear in the lower right "Files" panel, which you can double-click on to see
+**d.** The folder will now appear in the lower right "Files" panel, which you can double-click on to see
 the contents and click on the workflow Rmd.
 
-e. Note that the R console still thinks it is located in the home directory "~".
+**e.** Note that the R console still thinks it is located in the home directory "~".
 You should change the working directory to the project directory you just copied, so that the console
 can access the scripts and data.
 
@@ -881,14 +881,14 @@ setwd("enrichment_recipe")
 
 Naturally if you changed the project folder name/github repo name you should use that name instead.
 
-f. Now you can make edits to the workflow Rmd, and take advantage of the Rstudio shortcuts to execute
+**f.** Now you can make edits to the workflow Rmd, and take advantage of the Rstudio shortcuts to execute
 whole chunks or sections.
 Continue making amendments until the workflow is to your satisfaction.
 Be sure to "knit" the entire Rmd to ensure that it runs without any issues.
 Once knitted, you can also inspect the html report to ensure that all data visualistions, tables and
 other elements are appearing as desired.
 
-g. Once you are happy with the appearance of the html report, we need to get the Rmd out of the container
+**g.** Once you are happy with the appearance of the html report, we need to get the Rmd out of the container
 and in the project folder so we can commit and push the changes.
 Exit the container and use the `docker cp` command.
 Be sure to substitute you project/repo name and workflow Rmd name in the command below.
