@@ -1,4 +1,4 @@
-# A recipe for extremely reproducible enrichment analysis (linux users)
+# A recipe for extremely reproducible enrichment analysis (Linux users)
 
 Mark Ziemann and Anusuiya Bora
 
@@ -23,7 +23,7 @@ This means the workflow can be run on different types of computers (windows PC, 
 and yield the same result.
 This protocol also guides users through other best practices in computational research such as source
 control, documentation and data archiving.
-This protocol is designed for linux users who want to modify and remix the provided templates to
+This protocol is designed for Linux users who want to modify and remix the provided templates to
 undertake their own enrichment analysis.
 It requires a moderate level of shell scripting, some knowledge about docker containers, and moderate R
 scripting.
@@ -31,7 +31,7 @@ scripting.
 ## Requirements
 
 An internet-connected computer with Ubuntu 22.04 LTS installed.
-This guide might also work for other Ubuntu versions or similar linux distributions like Debian or Mint (untested). You will need "sudo" or administrator permission to install and run docker.
+This guide might also work for other Ubuntu versions or similar Linux distributions like Debian or Mint (untested). You will need "sudo" or administrator permission to install and run docker.
 
 On the hardware side: 
 CPU with 2 or more threads
@@ -954,7 +954,7 @@ docker push yourname/yourprojectname
 
 ```
 
-Now your image is available on any other linux computer with docker using the following command:
+Now your image is available on any other Linux computer with docker using the following command:
 
 ```bash
 
