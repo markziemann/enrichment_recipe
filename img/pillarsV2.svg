@@ -27,14 +27,14 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.9272543"
-     inkscape:cx="508.4905"
-     inkscape:cy="349.95793"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     inkscape:cx="443.78333"
+     inkscape:cy="432.45957"
+     inkscape:window-width="1680"
+     inkscape:window-height="1013"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g40086" />
+     inkscape:current-layer="g40074" />
   <defs
      id="defs2">
     <rect
@@ -110,14 +110,14 @@
            y="0"><tspan
              x="84.027125"
              y="490.41995"
-             id="tspan9322"><tspan
+             id="tspan953"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9320">Pillars of reproducibility in </tspan></tspan><tspan
+               id="tspan951">Pillars of reproducibility in </tspan></tspan><tspan
              x="98.929488"
              y="523.75333"
-             id="tspan9326"><tspan
+             id="tspan957"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9324">computational research</tspan></tspan></text>
+               id="tspan955">computational research</tspan></tspan></text>
       </g>
       <g
          id="g40086"
@@ -138,9 +138,9 @@
            style="font-style:normal;font-weight:normal;font-size:13.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect7698);fill:#000000;fill-opacity:1;stroke:none"><tspan
              x="448.59375"
              y="549.29685"
-             id="tspan9330"><tspan
+             id="tspan961"><tspan
                style="font-style:italic"
-               id="tspan9328">Created by Mark Ziemann PhD</tspan></tspan></text>
+               id="tspan959">Created by Mark Ziemann PhD</tspan></tspan></text>
       </g>
       <g
          id="g40074"
@@ -223,48 +223,53 @@
            ry="19.182379" />
         <text
            xml:space="preserve"
-           transform="matrix(0.26458333,0,0,0.26458333,0,-4.2925836)"
+           transform="matrix(0.26458333,0,0,0.26458333,0,-7.6034002)"
            id="text25231"
            style="font-style:normal;font-weight:normal;font-size:17.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect25233);fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.64567;stroke-miterlimit:10;stroke-dasharray:none"
-           x="52.382812"
+           x="107.46767"
            y="0"><tspan
-             x="72.341257"
+             x="97.697979"
              y="264.44138"
-             id="tspan9334"><tspan
+             id="tspan965"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9332">Code sharing </tspan></tspan><tspan
-             x="78.765073"
+               id="tspan963">Version </tspan></tspan><tspan
+             x="90.013098"
              y="286.108"
-             id="tspan9338"><tspan
+             id="tspan969"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9336">and version </tspan></tspan><tspan
-             x="99.5261"
+               id="tspan967">control &amp; </tspan></tspan><tspan
+             x="86.111413"
              y="307.77463"
-             id="tspan9342"><tspan
+             id="tspan973"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9340">control</tspan></tspan></text>
+               id="tspan971">persistent </tspan></tspan><tspan
+             x="73.627713"
+             y="329.44125"
+             id="tspan977"><tspan
+               style="text-align:center;text-anchor:middle"
+               id="tspan975">code sharing</tspan></tspan></text>
         <text
            xml:space="preserve"
-           transform="matrix(0.26458333,0,0,0.26458333,35.083362,17.025799)"
+           transform="matrix(0.26458333,0,0,0.26458333,35.083362,16.985491)"
            id="text25231-5"
            style="font-style:normal;font-weight:normal;font-size:17.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect25233-3);fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.64567;stroke-miterlimit:10;stroke-dasharray:none"
-           x="112.23383"
+           x="166.95053"
            y="0"><tspan
-             x="84.642991"
+             x="90.046952"
              y="264.44138"
-             id="tspan9346"><tspan
+             id="tspan981"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9344">Container-</tspan></tspan><tspan
-             x="89.111732"
+               id="tspan979">Compute </tspan></tspan><tspan
+             x="74.372503"
              y="286.108"
-             id="tspan9350"><tspan
+             id="tspan985"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9348">isation or </tspan></tspan><tspan
-             x="73.022571"
+               id="tspan983">environment </tspan></tspan><tspan
+             x="99.5261"
              y="307.77463"
-             id="tspan9354"><tspan
+             id="tspan989"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9352">virtualisation</tspan></tspan></text>
+               id="tspan987">control</tspan></tspan></text>
         <text
            xml:space="preserve"
            transform="matrix(0.26458333,0,0,0.26458333,70.614931,-2.0693195)"
@@ -274,14 +279,14 @@
            y="0"><tspan
              x="95.99681"
              y="264.44138"
-             id="tspan9358"><tspan
+             id="tspan993"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9356">Literate </tspan></tspan><tspan
+               id="tspan991">Literate </tspan></tspan><tspan
              x="70.728956"
              y="286.108"
-             id="tspan9362"><tspan
+             id="tspan997"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9360">programming</tspan></tspan></text>
+               id="tspan995">programming</tspan></tspan></text>
         <text
            xml:space="preserve"
            transform="matrix(0.26458333,0,0,0.26458333,102.47672,22.816117)"
@@ -291,26 +296,31 @@
            y="0"><tspan
              x="76.67233"
              y="264.44138"
-             id="tspan9366"><tspan
+             id="tspan1001"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9364">Documentation</tspan></tspan></text>
+               id="tspan999">Documentation</tspan></tspan></text>
         <text
            xml:space="preserve"
-           transform="matrix(0.26458333,0,0,0.26458333,141.43877,-2.0604509)"
+           transform="matrix(0.26458333,0,0,0.26458333,141.43877,-4.8965343)"
            id="text25231-5-2-1-7"
            style="font-style:normal;font-weight:normal;font-size:17.3333px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect25233-3-6-9-2);fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.64567;stroke-miterlimit:10;stroke-dasharray:none"
-           x="215.52504"
+           x="268.81985"
            y="0"><tspan
-             x="85.256597"
+             x="101.35845"
              y="264.44138"
-             id="tspan9370"><tspan
+             id="tspan1005"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9368">Long term </tspan></tspan><tspan
-             x="89.687252"
+               id="tspan1003">FAIR &amp; </tspan></tspan><tspan
+             x="86.111413"
              y="286.108"
-             id="tspan9374"><tspan
+             id="tspan1009"><tspan
                style="text-align:center;text-anchor:middle"
-               id="tspan9372">archiving</tspan></tspan></text>
+               id="tspan1007">persistent </tspan></tspan><tspan
+             x="75.007268"
+             y="307.77463"
+             id="tspan1013"><tspan
+               style="text-align:center;text-anchor:middle"
+               id="tspan1011">data sharing</tspan></tspan></text>
       </g>
     </g>
   </g>
