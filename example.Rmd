@@ -280,7 +280,8 @@ cols <- c(rep("blue",n_pw),rep("red",n_pw))
 barplot(c(topdn2,topup2),
   horiz=TRUE,las=1,cex.names=0.65,col=cols,
   main="top DE Reactomes",
-  xlab="ES")
+  xlab="ES",
+  cex.main=0.9)
 
 mtext("ORA test")
 
@@ -356,7 +357,8 @@ cols <- c(rep("blue",n_pw),rep("red",n_pw))
 barplot(c(fgsea_dn_vec,fgsea_up_vec),
   horiz=TRUE,las=1,cex.names=0.65,col=cols,
   main="top DE Reactomes",
-  xlab="ES")
+  xlab="ES",
+  cex.main=0.9)
 
 mtext("FCS test")
 
@@ -365,14 +367,14 @@ mtext("FCS test")
 
 ## Compare pathway results
 
-```{r,venn1}
+```{r,venn1,fig.width=6}
 
 v1 <- list("ORA up"=ora_ups, "FCS up"=fgsea_ups)
 v2 <- list("ORA dn"=ora_dns, "FCS dn"=fgsea_dns)
 par(mar=c(10,10,10,10))
 par(mfrow=c(2,1))
-plot(euler(v1),quantities = TRUE)
-plot(euler(v2),quantities = TRUE)
+plot(euler(v1),quantities = list(cex = 2), labels = list(cex = 2))
+plot(euler(v2),quantities = list(cex = 2), labels = list(cex = 2))
 
 ```
 

@@ -64,8 +64,7 @@ work more reproducible.
 Firstly, thorough documentation makes the reproducibility process a great deal easier and more accessible
 to novice bioinformaticians.
 Version control keeps track of code and documentation changes over time and manages the edits made by
-multiple contributors, taking over some of the functions of a laboratory notebook for computer based
-projects.
+multiple contributors.
 Literate programming using Rmarkdown or Jupyter notebooks provides optimal documentation by embedding
 free text explanations together with the code and outputs such as charts and tables.
 Secondly, code and data can be linked. This means that the code knows the location of the the data,
@@ -97,10 +96,10 @@ the validity of the methods and results.
 We are concerned about the reliability of published enrichment analyses, as web-based and
 point-and-click tools appear to be far more popular than computer script based methods for this type
 of work [21](Wijesooriya et al, 2022).
-Web-based tools are a potential concern, firstly because sometimes methods, options and parameters
-are not completely described, and secondly, algorithms and functional annotation sets undergo
-regular updates.
-These historical versions are typically not archived, which hampers later reproducibility.
+Although web-based tools are convenient, they are a potential reproducibility concern.
+Firstly, incomplete reporting of methods, options and parameters is common.
+Secondly, algorithms and functional annotation sets undergo regular updates, and previous versions are
+typically not made available hampering later reproducibility.
 In some cases the entire web resource can become unavailable, and hence irreproducible due to
 a phenomenon known as link decay [23](Hennessey & Ge 2013).
 
@@ -110,10 +109,10 @@ Perampalam & Dick 2020).
 This helps reproducibility greatly, but is not a complete solution as it lacks information about how
 the input data was used and a record of any parameter selections.
 
-Therefore the most complete reproducibility solution is to use containerisation to provide a scripted
+A solution to this is to use containerisation to provide a scripted
 workflow with prescribed links to research data, external databases and complete record of parameter
 selection.
-Designed correctly, these containers could encapsulate bioinformatics workflows and ensure their
+When designed correctly, these containers encapsulate bioinformatics workflows and could ensure their
 computational reproducibility for decades to come with just one or a few simple commands.
 There are multiple barriers to entry for such workflows including (i) the added difficulty compared to
 existing point-and-click solutions; (ii) time poorness of researchers to learn new skills; and (iii)
@@ -124,10 +123,7 @@ common transcriptome and enrichment analysis routines.
 Secondly, we provide step-by-step written and video guides to help users customise these templates for
 their own work, deploy the analysis, verify the results, and archive the Docker image.
 
-But is this extra work really necessary?
-Although our previous work suggests that enrichment analyses generally lack sufficient methodological
-detail [5](Wijesooriya et al, 2022), we don't have empirical proof confirming irreproducibility.
-Therefore before recommending or prescribing new workflows, it is necessary
+However, before recommending or prescribing such workflows, it is necessary
 to assess directly whether current practices are appropriate, by trying to reproduce the enrichment
 analyses of previously published studies, and examining whether the conclusions of those articles
 are supported or not.
@@ -164,10 +160,11 @@ in the articles such as gene ontology (biological process, molecular function), 
 Next, the "Functional Annotation Chart" was clicked on, opening a new window with a table of
 enrichment results, which were saved for future reference.
 
-Firstly, the data presented in the paper was compared with the results we obtained, recording any
+The data presented in the paper was compared with the results we obtained, recording any
 discrepancies.
-Secondly, the statements made in the abstract, results, and discussion sections were carefully examined
-and cross-checked with our results to understand whether those assertions survive reproduction or not.
+Additionally, the statements made in the abstract, results, and discussion sections were carefully
+examined and cross-checked with our results to understand whether those assertions survive reproduction
+or not.
 
 Each article was critically evaluated and given a score of one (1) to three (3).
 Articles rated 1 showed overall poor reproducibility.
@@ -177,7 +174,6 @@ Articles were rated 2 when at least 50% of the terms are observed as significant
 according to the original study's significance threshold, and most conclusions were supported.
 Articles were rated 3 when they showed a high level of reproducibility, with 80% or more of the terms
 shown in the article observed again in reproduction, and all conclusions were supported in reproduction.
-Results are summarised in table and bar chart form.
 
 ### Results and discussion
 
@@ -244,7 +240,7 @@ that is no longer possible to reproduce DAVID 6.8 analyses.
 
 ### Implementation
 
-We have provided to the community a step-by-step protocol for how to conduct an extremely reproducible
+We have developed a step-by-step protocol for how to conduct an extremely reproducible
 enrichment analysis, which is attached as a supplementary file (Suppl Info 1), and published to
 protocols.io with a permissive license.
 This protocol has the features of reproducibility mentioned in **Figure 1** and **Figure 2** including
@@ -269,7 +265,7 @@ analytical workflow.
 Lastly, it copies a gene set library from Reactome [206](Gillespie et al, 2022) with a clear version
 history to guarantee provenance of the annotation data.
 
-The Rmarkdown script called `example_workflow.Rmd` undertakes the transcriptome and enrichment analyses.
+The Rmarkdown script called `example.Rmd` undertakes the transcriptome and enrichment analyses.
 Rmarkdown allows the unification of extended descriptions, code and results into a single document,
 which is becoming ubiquitous in bioinformatics and data science more generally
 [207](Grolemund & Wickham 2017, p423).
@@ -303,17 +299,28 @@ grViz("digraph flowchart {
 
 ```
 
-To reproduce this work is relatively quick and simple.
-Installing Docker requires one command and takes about 1 min.
-Pulling the image takes about 1 minute.
-Launching a container takes a few seconds, and executing the Rmarkdown script takes 80 seconds.
+To reproduce this work is relatively quick and simple, requiring six commands and approximately four
+minutes to install Docker, pull the image, run the container, run the Rmarkdown script exit the container
+and copy the newly created report from the container to the current working directory (Box 1).
+
+```bash
+sudo apt update && sudo apt install docker-ce -y  # 60 sec
+docker pull mziemann/enrichment_recipe  # 60 sec
+docker run -it --entrypoint /bin/bash mziemann/enrichment_recipe #few seconds
+Rscript -e 'rmarkdown::render("example.Rmd")' # 90 sec
+exit
+docker cp $(docker ps -aql):/enrichment_recipe/example.html . # instant
+```
+<p style="text-align: center;">
+*Box 1. Reproduce a transcriptome and enrichment analysis with Docker.*
+</p>
 
 ### Demonstration
 
-To demonstrate the utility of this workflow, we present the results of an example data analysis;
+To demonstrate the utility of this workflow, we present the results of this example data analysis;
 it is a comparison of control and 5-azacitidine-treated AML3 cell transcriptomes with RNA-seq
-in triplicate [208] (Lund et al, 2014).
-We use this analysis to try to understand better the effect of DNA methylatransferase inhibitors on
+in triplicate [208](Lund et al, 2014).
+We use this analysis to better understand the effect of DNA methylatransferase inhibitors on
 genome regulation and elaborate upon previous findings by Lund et al (2014), which mainly focused on
 the relationship between RNA expression and DNA methylation, but did not show results of a
 transcriptome-only enrichment analysis.
@@ -327,7 +334,7 @@ genes.
 Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
 1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells
 (Figure 5A).
-These differentially expressed gene sets were subjected to ORA analysis separately, using the list of
+Up and down-regulated gene sets were subjected to ORA separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
 With ORA, we observed 149 upregulated and 48 downregulated gene sets.
@@ -366,6 +373,8 @@ Ionnidis et al (2009) examined a set of 10 gene expression studies with availabl
 2005-2006, and found only two could be reproduced to a satisfactory level
 (https://www.nature.com/articles/ng.295).
 
+
+http://www.bioinformatics.deib.polimi.it/geco/workshop/reproducibility.pdf
 
 In the realm of social sciences, 
 
