@@ -367,7 +367,7 @@ mtext("FCS test")
 
 ## Compare pathway results
 
-```{r,venn1,fig.width=6}
+```{r,venn1,fig.width=8,fig.height=5}
 
 v1 <- list("ORA up"=ora_ups, "FCS up"=fgsea_ups)
 v2 <- list("ORA dn"=ora_dns, "FCS dn"=fgsea_dns)
