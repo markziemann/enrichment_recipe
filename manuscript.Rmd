@@ -40,7 +40,6 @@ library("DiagrammeR")
 
 ```
 
-
 Reproducibility is essential to the scientific enterprise by confirming the validity of new discoveries
 [1](National Academies of Sciences 2019, p1).
 According to a 2016 survey of *Nature* readers, 52% of respondents agreed that there was "significant
@@ -52,7 +51,7 @@ Indeed even if data and code are shared, reproducibility still cannot be guarant
 differences in computing environments over time, and the availability of dependancies [4](Perkel 2020).
 
 To address this, many articles have been written to endorse the use of "virtual machines" or
-"containerisation" to encapsulate the "environment" including the operating system and dependancies
+"containerisation" to control the "environment" including the operating system and dependancies
 along with the research code to facilitate a high degree of reproducibility [4-16](Perkel 2020;
 Stein 2010; Dudley & Butte 2010; Sandve et al, 2013; Piccolo & Frampton 2016; Grüning et al, 2014;
 Lewis et al, 2016; da Veiga Leprevost et al, 2017; Kulkarni et al, 2018; Pasquier et al, 2018;
@@ -64,17 +63,24 @@ In addition to shared code, data and containerisation, there are a few ways rese
 work more reproducible.
 Firstly, thorough documentation makes the reproducibility process a great deal easier and more accessible
 to novice bioinformaticians.
+Version control keeps track of code and documentation changes over time and manages the edits made by
+multiple contributors, taking over some of the functions of a laboratory notebook for computer based
+projects.
 Literate programming using Rmarkdown or Jupyter notebooks provides optimal documentation by embedding
 free text explanations together with the code and outputs such as charts and tables.
 Secondly, code and data can be linked. This means that the code knows the location of the the data,
 avoiding any "file not found" errors.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
-for each figure sequentially, making the entire manuscript reproducible by executing just one command.
-Taken together, computational reproducibility is a spectrum (**Figure 1**).
+for each figure sequentially, making the entire manuscript reproducible by executing just one command
+any without any manual steps.
+Taken together, computational reproducibility is a spectrum (**Figure 1**), and rests upon five key
+pillars mentioned above (**Figure 2**).
 Currently, bioinformatics work at the gold standard is rare, despite the availability of such tools for
 over a decade.
 
 ![Figure 1. The computational research reproducibility spectrum. Creator: Altuna Akalin.](img/repro.webp "The computational research reproducibility spectrum.")
+
+![Figure 2. The five pillars of computational reproducibility.](img/pillarsV2.png "The five pillars of computational reproducibility. .")
 
 In this article, we focus on enrichment analysis, which is one of the most used methods in
 computational biology, and involves the summarisation of omics data to reflect biological changes,
@@ -120,8 +126,8 @@ their own work, deploy the analysis, verify the results, and archive the Docker 
 
 But is this extra work really necessary?
 Although our previous work suggests that enrichment analyses generally lack sufficient methodological
-detail [5](Wijesooriya et al, 2022), we don't have empirical evidence confirming irreproducibility.
-Therefore before recommending or prescribing Docker-based bioinformatics workflows, it is necessary
+detail [5](Wijesooriya et al, 2022), we don't have empirical proof confirming irreproducibility.
+Therefore before recommending or prescribing new workflows, it is necessary
 to assess directly whether current practices are appropriate, by trying to reproduce the enrichment
 analyses of previously published studies, and examining whether the conclusions of those articles
 are supported or not.
@@ -133,10 +139,6 @@ This should provide a sound basis for recommendations.
 
 ### Methods
 
-<Anusuiya to populate>
-<references to start at [101](Author Year)>
-<Wanted to check how this looks in the file>
-
 From a list of 186 PubMed central articles using enrichment analysis that we examined previously
 [5](Wijesooriya et al, 2022), we selected 20 articles that fulfilled the following criteria; (1) the
 organism under study is human; (2) the tool used was DAVID Version 6.8 (Database for Annotation,
@@ -144,12 +146,12 @@ Visualization, and Integrated Discovery)[101](Huang et al, 2007); (3) the omics 
 expression (array or RNA-seq); and (4) that the gene list was provided in the supplementary data.
 The basis for these selection criteria is that this combination represents the most common application
 of enrichment analysis in our previous study, which could be reproduced without the need to
-reanalyse the dataset from raw data.
+reanalyse the raw dataset from scratch.
 
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring[102](Zeeberg et al, 2004).
 The reproducibility analysis was performed using the respective methodologies stated in the methods
-sections of the 20 articles with DAVID version 6.8 (March-May 2022).
+sections of the 20 articles using DAVID version 6.8 (March-May 2022).
 
 Briefly, we used the DAVID "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
@@ -180,11 +182,12 @@ Results are summarised in table and bar chart form.
 ### Results and discussion
 
 After conducting this reproduction study according to the methods described in the respective articles,
-the 20 articles were classified based on the degree of reproducibility (Figure 2).
+the 20 articles were classified based on the degree of reproducibility (Figure 3).
 Six studies were classified as low reproducibility, while 10 were classified as medium and just three
 were classified as high.
+Justifications for these classifications are provided in Table 1.
 
-```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 2. Examining reproducibility in a sample of 20 journal articles."}
+```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 3. Examining reproducibility in a sample of 20 journal articles."}
 
 score1 <- c("PMC6405693","PMC6425008","PMC6535219","PMC6539328","PMC6542760","PMC6561911","PMC6663624")
 score2 <- c("PMC6368841","PMC6381667","PMC6463127","PMC6557785","PMC6580941","PMC6591946",
@@ -237,25 +240,20 @@ lists was highly variable.
 We note that DAVID 6.8 server has been replaced by DAVID 2022 server as of June 1, 2022, meaning
 that is no longer possible to reproduce DAVID 6.8 analyses.
 
-## A container based approach to addressing reproducibility of enrichment analysis
+## A container-based approach to addressing reproducibility of enrichment analysis
 
 ### Implementation
 
-Infographic:
+We have provided to the community a step-by-step protocol for how to conduct an extremely reproducible
+enrichment analysis, which is attached as a supplementary file (Suppl Info 1), and published to
+protocols.io with a permissive license.
+This protocol has the features of reproducibility mentioned in **Figure 1** and **Figure 2** including
+version control with git and GitHub, compute environment control using Docker, literate programming
+with Rmarkdown, persistent code and data sharing with Zenodo and documentation of all of these to
+empower others to reproduce the workflow.
 
-* source control
-
-* containerisation
-
-* literate programming
-
-* documentation
-
-* sharing/archiving
-
-The templates provided include the Dockerfile and an Rmarkdown-based workflow script.
-These templates are intended to be altered by the end user, but here is an overview of the contents of
-each.
+Central to this protocol is the provision of template Dockerfile and an Rmarkdown script, which
+are intended to be remixed and altered by the end user to suit the needs of their project.
 
 The Dockerfile uses a base image from Bioconductor which should correspond to the latest available
 stable release version (currently 3.16), running on R v4.2.2 and Ubuntu 22.04.
@@ -271,7 +269,7 @@ analytical workflow.
 Lastly, it copies a gene set library from Reactome [206](Gillespie et al, 2022) with a clear version
 history to guarantee provenance of the annotation data.
 
-The `example_workflow.Rmd` is the Rmarkdown based script that undertakes the enrichment analysis.
+The Rmarkdown script called `example_workflow.Rmd` undertakes the transcriptome and enrichment analyses.
 Rmarkdown allows the unification of extended descriptions, code and results into a single document,
 which is becoming ubiquitous in bioinformatics and data science more generally
 [207](Grolemund & Wickham 2017, p423).
@@ -279,11 +277,11 @@ The ability to provide extended descriptions is helpful for providing contextual
 the purpose of the work, detailed methods and interpretations derived from the analysis.
 The Rmarkdown script contains code chunks that perform specific tasks including fetching an example
 data set from DEE2, inspecting data quality, differential expression and two types of enrichment
-analysis; over-representation analysis (ORA) and functional class scoring (FCS) (**Figure XX**).
+analysis; over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 4**).
 For each enrichment analysis conducted, a checklist is provided to comply with reporting guidelines
 [22](Zhao & Rhee 2023).
 
-```{r,diagram,echo=FALSE,fig.cap = "Figure XX: Flow chart of example workflow."}
+```{r,diagram,echo=FALSE,fig.cap = "Figure 4: Flow chart of example workflow."}
 
 grViz("digraph flowchart {
       node [fontname = Helvetica, shape = rectangle]
@@ -305,12 +303,16 @@ grViz("digraph flowchart {
 
 ```
 
-### Findings
+To reproduce this work is relatively quick and simple.
+Installing Docker requires one command and takes about 1 min.
+Pulling the image takes about 1 minute.
+Launching a container takes a few seconds, and executing the Rmarkdown script takes 80 seconds.
+
+### Demonstration
 
 To demonstrate the utility of this workflow, we present the results of an example data analysis;
 it is a comparison of control and 5-azacitidine-treated AML3 cell transcriptomes with RNA-seq
 in triplicate [208] (Lund et al, 2014).
-
 We use this analysis to try to understand better the effect of DNA methylatransferase inhibitors on
 genome regulation and elaborate upon previous findings by Lund et al (2014), which mainly focused on
 the relationship between RNA expression and DNA methylation, but did not show results of a
@@ -318,37 +320,64 @@ transcriptome-only enrichment analysis.
 Furthermore, we provide a comparison of the two most common approaches for enrichment analysis; ORA and
 FCS, and give guidance for interpreting results of such tests.
 
-After fetching the data from DEE2, the number of reads per sample was confirmed to be in the range of
+For quality control the number of reads per sample was calculated, and found to be in the range of
 11-16M.
 Genes with fewer than 10 reads per sample on average were removed from the analysis, leaving 13,168
 genes.
 Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
 1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells
-(Figure XXA).
+(Figure 5A).
 These differentially expressed gene sets were subjected to ORA analysis separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
 With ORA, we observed 149 upregulated and 48 downregulated gene sets.
 We prioritised the enrichment analysis by enrichment score, a pseudo measure for effect size,
 which tends to highlight smaller and more specific gene sets undergoing more drastic differential
-expression, rather than large gene sets that undergo very small expression changes.
+expression, rather than large gene sets that undergo small expression changes.
 This led to the identification of upregulated pathways related to nuclear RNA export,
 glucokinase regulation and G1/S DNA replication pathways; while downregulated pathways
 were associated with interferon signaling, interleukin signaling, granulopoiesis and NADPH oxidase
-(host defence) (Figure XXB).
+(host defence) (Figure 5B).
 
 After FCS, we identified 241 upregulated genesets and 155 downregulated genesets.
 FCS upregulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
-and defective homologous recombination repair (Figure XXC).
+and defective homologous recombination repair (Figure 5C).
 Downregulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
 
 Regarding upregulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
 Jaccard index of 0.54, however these method disagreed in downregulated pathways, with a Jaccard
-index of only 0.27 (Figure XXD).
+index of only 0.27 (Figure 5D).
 
-![Figure XX: Differential expression and enrichment analysis with the example workflow.](img/fig_example.png "Example enrichment analysis on")
+![Figure 5: Differential expression and enrichment analysis with the example workflow.](img/fig_example.png "Example enrichment analysis on")
 
 ## Concluding remarks
+
+Although our reproducibility study was relatively small, there are a few key observations.
+
+We observe that only 3/20(15%) of studies achieved a high degree of reproducibility.
+
+A literature search identified very few studies conducted to systematically examine the reproducibility
+of bioinformatics research.
+
+There were several case studies, but the overall lack of quantitative data appears to be out of
+proportion to the number of review and commentary articles recommending computational best-practices.
+
+Ionnidis et al (2009) examined a set of 10 gene expression studies with available data published in
+2005-2006, and found only two could be reproduced to a satisfactory level
+(https://www.nature.com/articles/ng.295).
+
+
+In the realm of social sciences, 
+
+Only 40-50% of social psychology studies could be reproduced, depending on how reproduction is defined
+(https://plato.stanford.edu/entries/scientific-reproducibility/)
+
+
+Reproducibility in the Social Sciences
+(https://www.annualreviews.org/doi/abs/10.1146/annurev-soc-090221-035954)
+
+
+we can conclude that just 15% of studies could be 
 
 It is important to note that the DAVID 6.8 server has been replaced by DAVID 2022 server, starting
 from June 1, 2022.
@@ -377,6 +406,14 @@ research resources and greater trust/support from the general community.
 
 * web tool developers could provide archived versions of the tool as docker images to facilitate
 reproducibility while keeping the online version up to date.
+
+As scholars, we should be following best practice in what we do and publish.
+
+Rather than doing the minimum amount of work to get our results published, 
+
+Docker install in 32 seconds
+Docker pull in 47 seconds
+
 
 ## Bibliography
 
