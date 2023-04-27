@@ -416,15 +416,13 @@ In the field of drug development, according to a 2011 study by Bayer, only 25% o
 replicated to a high degree @Prinz2011-ht.
 When the US Biotech firm Amgen set out to reproduce 53 landmark cancer studies, they were able to
 reproduce only 6 (11%) @Begley2012-di.
-
 It is clear that as a field, the life sciences need to raise the rate of reproducibility or risk the
 public perceiving it as unreliable and wasteful.
 
 We propose the five pillars (**Figure 2**), as a framework to guarantee computational reproducibility.
 However, these concepts may be difficult for novice analysts, and so we provide a step-by-step
-protocol to guide them on how to customise boilerplate Dockerfile and Rmarkdown scripts to suit their
+protocol to guide them on how to customise template Dockerfile and Rmarkdown scripts to suit their
 project's needs.
-
 Although we aimed to make this process as easy as possible, it requires a substantial time outlay, which
 we estimate at 15-20 hours.
 This is significantly longer than using a web-based tool that provides results in just a few
@@ -444,11 +442,10 @@ non-interactive reproducibility @Powell2019-lv.
 Such functionality could be written into existing enrichment analysis tools like DAVID, and together with
 retention of historical gene annotation sets could provide a "good enough" solution to reproducibility.
 
-Although we hope that extremely reproducible research will become more widespread, we do not
+Although we hope that extremely reproducible enrichment analysis will become more widespread, we do not
 anticipate any dramatic changes in researcher behaviour unless the motivating factors are augmented.
-Reward structures in academia encourage individuals to publish many articles, and reproducibility
-is not a significant factor unless the issues are extreme enough to provoke a retraction by the journal,
-which could tarnish the reputation of an author or their institution.
+Reward structures in academia favour career progression for individuals who publish many articles
+as opposed to individuals who publish fewer but more rigourously conducted articles.
 Solutions to this could include mandates by funding agencies or institutions @Garijo2013-zb,
 and/or badging of articles that comply with best practices @Kidwell2016-pm.
 
