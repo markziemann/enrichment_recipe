@@ -451,6 +451,10 @@ and/or badging of articles that comply with best practices @Kidwell2016-pm.
 
 ## Acknowledgements
 
+This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
+platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
+
+
 ## Availability of materials
 
 * Protocol: protocols.io
