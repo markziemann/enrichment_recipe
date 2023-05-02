@@ -460,9 +460,10 @@ platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
 
 ## Availability of materials
 
-* Protocol: protocols.io
+* Protocol: https://github.com/markziemann/enrichment_recipe/blob/main/docs/guide_for_linux_users_with_docker.md
+A final version will be deposited to protocols.io.
 
-* Boilerplate code: https://github.com/markziemann/enrichment_recipe
+* Code repository including template Dockerfile and Rmarkdown script: https://github.com/markziemann/enrichment_recipe
 
 * Example Docker image: https://hub.docker.com/r/mziemann/enrichment_recipe
 

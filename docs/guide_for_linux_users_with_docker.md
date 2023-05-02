@@ -38,7 +38,11 @@ Figure 1: The five pillars of computational reproducibility.
 ## Requirements
 
 An internet-connected computer with Ubuntu 22.04 LTS installed.
-This guide might also work for other Ubuntu versions or similar Linux distributions like Debian or Mint (untested). You will need "sudo" or administrator permission to install and run docker.
+This guide might also work for other Ubuntu versions or similar Linux distributions like Debian or
+Mint (untested).
+You will need "sudo" or administrator permission to install and run docker.
+If you do not have a computer with linux installed, it may be possible to run it inside a virtual machine
+using the VirtualBox software (not demonstrated in this protocol).
 
 On the hardware side: 
 CPU with 2 or more threads
@@ -49,7 +53,8 @@ You'll also need to create an account for the following services:
 https://github.com/
 https://hub.docker.com/
 
-Also you will need some omics data to analyse. In this protocol we will begin with RNA-seq count data, but it can be customised to work with a differential expression table or even a list of genes.
+Also you will need some omics data to analyse. In this protocol we will begin with RNA-seq count data,
+but it can be customised to work with a differential expression table or even a list of genes.
 
 ## Protocol steps
 
