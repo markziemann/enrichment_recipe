@@ -26,9 +26,9 @@ Mark Ziemann<sup>1</sup>*, Anusuiya Bora<sup>2</sup>
 
 ## Abstract
 
-Irreproducible research is a significant problem that wastes resources and undermines the public
-perception of science.
-Previous work has highlighted that published enrichment analyses frequently suffers from statistical
+Unreliable and irreproducible research is a significant problem that wastes resources and risks
+undermining the public perception of science.
+Previous work has highlighted that published enrichment analyses frequently suffer from statistical
 and reporting flaws.
 We sought to determine whether this translates into irreproducibility by examining whether the
 findings of 20 open-access articles describing enrichment analysis were reproducible.
@@ -38,7 +38,7 @@ The findings indicate that current enrichment analysis practices are inadequate.
 To address this, we provide a set of template scripts and a step-by-step protocol to adapt them to
 a new project's enrichment analysis needs.
 This recipe is built according to a framework we call "five pillars", which when implemented together
-facilitate extreme reproducibility.
+facilitates extreme reproducibility.
 
 ## Introduction
 
@@ -55,15 +55,15 @@ crisis" of reproducibility @Baker2016-hm.
 While bioinformatics and other branches of computational research are theoretically amenable to
 complete reproducibility, in reality this is rarely achieved due to lack of detail provided in methods
 sections, lack of shared data and lack of code @Peng2011-ia.
-Indeed even if data and code are shared, reproducibility still cannot be guaranteed due to the
-differences in computing environments over time, and the availability of dependancies @Perkel2020-io.
+Indeed, even if data and code are shared, reproducibility still cannot be guaranteed due to the
+differences in computing environments over time, and the availability of dependencies @Perkel2020-io.
 
 To address this, many articles have been written to endorse the use of "virtual machines" or
-"containerisation" to control the computing environment including the operating system and dependancies
+"containerisation" to control the computing environment including the operating system and dependencies
 along with the research code to facilitate a high degree of reproducibility [@Perkel2020-io;
-@Stein2010-of; @Dudley2010-ua; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
-@Da_Veiga_Leprevost2017-dw; @Pasquier2018-rt; @Kulkarni2018-km; @Hung2019-et; @Brito2020-ld;
-@Piccolo2021-ud]
+@Stein2010-of; @Dudley2010-ua; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg;
+@Lewis2016-qh; @Da_Veiga_Leprevost2017-dw; @Pasquier2018-rt; @Kulkarni2018-km; @Hung2019-et;
+@Brito2020-ld; @Piccolo2021-ud]
 Containers also allow for an easy installation process, as all working dependencies are shipped together
 and can be installed with a single command.
 
@@ -75,11 +75,11 @@ Version control keeps track of code and documentation changes over time and mana
 multiple contributors.
 Literate programming using Rmarkdown or Jupyter notebooks provides optimal documentation by embedding
 free text explanations together with the code and outputs such as charts and tables.
-Secondly, code and data can be linked. This means that the code knows the location of the the data,
-avoiding any "file not found" errors.
+Secondly, code and data can be linked. This means that the code knows the location of the data,
+avoiding any "file not found" errors Peng2011-ia.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
 for each figure sequentially, making the entire manuscript reproducible by executing just one command
-and without any manual steps.
+and without any manual steps @Lasser2020-mm.
 Taken together, computational reproducibility is a spectrum (**Figure 1**) @Akalin2018-eg, and rests upon five key
 pillars mentioned above (**Figure 2**).
 Currently, bioinformatics work at the gold standard is rare, despite the availability of such tools for
@@ -94,7 +94,7 @@ computational biology, and involves the summarisation of omics data to reflect b
 such as the detection of pathway activation in development or disease
 [@Slonim2002-sf; @Khatri2012-do].
 While enrichment analysis is undoubtedly a key method for the interpretation of large
-data sets, there are concerns that inadvertant misuse of these methods leads to
+data sets, there are concerns that inadvertent misuse of these methods leads to
 unreliable results.
 These potential problems include (i) the lack of correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
@@ -102,18 +102,18 @@ These potential problems include (i) the lack of correct background for over-rep
 Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
 the validity of the methods and results.
 We are concerned about the reliability of published enrichment analyses, as web-based and
-point-and-click tools appear to be far more popular than computer script based methods for this type
+point-and-click tools appear to be far more popular than computer script-based methods for this type
 of work @Wijesooriya2022-li.
 Although web-based tools are convenient, they are a potential reproducibility concern.
 Firstly, incomplete reporting of methods, options and parameters is common.
 Secondly, algorithms and functional annotation sets undergo regular updates, and previous versions are
 typically not made available, hampering later reproducibility.
-In some cases the entire web resource can become unavailable, and hence irreproducible due to
+In some cases, the entire web resource can become unavailable, and hence irreproducible due to
 a phenomenon known as link decay @Hennessey2013-tj.
 
 A small number of enrichment analysis applications have been developed to have beneficial properties
 of being "containerised" and with archived historical versions [@Ge2020-qe; @Perampalam2020-qm].
-This helps reproducibility greatly, but is not a complete solution as it lacks information about how
+This helps reproducibility greatly but is not a complete solution as it lacks information about how
 the input data was used and a record of any parameter selections.
 
 A solution to this is to use containerisation to provide a scripted
@@ -219,19 +219,19 @@ text(c(0.7,1.9,3.1),unlist(lapply(l,length))+0.4,labels=pc2)
 | S.No. Pubmed ID: Replication of (Table/Figure) | A. Was Replication possible? B. Were there other significant terms found which were not mentioned in the article? | Replication score and justification |
 | --- | --- | --- |
 | 1.PMC6349697: Figure 2C and 2D | A. Yes, however, corrected p values are different after replication. B. Yes, only BP terms were taken into account so several CC and MF significant terms were not mentioned in the paper. |  **3.** Considering top 6 BP Terms and KEGG pathways. The basis of the selection of just 6 gene ontologies and 4 KEGG pathways shown in the paper needs to be addressed when there is a higher amount of significant GOs and pathways are observed after replication. It was impossible to determine if the article utilised a background gene list or not. The steps to perform DAVID analysis could have been elaborated in the paper. The results shown in the paper are observed after replication but only 6 BP GO significant terms are shown in the paper. |
-| 2.PMC6368841: Figure 3 A - D | A. Only GO Terms were the same as the paper. KEGG terms were highly inconsistent. B. Replicated KEGG Terms (using DAVID) were not mentioned in the results of the paper. Shows inconsistency due to the usage of the server. Some terms using clusterprofiler in R were mentioned. | **2.** GO results from the original manuscript is somewhat similar to reproduced analysis. The FDR values however are inconsistent. KEGG results were highly different. The list of genes as input into DAVID analysis is unclear. They should have mentioned both up and down-regulated proteins were considered. |
+| 2.PMC6368841: Figure 3 A - D | A. Only GO Terms were the same as the paper. KEGG terms were highly inconsistent. B. Replicated KEGG Terms (using DAVID) were not mentioned in the results of the paper. Shows inconsistency due to the usage of the server. Some terms using clusterprofiler in R were mentioned. | **2.** GO results from the original manuscript are somewhat similar to reproduced analysis. The FDR values however are inconsistent. KEGG results were highly different. The list of genes as input into DAVID analysis is unclear. They should have mentioned both up and down-regulated proteins were considered. |
 | 3.PMC6381667: Figure 1 and Figure 2 | A. Results are not reproducible and are highly inconsistent B. N.A. | **2.** GO terms obtained after replication showed inconsistent results compared to the results in the original article. KEGG results were similar. Better naming convention for supplementary file for 117 genes for DAVID input is necessary. GO Results are not reproducible and are highly inconsistent. |
-| 4.PMC6405693: Table 1 and Table 2; Texts under “Protein-Protein Interaction Network Building and Interrelation Analysis Between Pathways” | A. Results do not match. B. N.A. | **1.** GO analysis from upregulated and downregulated proteins are less similar to the results given in the paper. The FDR values for some pathways are highly inconsistent. KEGG Analysis of all DEGs do not match at all. |
-| 5.PMC6425008: Most of the tables and figures of the paper (Figure 5, 6, 7), Table 2 | A. No. B. N.A. | **1.** This paper could have done proper labelling of supplementary files as it was difficult the gene list for DAVID analysis. Lacks information on when control genes are used and when citral-affected gene lists are used. Replication of GO and KEGG analysis is not consistent with results from the paper. How were Figures 5-7 derived? The overall protocol is not so coherent. |
-| 6.PMC6444048: The text under “Pathway analysis of SUVmax related genes” And Table 2 | A. Terms are the same but gene counts have been different. The DAVID results are somewhat reproducible. B. No | **3.** Gene counts in the terms significantly enriched in the “process of cell division” and “nucleoplasm” has changed. Only cell cycle is highly enriched in the replicated results, the claims of metabolic pathways and hypoxia signalling (through GSEA analysis) to be enriched are not accurate. The results claimed are somewhat similar. All the processes have different FDR values. |
-| 7.PMC6463127: Table 4, Table 5, Table 6 | A. Yes but the significance differed. B. Yes, several terms from replication were not mentioned in the paper for GO Analysis. | **2.** Does not consider corrected p values. Overall, significant terms from GO analysis of up and downregulated DEGs are missing upon replication. |
+| 4.PMC6405693: Table 1 and Table 2; Texts under “Protein-Protein Interaction Network Building and Interrelation Analysis Between Pathways” | A. Results do not match. B. N.A. | **1.** GO analysis from up-regulated and down-regulated proteins are less similar to the results given in the paper. The FDR values for some pathways are highly inconsistent. KEGG Analysis of all DEGs do not match at all. |
+| 5.PMC6425008: Most of the tables and figures of the paper (Figure 5, 6, 7), Table 2 | A. No. B. N.A. | **1.** This paper could have done proper labelling of supplementary files as it was difficult to find the gene list for DAVID analysis. Lacks information on when control genes are used and when citral-affected gene lists are used. Replication of GO and KEGG analysis is not consistent with results from the paper. How were Figures 5-7 derived? The overall protocol is not so coherent. |
+| 6.PMC6444048: The text under “Pathway analysis of SUVmax related genes” And Table 2 | A. Terms are the same but gene counts have been different. The DAVID results are somewhat reproducible. B. No | **3.** Gene counts in the terms significantly enriched in the “process of cell division” and “nucleoplasm” have changed. Only cell cycle is highly enriched in the replicated results, the claims of metabolic pathways and hypoxia signalling (through GSEA analysis) to be enriched are not accurate. The results claimed are somewhat similar. All the processes have different FDR values. |
+| 7.PMC6463127: Table 4, Table 5, Table 6 | A. Yes but the significance differed. B. Yes, several terms from replication were not mentioned in the paper for GO Analysis. | **2.** Does not consider corrected p values. Overall, significant terms from GO analysis of up and down-regulated DEGs are missing upon replication. |
 | 8.PMC6535219: Figure 2 | A. Somewhat similar. B. There were many top significant terms that were not mentioned. | **1.** Narrowing/Filtering the given gene list is a required step that could have been mentioned. Many terms were not so significant anymore. There were new terms that are of top positions after replication. |
-| 9.PMC6539328: Figure 1A | A. Mostly not. B. Yes, many | **1.** The significant pathways stated in the paper are not showing up once replicated. There is no clarity of the up-regulated genes used for GO and KEGG analysis. Only 21 upregulated genes are listed whereas the paper states 4831. Also, why are only upregulated genes are being used? |
+| 9.PMC6539328: Figure 1A | A. Mostly not. B. Yes, many | **1.** The significant pathways stated in the paper are not showing up once replicated. There is no clarity of the up-regulated genes used for GO and KEGG analysis. Only 21 up-regulated genes are listed whereas the paper states 4831. Also, why are only up-regulated genes used? |
 | 10.PMC6542760: Figure 4 | A. No. B. Yes, many significant terms were observed. | **1.** Replication results of GO terms are not at all compliant with the results shown in the paper. |
 | 11.PMC6557785: Figure 5 A-B | A. Yes, but results in paper are not significant upon replication. B. Yes | **2.** For GO terms, there are other terms that have higher numbers of genes, making them more enriched than immune-related pathways as mentioned in the paper. For KEGG Pathways, there are other pathways that are more significant and contain a higher number of genes enriched for example “Salmonella infection” that has a higher count of genes but is not mentioned in the paper. |
 | 12.PMC6561911: Figure 5 a and b | A. No. B. N.A. | **1.** The enrichment analysis results are inconsistent with the results displayed in the paper. There was no KEGG analysis done |
 | 13.PMC6580941: Table 1 and Table 2 | A. Yes. B. Yes! Significant terms like “nucleoplasm”, “RNA Binding”, “protein binding” are missing from the paper. | **2.** For GO analysis, the replicated results are not as significant as the GO terms shown in Tables 1 and 2 of the paper. The Gene list for input is not so clearly mentioned, it should have been labelled properly in the name of the supplemental file. P-values are completely different. |
-| 14.PMC6587650: Figure 2 | A. Yes. B. Yes, som. | **3.** (Best) The GO terms results of BP, MF, CC and KEGG pathway results from the paper are compliant with replicated results. They could have mentioned why they chose the type of sorting shown in the paper to display their results. Overall, all results have been replicated. |
+| 14.PMC6587650: Figure 2 | A. Yes. B. Yes, some. | **3.** (Best) The GO terms results of BP, MF, CC and KEGG pathway results from the paper are compliant with replicated results. They could have mentioned why they chose the type of sorting shown in the paper to display their results. Overall, all results have been replicated. |
 | 15.PMC6591946: Figure 5 c and Figure 6 a | A. Yes for GO analysis only. B. Yes for KEGG analysis | **2.** The GO term results of replication are compliant with Figure 5 c of the paper. KEGG pathway results are semi-consistent. |
 | 16.PMC6663624: Table 3 and Table 4 | A. Yes. B. Yes | **1.** The top 2 significant GO terms in the paper are not significant after replication analysis is done. Other GO terms are the same as replicated results. For KEGG Analysis, some terms are more significant after replication. Eg: PD-L1 expression and PD-1 checkpoint pathway in cancer, Th1 and Th2 cell differentiation, Th17 cell differentiation were more significant after “natural killer (NK) cell-mediated cytotoxicity” KEGG Pathway. The paper is somewhat replicable. |
 | 17.PMC6582306: Figure 5 | A. Partly. B. Yes, many. | **2.** The paper uses 44 sets of DEGs grouped in 4 major types. For replication, OFC Set 9 was used, DAVID GO analysis was done twice where a discrepancy of results was observed. Compared to the paper, the most significant term was missing after replication analysis was conducted. For OFC set 9, several pathways are seen after replication but only one pathway is shown in paper. This should be addressed. |
@@ -249,7 +249,7 @@ lists was highly variable.
 ### Implementation
 
 We have developed a step-by-step protocol for how to conduct an extremely reproducible
-enrichment analysis, which is attached as a supplementary file (Suppl Info 1), and published to
+enrichment analysis, which is attached as a supplementary file (Suppl Info 1) and published to
 protocols.io with a permissive license.
 This protocol has the features of reproducibility mentioned in **Figure 1** and **Figure 2** including
 version control with git and GitHub, compute environment control using Docker, literate programming
@@ -261,8 +261,8 @@ are intended to be remixed and altered by the end user to suit the needs of thei
 
 The Dockerfile uses a base image from Bioconductor which should correspond to the latest available
 stable release version (currently 3.16), running on R v4.2.2 and Ubuntu 22.04.
-The image contains instruction for installing a few useful utilities including `nano` and `git` for
-modifying scripts, and `magic-wormhole` for transfering data between computers.
+The image contains instructions for installing a few useful utilities including `nano` and `git` for
+modifying scripts, and `magic-wormhole` for transferring data between computers.
 It installs R packages from CRAN and Bioconductor repositories to fulfill common tasks in transcriptome
 analysis such as fetching RNA-seq counts from DEE2 with `getDEE2` @Ziemann2019-zo,
 differential expression with `DESeq2` @Love2014-hd,
@@ -281,7 +281,7 @@ The ability to provide extended descriptions is helpful for providing contextual
 the purpose of the work, detailed methods and interpretations derived from the analysis.
 The Rmarkdown script contains code chunks that perform specific tasks including fetching an example
 data set from DEE2, inspecting data quality, differential expression and two types of enrichment
-analysis; over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 4**).
+analysis: over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 4**).
 For each enrichment analysis conducted, a checklist is provided to comply with reporting guidelines
 @Zhao2023-ok.
 
@@ -328,13 +328,12 @@ The software versions used in this example analysis are provided in Table 2.
 : Table 2. The software bundled in the example Docker image.
 
 To reproduce this work is relatively quick and simple, requiring six commands and approximately four
-minutes to install Docker, pull the image, run the container, run the Rmarkdown script exit the container
+minutes to install Docker, pull and run the container, run the Rmarkdown script, exit the container
 and copy the newly created report from the container to the current working directory (Box 1).
 
 ```bash
 sudo apt update && sudo apt install docker-ce -y  # 60 sec
-docker pull mziemann/enrichment_recipe  # 60 sec
-docker run -it --entrypoint /bin/bash mziemann/enrichment_recipe #few seconds
+sudo docker run -it --entrypoint /bin/bash mziemann/enrichment_recipe #60 sec
 Rscript -e 'rmarkdown::render("example.Rmd")' # 90 sec
 exit
 docker cp $(docker ps -aql):/enrichment_recipe/example.html . # instant
@@ -348,7 +347,7 @@ docker cp $(docker ps -aql):/enrichment_recipe/example.html . # instant
 To demonstrate the utility of this workflow, we present the results of this example data analysis;
 it is a comparison of control and 5-azacitidine-treated AML3 cell transcriptomes with RNA-seq
 in triplicate @Lund2014-et.
-We use this analysis to better understand the effect of DNA methylatransferase inhibitors on
+We use this analysis to better understand the effect of DNA methyltransferase inhibitors on
 genome regulation and elaborate upon previous findings by Lund et al (2014), which mainly focused on
 the relationship between RNA expression and DNA methylation, but did not show results of a
 transcriptome-only enrichment analysis.
@@ -365,22 +364,22 @@ Differential expression analysis revealed 3,598 differentially expressed genes w
 Up and down-regulated gene sets were subjected to ORA separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
-With ORA, we observed 149 upregulated and 48 downregulated gene sets.
+With ORA, we observed 149 up-regulated and 48 down-regulated gene sets.
 We prioritised the enrichment analysis by enrichment score, a pseudo measure for effect size,
 which tends to highlight smaller and more specific gene sets undergoing more drastic differential
 expression, rather than large gene sets that undergo small expression changes.
-This led to the identification of upregulated pathways related to nuclear RNA export,
-glucokinase regulation and G1/S DNA replication pathways; while downregulated pathways
+This led to the identification of up-regulated pathways related to nuclear RNA export,
+glucokinase regulation and G1/S DNA replication pathways; while down-regulated pathways
 were associated with interferon signaling, interleukin signaling, granulopoiesis and NADPH oxidase
 (host defence) (Figure 5B).
 
-After FCS, we identified 241 upregulated genesets and 155 downregulated genesets.
-FCS upregulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
+After FCS, we identified 241 up-regulated gene sets and 155 down-regulated gene sets.
+FCS up-regulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
 and defective homologous recombination repair (Figure 5C).
-Downregulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
+Down-regulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
 
-Regarding upregulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
-Jaccard index of 0.54, however these method disagreed in downregulated pathways, with a Jaccard
+Regarding up-regulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
+Jaccard index of 0.54, however these methods disagreed in down-regulated pathways, with a Jaccard
 index of only 0.27 (Figure 5D).
 
 ![Figure 5. Differential expression and enrichment analysis with the example workflow.](img/fig_example.png "Example enrichment analysis on")
@@ -397,8 +396,8 @@ These irregularities may have arisen inadvertently from several sources:
 
 * The list of genes in the supplement is not the same as what was used for enrichment analysis.
 
-* Ambiguity around whether up- and down-regulate genes were considered
-separately or together
+* Ambiguity around whether up- and down-regulated genes were considered
+separately or together.
 
 * Ambiguity around whether all GO classes were considered or just one, such as "biological process".
 
@@ -406,10 +405,14 @@ separately or together
 
 The observed lack of reproducibility might be expected given that substantial methodological flaws
 were present in 85% of enrichment analyses @Wijesooriya2022-li.
-A non-exhaustive literature search identified a small number of case studies, but a dearth of systematic
-examinations of bioinformatics research reproducibility.
+
+While researching the literature on computational reproducibility in bioinformatics, we identified
+some case studies but only one other systematic examination of multiple journal articles.
 Ionnidis et al @Ioannidis2009-hv examined a set of 10 gene expression studies with available data
 published in 2005-2006, and found only two could be reproduced to a satisfactory level.
+More work in this direction is urgently needed to understand the causes of irreproducible bioinformatics
+research so it can be remedied, as reproducibility is considered only the first step towards
+reliability.
 
 This problem is not limited to bioinformatics.
 In the field of drug development, according to a 2011 study by Bayer, only 25% of projects could be
@@ -432,7 +435,7 @@ simple and fast (Box 1), which should aid the early identification of errors.
 
 We also want to emphasise that there is still a definite need for graphical and web-based tools.
 These are good for data exploration, to quickly identify trends that can be followed up with more
-rigourous methods.
+rigorous methods.
 Moreover, a lot of work is being done to make such point-and-click tools more reproducible.
 The Galaxy, GenePattern and RNAlysis projects offer graphical tools to create, edit and import
 workflows that enable reproducibility [@Kuehn2008-su; @Goecks2010-lq; @Teichman2023-fx].
@@ -443,17 +446,17 @@ Such functionality could be written into existing enrichment analysis tools like
 retention of historical gene annotation sets could provide a "good enough" solution to reproducibility.
 
 Although we hope that extremely reproducible enrichment analysis will become more widespread, we do not
-anticipate any dramatic changes in researcher behaviour unless the motivating factors are augmented.
-Reward structures in academia favour career progression for individuals who publish many articles
-as opposed to individuals who publish fewer but more rigourously conducted articles.
+anticipate any dramatic changes in researcher behaviour unless the motivating factors are addressed.
+Currently, reward structures in academia favour career progression for individuals who publish many
+articles as opposed to individuals who publish fewer but more rigorously conducted works.
 Solutions to this could include mandates by funding agencies or institutions @Garijo2013-zb,
-and/or badging of articles that comply with best practices @Kidwell2016-pm.
+badging of articles that comply with best practices @Kidwell2016-pm, and recognition of research rigour
+in track record evaluations.
 
 ## Acknowledgements
 
 This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
 platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
-
 
 ## Availability of materials
 
