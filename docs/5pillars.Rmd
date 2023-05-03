@@ -25,8 +25,8 @@ Correspondance: m.ziemann@deakin.edu.au
 Computational reproducibility is in theory a simple premise, however in practice it is difficult to
 achieve.
 Here, we present a framework to improve reproducibility, called the five pillars.
-These are a combination of best practices which ensure that the work can be reproduced quickly and
-easily, and will endure relatively long time-frames.
+These are a combination of best practices which ensure that the computational research work can be
+reproduced quickly and easily, and will endure relatively long time-frames.
 
 ## Introduction
 
@@ -36,14 +36,54 @@ library("DiagrammeR")
 
 ```
 
-Computational reproducibility is the ability to use the data and code provided by a research study to
-regenerate the outputs including figures and tables to confirm the study's findings.
-Reproducibility is only the first step towards overall reliability.
-Replicability is the ability to repeat the entire study and come up with similar overall results.
+In research, Computational reproducibility is the ability to use the data and code provided by a
+study to regenerate the outputs including figures and tables to confirm the study's findings.
+Reproducibility is only the first step towards overall reliability, for example a study may be
+reproducible, but suffer from analytical problems that invalidate the results.
+If a study is reproducible, then at least these analytical issues can be more easily identified and
+rectified.
+So reproducibility is a necessary stepping-stone that in theory should enhance the overall reliability
+of computational research including replicability and robustness.
+Replicability being defined as the ability to repeat the entire study and come up with similar overall
+results.
 Robustness refers to the ability for the findings to be generalisable to other situations
 @Nosek2022-zc.
 
-If a study is irreproducible or unreplicable, then it is of little value.
+Unreliable research is a waste of resources and time, and can mislead readers to pursue doomed
+research directions.
+Much has been written on how irreproducibility has reached crisis levels in psychology and life
+sciences [@Baker2015-bs; @Begley2012-di].
+Indeed in bioinformatics, the situation is grim with only a very fraction of studies
+being able to be reproduced @Ioannidis2009-hv, which brings into question the reliability of those
+studies.
+Irreproducible research has the potential to place patient safety at risk, as demonstrated by an
+earlier case study @Baggerly2010-nr.
+
+As computational researchers, we are theoretically able to achieve 100% analytical reproducibility,
+however in practice this is rarely achieved.
+Data and code availability, ability to install software easily, and other factors mean that most
+computational research works are unable to be reproduced.
+
+A number of guides recommending enhanced computational reproducibility practices have emerged
+[@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
+@Brito2020-ld; @Akalin2018-eg ]
+and this article attempts to unify these concepts and assemble a group of best practices where
+computational reproducibility can be considered as complete.
+
+```{r,5pillars}
+
+plot(0,type='n',axes=FALSE,ann=FALSE, xlim=c(0, 10), ylim=c(0, 10))
+polygon(c(0,1.8,1.8,0),c(1,1,6,6))
+polygon(c(2,3.8,3.8,2),c(1,1,6,6))
+polygon(c(4,5.8,5.8,4),c(1,1,6,6))
+polygon(c(6,7.8,7.8,6),c(1,1,6,6))
+polygon(c(8,9.8,9.8,8),c(1,1,6,6))
+polygon(c(-0.2,10,10,-0.2),c(-0.4,-0.4,0.8,0.8))
+polygon(c(-0.2,5,10),c(6.5,8.5,6.5))
+
+```
+
+
 
 
 essential to the scientific enterprise by confirming the validity of new discoveries
