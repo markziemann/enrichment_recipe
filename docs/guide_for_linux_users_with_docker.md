@@ -165,8 +165,11 @@ This command also "binds" the present working directory to the working directory
 docker run -it -v ${pwd}:/enrichment_recipe --entrypoint /bin/bash mziemann/enrichment_recipe
 
 ```
+If you get a permission denied error at this stage, it could be that you don't have membership in the
+docker group. Go back and complete the commands in step 3, then try again.
 
-if you run 'ls' here, you will see the project's Rmd scripts and the Reactome gmt file.
+If it has started the container, run 'ls' here, you will see the project's Rmd scripts and the Reactome
+gmt file.
 
 **6. Run the R workflow**
 
@@ -554,6 +557,15 @@ docker build -t yourname/yourprojectname
 ```
 
 It may take up to 25 minutes to build it.
+
+To confirm that the image has been built successfully, you can run the following command to
+view the available images.
+
+```bash
+
+docker images
+
+```
 
 **17. Check that the docker image works**
 
