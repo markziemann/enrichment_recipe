@@ -359,7 +359,7 @@ minutes to install Docker, pull and run the container, run the Rmarkdown script,
 and copy the newly created report from the container to the current working directory (Box 1).
 
 ```bash
-sudo apt update && sudo apt install docker-ce -y  # 60 sec
+sudo apt update && sudo apt install docker.io -y  # 30 sec
 sudo docker run -it --entrypoint /bin/bash mziemann/enrichment_recipe #60 sec
 Rscript -e 'rmarkdown::render("example.Rmd")' # 90 sec
 exit
