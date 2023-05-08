@@ -54,9 +54,9 @@ Unreliable research is a waste of resources and time, and can mislead readers to
 research directions.
 Much has been written on how irreproducibility has reached crisis levels in psychology and life
 sciences [@Baker2015-bs; @Begley2012-di].
-Indeed in bioinformatics, the situation is grim with only a very fraction of studies
-being able to be reproduced @Ioannidis2009-hv, which brings into question the reliability of those
-studies.
+Indeed in bioinformatics, the situation is grim with a 2009 report showing only a small fraction
+of studies able to be reproduced @Ioannidis2009-hv, which brings into question the reliability of
+those studies.
 Irreproducible bioinformatics has the potential to place patient safety at risk, as demonstrated by an
 earlier case study @Baggerly2010-nr.
 
@@ -99,6 +99,73 @@ text( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5) , lab=labs)
 text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ```
+
+## Literate programming
+
+A common recommendation for reproducibility is to complete all works with computer scripts
+and remove the need for any manual steps.
+Computer programs (scripts) are preferred over graphical interface tools as the script contains
+a complete instruction set for how a piece of work was conducted.
+This allows auditing and reproduction which would be difficult for graphical tools like spreadsheets.
+Scripts also allow the work to be completely automated and reduce the chance for human error during
+any manual steps.
+On the other hand, data cleaning and curation is sometimes required, and so manual steps are unavoidable
+in some situations.
+
+Literate programming combines "chunks" of analytical code together with human readable text @Knuth1984-di.
+After compilation, the resulting output contains the code with computational results
+(eg: figures and tables) along with contextualising explanations and narratives.
+
+The Sweave project, concieved in 2001, was designed to give LaTeX documents embedded R code chunks and
+was envisaged as a way to generate R documentation materials and generate statistical analysis reports
+@Leisch2002-yc.
+Around 2015, R Markdown emerged as a more popular alternative, as formatting is simpler as compared to Sweave,
+saving time.
+Around the same time, Project Jupyter was developed to provide a "notebook" type interface, incorporating
+R, Python, Julia and other computer language chunks into documents @Perkel2018-rz.
+In 2022, the company behind RStudio (Posit) released Quarto, the conceptual successor of R Markdown, but with
+enhanced support for other computer languages like Python, Julia, and Observable JavaScript
+(and more attractive reports as well) @Bauer2023-eh.
+
+Whether Rmarkdown, Jupyter or Quarto, literate programming offers some substantial benefits over alternative
+approaches:
+
+* The provenance of any result can be demonstrated.
+The resulting document produced contains the code executed, together with the results (eg: a chart).
+This is in contrast to a data analysis report assembled in a word processor, which due to the many
+copy-paste operations required might contain errors.
+
+* It saves time.
+For the case where a report needs to be run routinely, this would involve significant copy-paste to
+be assembled "manually" with a word processor.
+Using a literate script would mean only minimal changes are required between interations.
+
+* Literate programs accommodate extensive documentation.
+This allows the analyst to include rich descriptions of scientific works.
+For example, a report may contain background, methods, results, discussion and references.
+Not only text, but various objects can be included like links to other resources,
+tables, images, videos, etc.
+More information on documentation below.
+
+* Outputs are arranged.
+When using a regular script, an analyst might make dozens of charts which are written to the
+disk with names like "chart1.png" or "model8.svg".
+When the number of outputs is large, it becomes unwieldy and hard to place which plot corresponds
+to which part of the script.
+By arranging the outputs (eg: charts and tables) in a document in the sequence that they were generated,
+it helps the reader understand the logical steps taken in any analysis.
+
+* Literate scripts are amenable to version control.
+Version control is a useful best practice in software development (discussed below).
+
+* The resulting document is only rendered when the entire script has compiled without errors.
+In contrast, a regular script might generate some outputs and then encounter an error,
+so we are not sure whether the whole script is free of errors.
+
+* Flexible output formats.
+These include PDF, DOC/DOCX and HTML, with HTML having some notable benefits to other formats
+including better usability for mobile devices like phones and tablets, and the ability to
+support richer content such as interactive charts and dynamic tables (searchable, filterable, sortable).
 
 ## 1. Code version control and persistent sharing
 
