@@ -63,7 +63,7 @@ To address this, many articles have been written to endorse the use of "virtual 
 along with the research code to facilitate a high degree of reproducibility [@Perkel2020-io;
 @Stein2010-of; @Dudley2010-ua; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg;
 @Lewis2016-qh; @Da_Veiga_Leprevost2017-dw; @Pasquier2018-rt; @Kulkarni2018-km; @Hung2019-et;
-@Brito2020-ld; @Piccolo2021-ud]
+@Brito2020-ld; @Piccolo2021-ud].
 Containers also allow for an easy installation process, as all working dependencies are shipped together
 and can be installed with a single command.
 
@@ -78,10 +78,10 @@ free text explanations together with the code and outputs such as charts and tab
 Secondly, code and data can be linked. This means that the code knows the location of the data,
 avoiding any "file not found" errors @Peng2011-ia.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
-for each figure sequentially, making the entire manuscript reproducible by executing just one command
+for each part sequentially, making the entire manuscript reproducible by executing just one command
 and without any manual steps @Lasser2020-mm.
-Taken together, computational reproducibility is a spectrum (**Figure 1**) @Akalin2018-eg, and rests upon five key
-pillars mentioned above (**Figure 2**).
+Taken together, computational reproducibility is a spectrum (**Figure 1**) @Akalin2018-eg, and rests upon five
+pillars (**Figure 2**).
 Currently, bioinformatics work at the gold standard is rare, despite the availability of such tools for
 over a decade.
 
@@ -122,7 +122,7 @@ such as the detection of pathway activation in development or disease
 While enrichment analysis is undoubtedly a key method for the interpretation of large
 data sets, there are concerns that inadvertent misuse of these methods leads to
 unreliable results.
-These potential problems include (i) the lack of correct background for over-representation tests,
+These potential problems include (i) the lack of a correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
 [@Timmons2015-ex; @Reimand2019-uw; @Wijesooriya2022-li; @Zhao2023-ok].
 Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
@@ -154,7 +154,7 @@ a lack of step-by-step guides and templates aimed at beginner users.
 We address this firstly by providing working templates for Docker image and Rmarkdown scripts for
 common transcriptome and enrichment analysis routines.
 Secondly, we provide step-by-step written and video guides to help users customise these templates for
-their own work, deploy the analysis, verify the results, and share the Docker image.
+their own work, deploy the analysis, verify the results, and share the materials.
 
 However, before recommending or prescribing such workflows, it is necessary
 to assess directly whether current practices are adequate, by trying to reproduce the enrichment
