@@ -105,13 +105,11 @@ Now we can install the docker engine:
 
 ```bash
 
-sudo apt install docker-ce
+sudo apt install docker.io
 
 ```
 
-This will install a stable version of docker that is packaged in the Ubuntu apt package manager, and
-probably won't be the latest version.
-If you need the latest version, follow the instructions at [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04).
+This will install a stable version of docker that is packaged in the Ubuntu apt package manager.
 
 **3. Add users to the docker group.**
 
