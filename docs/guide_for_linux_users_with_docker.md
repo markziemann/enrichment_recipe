@@ -160,7 +160,7 @@ This command also "binds" the present working directory to the working directory
 
 ```bash
 
-docker run -it -v ${pwd}:/enrichment_recipe --entrypoint /bin/bash mziemann/enrichment_recipe
+docker run -it --entrypoint /bin/bash mziemann/enrichment_recipe
 
 ```
 If you get a permission denied error at this stage, it could be that you don't have membership in the
