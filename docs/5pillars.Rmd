@@ -100,40 +100,49 @@ text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ```
 
-## Literate programming
+## The five pillars: a code-first approach
 
 A common recommendation for reproducibility is to complete all works with computer scripts
 and remove the need for any manual steps.
-Computer programs (scripts) are preferred over graphical interface tools as the script contains
+Computer scripts are preferred over graphical interface tools as the script contains
 a complete instruction set for how a piece of work was conducted.
 This allows auditing and reproduction which would be difficult for graphical tools like spreadsheets.
+Indeed spreadsheets are prone to data entry, manipulation and formula errors @Panko1996-ko, and are
+somewhat overused in the life sciences.
 Scripts also allow the work to be completely automated and reduce the chance for human error during
 any manual steps.
-On the other hand, data cleaning and curation is sometimes required, and so manual steps are unavoidable
-in some situations.
+One thing to keep in mind is that, data cleaning and curation is often required, and in many cases
+can only be conducted using manual intervention.
+In those cases, retaining raw and cleaned data and a cleaning protocol is recommended.
 
-Literate programming combines "chunks" of analytical code together with human readable text @Knuth1984-di.
-After compilation, the resulting output contains the code with computational results
-(eg: figures and tables) along with contextualising explanations and narratives.
+Another principle of the five pillars approach is that the publishing researchers should put in the
+extra effort over and above the minimum standards of a classical journal to make the reproduction
+process easier and faster for those who wish to subsequently reproduce the analysis.
+
+## Literate programming
+
+Literate programming combines "chunks" of analytical code with human readable text @Knuth1984-di.
+After compilation, the resulting output document contains the code together with computational results
+such as figures and tables along with contextualising explanations and narratives.
 
 The Sweave project, concieved in 2001, was designed to give LaTeX documents embedded R code chunks and
 was envisaged as a way to generate R documentation materials and generate statistical analysis reports
 @Leisch2002-yc.
-Around 2015, R Markdown emerged as a more popular alternative, as formatting is simpler as compared to Sweave,
-saving time.
+Around 2015, R Markdown emerged as a more popular alternative, as formatting is simpler as compared to
+Sweave, saving time.
 Around the same time, Project Jupyter was developed to provide a "notebook" type interface, incorporating
 R, Python, Julia and other computer language chunks into documents @Perkel2018-rz.
-In 2022, the company behind RStudio (Posit) released Quarto, the conceptual successor of R Markdown, but with
-enhanced support for other computer languages like Python, Julia, and Observable JavaScript
-(and more attractive reports as well) @Bauer2023-eh.
+In 2022, the company behind RStudio (Posit) released Quarto, the conceptual successor of R Markdown,
+but with enhanced support for other computer languages like Python, Julia, and Observable JavaScript
+@Bauer2023-eh.
 
-Whether Rmarkdown, Jupyter or Quarto, literate programming offers some substantial benefits over alternative
-approaches:
+Whether Rmarkdown, Jupyter or Quarto, literate programming offers some substantial benefits over
+alternative approaches:
 
 * The provenance of any result can be demonstrated.
 The resulting document produced contains the code executed, together with the results (eg: a chart).
 This is in contrast to a data analysis report assembled in a word processor, which due to the many
-copy-paste operations required might contain errors.
+copy-paste operations required might contain errors, or version mismatches.
 
 * It saves time.
 For the case where a report needs to be run routinely, this would involve significant copy-paste to
@@ -152,40 +161,99 @@ When using a regular script, an analyst might make dozens of charts which are wr
 disk with names like "chart1.png" or "model8.svg".
 When the number of outputs is large, it becomes unwieldy and hard to place which plot corresponds
 to which part of the script.
-By arranging the outputs (eg: charts and tables) in a document in the sequence that they were generated,
+By embedding the outputs (eg: charts and tables) in a document in the sequence that they were generated,
 it helps the reader understand the logical steps taken in any analysis.
 
 * Literate scripts are amenable to version control.
 Version control is a useful best practice in software development (discussed below).
 
-* The resulting document is only rendered when the entire script has compiled without errors.
+* Literate programming output reports are free from code errors.
+The resulting document is only rendered when the entire script has compiled without errors.
 In contrast, a regular script might generate some outputs and then encounter an error,
-so we are not sure whether the whole script is free of errors.
+so we are not sure whether the whole script is free of errors and completed successfully.
 
 * Flexible output formats.
 These include PDF, DOC/DOCX and HTML, with HTML having some notable benefits to other formats
 including better usability for mobile devices like phones and tablets, and the ability to
 support richer content such as interactive charts and dynamic tables (searchable, filterable, sortable).
+Outputs include HTML documents, but also slideshows and even e-books.
+
+These features make literate programming a quantum leap for science communication in a range of
+situations.
+Whether this is sharing a data analysis report, giving a presentation at a meeting,
+writing a research article or self-publishing an e-book, literate programming provides the
+ability to construct transparent data narratives with clear provenance in a convieniently sharable
+form.
+
+Literate programming also works neatly with the concept of the "executable paper", the idea that
+the data analysis underlying an entire study can be reproduced with one or a few commands @Lasser2020-mm.
+A typical genomics/bioinformatics study could involve one large literate script, or be broken down into
+smaller scripts, where each one contains the code for generating a part of the article.
+A multi-script approach would benefit from a master script that executes each component.
+This further makes the job of reproducibility easier.
 
 ## 1. Code version control and persistent sharing
 
-A version control system is a type of program that "tracks changes" made to sets of files, typically
-other computer programs, scripts and documentation.
+A version control system (sometimes called "source control") is a type of program that "tracks changes"
+made to sets of files, typically other computer program source code, scripts and documentation.
 A set of files under version control is called a "repository" and represents a project or sub-project.
 Version control is used extensively by software developers and is considered one of the key best
 practices in software engineering.
+Distributed version control systems involve a central web-accessible server to hosting a repository,
+and each team member possesses a mirror copy on their local system.
+Having a central, publicly available node assists in disseminating changes within teams and releasing
+code to consumers.
+There are many such distributed version control systems but `git` has emerged as the most popular
+solution due to it's many powerful features, speed and large community and ecosystem.
+
 Computational researchers can benefit significantly by adopting version control into their routine
 practices.
 Below I outline some of the benefits.
 
-* All steps of the workflow are coded in a computer script that allows automation.
-There are no manual intervention steps.
-For example, spreadsheets are irreproducible and prone to data entry, manipulation and formula errors.
-Even gene names can be automatically converted to dates, and this is common in publlished supplementary
-files.
-Includes data processing, and all figures and tables that go into the the final manuscript.
-If there are manual intervention steps, such as data cleaning or curating metadata, then the cleaned
-data can be shared and incorporated into the workflow.
+* Version control keeps a track of all these changes over time.
+We always know which version of the script is the most up-to-date.
+We can inspect and execute the code and reproduce the analysis at any particular point in the past.
+Commit messages are retained, which gives a record of the motivations and purpose behind each
+modification.
+
+* Using a centralised code hosting platform such as "GitHub" or "BitBucket" can help manage contributions
+from team members who may be working ascynchrously in different timezones and on different servers.
+It also makes the user's work searchable, which is convenient when code snippets from a project
+need to be reused for a new project.
+These centralised platforms also enable discussions of code "issues" such as bugs and feature requests.
+In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
+and allows team members to raise potential issues with a colleagues code (or one's own).
+
+* Version control also works extremely well for documentation.
+Books, educational resources and other data types are well served using version control (see below).
+
+* Version control makes works easily sharable.
+Work is easier to reproduce because the source folder contains a complete workflow with linked code
+that doesn't need any modifications before being executed to reproduce some works.
+
+* Distributed version control systems protect against code loss.
+Computers sometimes fail, and if there are 
+
+## 2. Compute environment control
+
+* Conda
+
+* Containers: Docker/Guix/others
+
+* Virtual machines
+
+* Wasm
+
+## 4. Documentation
+
+* Instructions needed
+
+* Requirements
+
+* Credits
+
+## 5. FAIR and persistent data sharing
+
 
 * When designed correctly, the code "knows" where to access the associated metadata and data sets are,
 which avoids "file not found" errors.
@@ -198,76 +266,7 @@ If the metadata and small data require some cleaning, then include the original 
 repository.
 The code should refer only to the cleaned data and the original files are there only for reference.
 
-* For a research project, code gets really complicated very quickly.
-Workflows are build in a step wise way and require step-by-step validation that they are actually doing
-what we want them to do.
-There may be separate scripts for data processing, modeling and visualsation.
-There may be many false starts, research ideas that were pursued, but didn't give desired results and
-were removed from the final manuscript.
-A project that is under development will have code that undergoes many changes each week over the course
-of months to years.
-There may be many contributors to a study and merging these code changes can get difficult without
-version control.
 
-* Version control keeps a track of all these changes over time.
-We always know which version of the script is the most up-to-date.
-We can inspect the code base at a particular point in the past.
-Commit messages are retained, which gives a record of the motivations and purpose behind each
-modification.
-
-* Version control also works extremely well for documentation.
-Books, educational resources and other data types are well served using version control.
-
-* Using a centralised code hosting platform such as "GitHub" or "BitBucket" can help manage contributions
-from team members who may be working ascynchrously in different timezones and on different servers.
-It also makes the user's work searchable, which is convenient when code snippets from a project
-need to be reused for a new project.
-These centralised platforms also enable discussions of code "issues" such as bugs and feature requests.
-In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
-and allows team members to raise potential issues with a colleagues code (or one's own).
-
-* Version control makes works easily sharable.
-Work is easier to reproduce because the source folder contains a complete workflow with linked code
-that doesn't need any modifications before being executed to reproduce some works.
-
-* `git` is the defacto standard for version control currently although there are alternatives like
-`svn` (Subversion) and `hg` (Mercurial).
-Using `git` is advisable because there is a greater depth of support available on web forums, and more
-alternatives for centralised code hosting providers and graphical interfaces.
-
-## 2. Compute environment control
-
-* Conda
-
-* Containers: Docker/Guix/others
-
-* Virtual machines
-
-* Wasm
-
-## 3. Literate programming
-
-The report is truth.
-
-* Sweave, Rmarkdown, Quarto
-
-* Jupyter
-
-* Compilation
-
-* Posting reports to lab website and webarchive
-
-* Make the manuscript reproducible as well.
-
-## 4. Documentation
-
-* Instructions needed
-
-* Requirements
-
-* Credits
-
-## 5. FAIR and persistent data sharing
 
 * NCBI
 
