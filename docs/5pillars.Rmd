@@ -85,7 +85,7 @@ polygon(c(4,5.8,5.8,4),c(1,1,6,6), col=cols2[3], border = NA)
 polygon(c(6,7.8,7.8,6),c(1,1,6,6), col=cols2[4], border = NA)
 polygon(c(8,9.8,9.8,8),c(1,1,6,6), col=cols2[5], border = NA)
 polygon(c(-0.2,10,10,-0.2),c(-0.4,-0.4,0.8,0.8),col="lightgray", border = NA)
-polygon(c(-0.2,5,10),c(6.5,8.5,6.5),col="lightgray", border = NA)
+polygon(c(-0.2,5,10),c(6.3,8.5,6.3),col="lightgray", border = NA)
 points( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5), pch=19,cex=18,col=cols )
 text(5,7,lab="Five pillars of reproducible computational research", cex=1.5)
 
@@ -96,21 +96,24 @@ labs <- c("Code version\ncontrol &\npersistent\n sharing",
   "FAIR &\npersistent\ndata sharing")
 
 text( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5) , lab=labs)
+text( 5 , 0.3 , lab="End-to-end code coverage")
 text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ```
 
-## The five pillars: a code-first approach
+## End-to-end code coverage
 
-A common recommendation for reproducibility is to complete all works with computer scripts
-and remove the need for any manual steps.
-Computer scripts are preferred over graphical interface tools as the script contains
-a complete instruction set for how a piece of work was conducted.
-This allows auditing and reproduction which would be difficult for graphical tools like spreadsheets.
+End-to-end code coverage is a foundation for reproducibility as the codebase should contain all
+instructions for completing a data analysis task.
+This removes the need for any manual steps, which are not only time-consuming but also prone to errors.
+Scripts enable better auditing and easier reproduction which would be difficult for graphical tools
+like spreadsheets.
 Indeed spreadsheets are prone to data entry, manipulation and formula errors @Panko1996-ko, and are
 somewhat overused in the life sciences.
-Scripts also allow the work to be completely automated and reduce the chance for human error during
-any manual steps.
+Transfering data between compute platforms is also discouraged.
+For example, while there are extensive bioinformatic tools on Galaxy, GenePattern and other web
+sources, the data needs to be transfered between platforms which is inefficient and could lead to
+errors.
 One thing to keep in mind is that, data cleaning and curation is often required, and in many cases
 can only be conducted using manual intervention.
 In those cases, retaining raw and cleaned data and a cleaning protocol is recommended.
@@ -192,7 +195,7 @@ smaller scripts, where each one contains the code for generating a part of the a
 A multi-script approach would benefit from a master script that executes each component.
 This further makes the job of reproducibility easier.
 
-## 1. Code version control and persistent sharing
+## Code version control and persistent sharing
 
 A version control system (sometimes called "source control") is a type of program that "tracks changes"
 made to sets of files, typically other computer program source code, scripts and documentation.
@@ -210,13 +213,14 @@ Computational researchers can benefit significantly by adopting version control 
 practices.
 Below I outline some of the benefits.
 
-* Version control keeps a track of all these changes over time.
+* Keeps a complete history of all code changes over time.
 We always know which version of the script is the most up-to-date.
 We can inspect and execute the code and reproduce the analysis at any particular point in the past.
 Commit messages are retained, which gives a record of the motivations and purpose behind each
 modification.
 
-* Using a centralised code hosting platform such as "GitHub" or "BitBucket" can help manage contributions
+* Helps collaboration and project management.
+Using a centralised code hosting platform such as "GitHub" or "BitBucket" can help manage contributions
 from team members who may be working ascynchrously in different timezones and on different servers.
 It also makes the user's work searchable, which is convenient when code snippets from a project
 need to be reused for a new project.
@@ -232,7 +236,14 @@ Work is easier to reproduce because the source folder contains a complete workfl
 that doesn't need any modifications before being executed to reproduce some works.
 
 * Distributed version control systems protect against code loss.
-Computers sometimes fail, and if there are 
+Computers sometimes fail and we sometimes delete or overwrite important files.
+If the code is unrecoverable it can be a significant loss of work.
+Although version control systems are not a back-up solution, they do add a layer of protection to the
+code.
+By preserving a copy of the repository on each team members computer in addition to the central
+repo, means the code can be easily recovered if any one of those computers fail.
+
+Need to mention long term (persistent) sharing.
 
 ## 2. Compute environment control
 
