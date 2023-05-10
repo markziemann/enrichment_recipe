@@ -67,7 +67,7 @@ computational research works are unable to be reproduced.
 
 A number of guides recommending enhanced computational reproducibility practices have emerged
 [@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
-@Brito2020-ld; @Akalin2018-eg ]
+@Brito2020-ld; @Akalin2018-eg ; @Rodrigues2023-fw ]
 and this article attempts to unify these concepts and assemble a group of best practices where
 computational reproducibility can be considered as complete, using a framework called the
 five pillars of reproducible computational research (**Figure 1**).
@@ -96,31 +96,36 @@ labs <- c("Code version\ncontrol &\npersistent\n sharing",
   "FAIR &\npersistent\ndata sharing")
 
 text( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5) , lab=labs)
-text( 5 , 0.3 , lab="End-to-end code coverage")
+text( 5 , 0.2 , lab="End-to-end code coverage")
 text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ```
 
 ## End-to-end code coverage
 
-End-to-end code coverage is a foundation for reproducibility as the codebase should contain all
+End-to-end code coverage is the foundation for reproducibility as the codebase should contain all
 instructions for completing a data analysis task.
 This removes the need for any manual steps, which are not only time-consuming but also prone to errors.
-Scripts enable better auditing and easier reproduction which would be difficult for graphical tools
-like spreadsheets.
+Without end-to-end code coverage, most of the other best practices described here are not possible.
+Scripted workflows, although not always free of errors, enable better auditing and easier reproduction
+which would be difficult for graphical tools like spreadsheets.
 Indeed spreadsheets are prone to data entry, manipulation and formula errors @Panko1996-ko, and are
 somewhat overused in the life sciences.
-Transfering data between compute platforms is also discouraged.
-For example, while there are extensive bioinformatic tools on Galaxy, GenePattern and other web
-sources, the data needs to be transfered between platforms which is inefficient and could lead to
-errors.
-One thing to keep in mind is that, data cleaning and curation is often required, and in many cases
-can only be conducted using manual intervention.
-In those cases, retaining raw and cleaned data and a cleaning protocol is recommended.
 
-Another principle of the five pillars approach is that the publishing researchers should put in the
-extra effort over and above the minimum standards of a classical journal to make the reproduction
-process easier and faster for those who wish to subsequently reproduce the analysis.
+Transfering data between compute platforms is also discouraged.
+For example, having workflows that involve combinations of web-based and scripted tools require
+data transfer steps which are inefficient and error-prone.
+
+Related to this, the code and data need to be "linked", which means the code is aware of the location
+of the data and how to get it.
+The code should be able to fetch the data from a publicly available location and conduct the downstream
+processing and analysis without having to aquire the data some other way.
+
+A caveat for end-to-end code coverage is that sometimes manual data cleaning is unavoidable.
+In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended.
+
+A guiding principle of the five pillars approach is that the publishing researchers should strive
+to make the reproduction process easier and faster for those who wish to.
 
 ## Literate programming
 
@@ -152,7 +157,7 @@ For the case where a report needs to be run routinely, this would involve signif
 be assembled "manually" with a word processor.
 Using a literate script would mean only minimal changes are required between interations.
 
-* Literate programs accommodate extensive documentation.
+* It accommodates extensive documentation.
 This allows the analyst to include rich descriptions of scientific works.
 For example, a report may contain background, methods, results, discussion and references.
 Not only text, but various objects can be included like links to other resources,
@@ -167,10 +172,10 @@ to which part of the script.
 By embedding the outputs (eg: charts and tables) in a document in the sequence that they were generated,
 it helps the reader understand the logical steps taken in any analysis.
 
-* Literate scripts are amenable to version control.
+* Amenable to version control.
 Version control is a useful best practice in software development (discussed below).
 
-* Literate programming output reports are free from code errors.
+* Output reports are free from code errors.
 The resulting document is only rendered when the entire script has compiled without errors.
 In contrast, a regular script might generate some outputs and then encounter an error,
 so we are not sure whether the whole script is free of errors and completed successfully.
@@ -202,21 +207,21 @@ made to sets of files, typically other computer program source code, scripts and
 A set of files under version control is called a "repository" and represents a project or sub-project.
 Version control is used extensively by software developers and is considered one of the key best
 practices in software engineering.
-Distributed version control systems involve a central web-accessible server to hosting a repository,
-and each team member possesses a mirror copy on their local system.
+Distributed version control systems (DVCS) involve a central web-accessible server to hosting a
+repository, and each team member possesses a mirror copy on their local system.
 Having a central, publicly available node assists in disseminating changes within teams and releasing
 code to consumers.
-There are many such distributed version control systems but `git` has emerged as the most popular
-solution due to it's many powerful features, speed and large community and ecosystem.
+There are many such DVCSs but `git` has emerged as the most popular
+solution due to it's many powerful features, speed/efficiency and large community and ecosystem.
 
-Computational researchers can benefit significantly by adopting version control into their routine
+Computational researchers can benefit significantly by adopting DVCS into their routine
 practices.
 Below I outline some of the benefits.
 
 * Keeps a complete history of all code changes over time.
 We always know which version of the script is the most up-to-date.
 We can inspect and execute the code and reproduce the analysis at any particular point in the past.
-Commit messages are retained, which gives a record of the motivations and purpose behind each
+Commit messages are retained, which gives a record of the motivations, purpose and person behind each
 modification.
 
 * Helps collaboration and project management.
@@ -228,22 +233,30 @@ These centralised platforms also enable discussions of code "issues" such as bug
 In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
 and allows team members to raise potential issues with a colleagues code (or one's own).
 
-* Version control also works extremely well for documentation.
-Books, educational resources and other data types are well served using version control (see below).
+* Supports documentation best practices.
+Books, educational resources and other data types are well served using DVCS (see below).
 
-* Version control makes works easily sharable.
+* Makes works easily sharable.
 Work is easier to reproduce because the source folder contains a complete workflow with linked code
 that doesn't need any modifications before being executed to reproduce some works.
 
-* Distributed version control systems protect against code loss.
+* Protect against code loss.
 Computers sometimes fail and we sometimes delete or overwrite important files.
-If the code is unrecoverable it can be a significant loss of work.
-Although version control systems are not a back-up solution, they do add a layer of protection to the
+If the code is unrecoverable it can be a significant loss of work that is costly to replace.
+Although DVCSs are not a back-up solution, they do add a layer of protection to the
 code.
 By preserving a copy of the repository on each team members computer in addition to the central
 repo, means the code can be easily recovered if any one of those computers fail.
 
-Need to mention long term (persistent) sharing.
+Although DVCSs assist with code sharing, they are not considered a long term solution and might not
+survive the "ten year challenge" of code reproducibility @Perkel2020-io.
+To achieve that, the code needs to be deposited to a long term
+repository.
+Zenodo and Figshare repositories are both good options for long term archiving of software, and the
+link to these should be provided in the respective journal article/pre-print.
+
+* Provide some links to practical guides.
+
 
 ## 2. Compute environment control
 
@@ -277,8 +290,6 @@ If the metadata and small data require some cleaning, then include the original 
 repository.
 The code should refer only to the cleaned data and the original files are there only for reference.
 
-
-
 * NCBI
 
 * Zenodo
@@ -291,6 +302,17 @@ The code should refer only to the cleaned data and the original files are there 
 
 ## Bringing it all together
 
+We provide some practical resources for those interested in adopting various
+
+| Topic | Resource |
+| --- | --- |
+| General coding for science | eg |
+| Version control | eg |
+| Literate programming | eg |
+| Environment control | eg |
+| Documentation | eg |
+| Data sharing | eg |
+
 Extreme reproducibility should be the new standard.
 
 It generally doesn't matter what type of computer you're using.
@@ -300,22 +322,24 @@ thanks to the remaining pillars.
 
 More systematic studies to assess reproducible practices are required.
 
+More step-by-step guides required for frequently used routines.
 
+Adoption of these practices would require a change in incentives. https://www.nature.com/articles/s41562-016-0021
 
 ## Acknowledgements
 
 I am grateful to the individuals who provided feedback on an [earlier draft of the five pillars
 concept](https://twitter.com/mdziemann/status/1650371743113175040) including:
 
-* Sriganesh Srihari
+* Sriganesh Srihari @srigsri23
 
-* Barbara Zdrazil
+* Barbara Zdrazil @BZdrazil
 
-* Aziz Khan
+* Aziz Khan @khanaziz84
 
-* Pierre Poulain
+* Pierre Poulain @pierrepo
 
-* Irene López Santiago
+* Irene López Santiago @IreneLopSci
 
 ## Bibliography
 
