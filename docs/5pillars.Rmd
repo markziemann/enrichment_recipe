@@ -24,7 +24,8 @@ Correspondance: m.ziemann@deakin.edu.au
 
 Computational reproducibility is in theory a simple premise, however in practice it is difficult to
 achieve.
-Here, we present a framework to improve reproducibility, called the five pillars.
+Building upon past efforts and proposals to maximise reproducibility and rigour, we
+present a framework called the five pillars of reproducible computational research.
 These are a combination of best practices which ensure that the computational research work can be
 reproduced quickly and easily, and will endure relatively long time-frames.
 
@@ -67,7 +68,7 @@ computational research works are unable to be reproduced.
 
 A number of guides recommending enhanced computational reproducibility practices have emerged
 [@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
-@Brito2020-ld; @Akalin2018-eg ; @Rodrigues2023-fw ]
+@Brito2020-ld; @Rodrigues2023-fw; @Wilson2017-uq; @Akalin2018-eg ]
 and this article attempts to unify these concepts and assemble a group of best practices where
 computational reproducibility can be considered as complete, using a framework called the
 five pillars of reproducible computational research (**Figure 1**).
@@ -103,7 +104,7 @@ text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ## End-to-end code coverage
 
-End-to-end code coverage is the foundation for reproducibility as the codebase should contain all
+End-to-end code coverage is the foundation for reproducibility as the codebase should ideally contain all
 instructions for completing a data analysis task.
 This removes the need for any manual steps, which are not only time-consuming but also prone to errors.
 Without end-to-end code coverage, most of the other best practices described here are not possible.
@@ -118,7 +119,7 @@ data transfer steps which are inefficient and error-prone.
 
 Related to this, the code and data need to be "linked", which means the code is aware of the location
 of the data and how to get it.
-The code should be able to fetch the data from a publicly available location and conduct the downstream
+The code should be able to fetch the data from a publicly accessible location and conduct the downstream
 processing and analysis without having to aquire the data some other way.
 
 A caveat for end-to-end code coverage is that sometimes manual data cleaning is unavoidable.
@@ -200,6 +201,26 @@ smaller scripts, where each one contains the code for generating a part of the a
 A multi-script approach would benefit from a master script that executes each component.
 This further makes the job of reproducibility easier.
 
+Practical guides for jupyter and R Markdown - put these on webarchive and provide persistent links.
+
+* https://medium.com/@itsjzt/beginner-guide-to-markdown-229adce30074
+
+* https://www.dataquest.io/blog/r-markdown-guide-cheatsheet/
+
+* https://tysonbarrett.com/Rstats/chapter-9-reproducible-workflow-with-rmarkdown.html
+
+* https://andrewbtran.github.io/NICAR/2017/reproducibility-rmarkdown/rmarkdown.html
+
+* https://quarto.org/docs/computations/r.html
+
+* https://quarto.org/docs/computations/python.html
+
+* https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/
+
+* https://www.dataquest.io/blog/jupyter-notebook-tutorial/
+
+* https://medium.com/velotio-perspectives/the-ultimate-beginners-guide-to-jupyter-notebooks-6b00846ed2af
+
 ## Code version control and persistent sharing
 
 A version control system (sometimes called "source control") is a type of program that "tracks changes"
@@ -255,12 +276,61 @@ repository.
 Zenodo and Figshare repositories are both good options for long term archiving of software, and the
 link to these should be provided in the respective journal article/pre-print.
 
-* Provide some links to practical guides.
+Practical guides for `git` and GitHub - put these on webarchive and provide persistent links.
 
+* https://www.datacamp.com/tutorial/github-and-git-tutorial-for-beginners/
 
-## 2. Compute environment control
+* https://www.freecodecamp.org/news/introduction-to-git-and-github/
 
-* Conda
+* https://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/
+
+* https://anderfernandez.com/en/blog/how-to-link-and-use-git-with-rstudio/
+
+* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
+
+* https://blog.reviewnb.com/github-jupyter-notebook/
+
+* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
+
+## Compute environment control
+
+Most popular software undergoes regular updates to patch bugs and add new features.
+Bioinformatics software is no different, and it is well known that such changes have the
+potential to cause changes to results @Seyednasrollah2015-cc.
+This is why it is best practice to report the exact version of all programs used in an analysis
+(and packages therein) and even make archival copies for future reference @Sandve2013-lk.
+
+In R, such reporting is possible using the `sessionInfo()` command;
+while for python this is possible using the `session_info` package.
+Using literate programming ensures that the output document contains a record of this important
+information.
+
+Although regular software updates are overall a good thing, it poses a problem for future
+reproducibility.
+A researcher trying to reproduce a 10 year old study in R v3.0 could have a headache, as they would need
+to roll back their R version, and possibly their operating system as well, as R and other languages
+requires certain system libraries like BLAS and LAPACK for low-level routines.
+
+To avoid this, a virtual machine (VM) could be used to run a system-in-a-system.
+This means that the "host" machine can run another "guest" operating system with the right R version,
+without needing to change the host R version.
+While this provides good reproducibility, setting up an environment with a 10 year old operating system,
+R and packages would take a few hours to accomplish.
+Researchers could take a snapshot of their VM system and share it to help reproducibility and
+auditability, however the size of these images is relatively large due to the fact it contains the OS,
+software stack and project data.
+Moreover, the performance of computation in guest system is typically slower than when run direct on
+the host.
+
+Another potential solution to this is to use the Conda package environment management system that
+allows researchers to easily create, manage, and deploy software packages, dependencies, and
+environments across different computing platforms @Perkel2023-cv.
+It was initially developed to solve the problem of package dependency management in Python, but it now
+supports many other programming languages, including R, C/C++, Java, and more.
+Conda allows researchers to create isolated environments with specific versions of
+packages and dependencies, so users can have different versions of R or python in different environments
+on the same host system.
+That said, some have reported difficulties with Conda solving some environments.
 
 * Containers: Docker/Guix/others
 
@@ -268,7 +338,7 @@ link to these should be provided in the respective journal article/pre-print.
 
 * Wasm
 
-## 4. Documentation
+## Documentation
 
 * Instructions needed
 
@@ -276,7 +346,7 @@ link to these should be provided in the respective journal article/pre-print.
 
 * Credits
 
-## 5. FAIR and persistent data sharing
+## FAIR and persistent data sharing
 
 
 * When designed correctly, the code "knows" where to access the associated metadata and data sets are,
@@ -289,6 +359,8 @@ Larger data files belong in a dedicated data repository, discussed below.
 If the metadata and small data require some cleaning, then include the original and cleaned data in the
 repository.
 The code should refer only to the cleaned data and the original files are there only for reference.
+
+Archive versions of critical reference datasets.
 
 * NCBI
 
