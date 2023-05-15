@@ -52,3 +52,6 @@ Then copy the report from the container to the working directory.
 docker cp $(docker ps -aql):/enrichment_recipe/example.html .
 
 ```
+
+The result you obtain should be identical to [this one](https://ziemann-lab.net/public/enrichment_recipe/example.html)
+we generated previously.

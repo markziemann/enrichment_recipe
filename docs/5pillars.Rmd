@@ -72,7 +72,6 @@ A number of guides recommending enhanced computational reproducibility practices
 and this article attempts to unify these concepts and assemble a group of best practices where
 computational reproducibility can be considered as complete, using a framework called the
 five pillars of reproducible computational research (**Figure 1**).
-
 The intended audience is bioinformatics data analysts (not tool developers), however the
 principles described here should translate to other domains of study.
 
@@ -130,14 +129,6 @@ then the computational workflow can begin with the cleaned dataset.
 
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
-
-Getting started with R and python:
-
-* Intro to R and Rstudio
-
-* Intro to python and ipython IDE
-
-* Intro to vscode
 
 ## Literate programming
 
@@ -212,26 +203,6 @@ smaller scripts, where each one contains the code for generating a part of the a
 A multi-script approach would benefit from a master script that executes each component.
 This further makes the job of reproducibility easier.
 
-Practical guides for jupyter and R Markdown - put these on webarchive and provide persistent links.
-
-* https://medium.com/@itsjzt/beginner-guide-to-markdown-229adce30074
-
-* https://www.dataquest.io/blog/r-markdown-guide-cheatsheet/
-
-* https://tysonbarrett.com/Rstats/chapter-9-reproducible-workflow-with-rmarkdown.html
-
-* https://andrewbtran.github.io/NICAR/2017/reproducibility-rmarkdown/rmarkdown.html
-
-* https://quarto.org/docs/computations/r.html
-
-* https://quarto.org/docs/computations/python.html
-
-* https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/
-
-* https://www.dataquest.io/blog/jupyter-notebook-tutorial/
-
-* https://medium.com/velotio-perspectives/the-ultimate-beginners-guide-to-jupyter-notebooks-6b00846ed2af
-
 ## Code version control and persistent sharing
 
 A version control system (sometimes called "source control") is a type of program that "tracks changes"
@@ -286,22 +257,6 @@ To achieve that, the code needs to be deposited to a long term
 repository.
 Zenodo and Figshare repositories are both good options for long term archiving of software, and the
 link to these should be provided in the respective journal article/pre-print.
-
-Practical guides for `git` and GitHub - put these on webarchive and provide persistent links.
-
-* https://www.datacamp.com/tutorial/github-and-git-tutorial-for-beginners/
-
-* https://www.freecodecamp.org/news/introduction-to-git-and-github/
-
-* https://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/
-
-* https://anderfernandez.com/en/blog/how-to-link-and-use-git-with-rstudio/
-
-* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
-
-* https://blog.reviewnb.com/github-jupyter-notebook/
-
-* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
 
 ## Compute environment control
 
@@ -388,7 +343,6 @@ enables in-browser reproducibility of R workflows @Balamuta2023-ma.
 
 ## FAIR and persistent data sharing
 
-
 * When designed correctly, the code "knows" where to access the associated metadata and data sets are,
 which avoids "file not found" errors.
 Metadata are usually small, so they can also be included in the repository as flat text files.
@@ -402,6 +356,8 @@ The code should refer only to the cleaned data and the original files are there 
 
 Archive versions of critical reference datasets.
 
+Use webarchive to archive important resources.
+
 * NCBI
 
 * Zenodo
@@ -414,12 +370,51 @@ Archive versions of critical reference datasets.
 
 ## Bringing it all together
 
+These innovations, when brought together facilitate extreme reproducibility, ie: makes reproducing a previous study relatively
+easy in terms of complexity, number of commands, and in time.
+For example, we made an example transcriptome analysis workflow based on the five pillars approach and it could could be installed
+and generate differential expression and pathway enrichment results in a matter of minutes.
+
+
+
+Extreme reproducibility should be the new standard.
+
+It generally doesn't matter what type of computer you're using.
+
+The benefit is that even if one of the pillars breaks, the overall study could be reproduced
+thanks to the remaining pillars.
+
+More systematic studies to assess reproducible practices are required.
+
+More step-by-step guides required for frequently used routines.
+
+Adoption of these practices would require a change in incentives. https://www.nature.com/articles/s41562-016-0021
+
+
+With the above innovations, it's possible to reproduce a computational study with just a few
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## References to read
+
 Computational reproducibility of
 Jupyter notebooks from biomedical
 publications
 https://arxiv.org/pdf/2209.04308.pdf
 
-RESEARCHOPS: A. PRINCIPLED FRAMEWORK. AND GUIDE TO. COMPUTATIONAL. REPRODUCIBILITY.
+RESEARCHOPS: A PRINCIPLED FRAMEWORK AND GUIDE TO COMPUTATIONAL REPRODUCIBILITY.
 https://osf.io/ubj76/download
 
 AlNoamany, Yasmin, and John A. Borghi. 2018. “Towards Computational Reproducibility: Researcher Perspectives on the Use and Sharing of
@@ -475,10 +470,11 @@ Peikert, Aaron, and Andreas Markus Brandmaier. 2019. “A Reproducible Data Anal
 PsyArXiv. https://doi.org/10.31234/osf.io/8xzqy (https://doi.org/10.31234/osf.io/8xzqy).
 @aaron_willcox ! " # || @Elliot_Gould_ ! " #
 
-
-
+## Practical guides
 
 We provide some practical resources for those interested in adopting various
+
+Put these on webarchive and provide persistent links
 
 | Topic | Resource |
 | --- | --- |
@@ -489,18 +485,60 @@ We provide some practical resources for those interested in adopting various
 | Documentation | eg |
 | Data sharing | eg |
 
-Extreme reproducibility should be the new standard.
 
-It generally doesn't matter what type of computer you're using.
+### Getting started with data analysis in R and python
 
-The benefit is that even if one of the pillars breaks, the overall study could be reproduced
-thanks to the remaining pillars.
+* Intro to R and Rstudio
 
-More systematic studies to assess reproducible practices are required.
+* Intro to python and ipython IDE
 
-More step-by-step guides required for frequently used routines.
+* Intro to vscode
 
-Adoption of these practices would require a change in incentives. https://www.nature.com/articles/s41562-016-0021
+### Literate programming with jupyter, R Markdown and Quarto
+
+* https://medium.com/@itsjzt/beginner-guide-to-markdown-229adce30074
+
+* https://www.dataquest.io/blog/r-markdown-guide-cheatsheet/
+
+* https://tysonbarrett.com/Rstats/chapter-9-reproducible-workflow-with-rmarkdown.html
+
+* https://andrewbtran.github.io/NICAR/2017/reproducibility-rmarkdown/rmarkdown.html
+
+* https://quarto.org/docs/computations/r.html
+
+* https://quarto.org/docs/computations/python.html
+
+* https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/
+
+* https://www.dataquest.io/blog/jupyter-notebook-tutorial/
+
+* https://medium.com/velotio-perspectives/the-ultimate-beginners-guide-to-jupyter-notebooks-6b00846ed2af
+
+### Practical guides for `git` and GitHub
+
+* https://www.datacamp.com/tutorial/github-and-git-tutorial-for-beginners/
+
+* https://www.freecodecamp.org/news/introduction-to-git-and-github/
+
+* https://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/
+
+* https://anderfernandez.com/en/blog/how-to-link-and-use-git-with-rstudio/
+
+* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
+
+* https://blog.reviewnb.com/github-jupyter-notebook/
+
+* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
+
+### Practical guides for Conda, Guix and Docker
+
+
+### Practical guides for documenting computational research
+
+
+### Practical guides to data sharing
+
+
 
 ## Acknowledgements
 
