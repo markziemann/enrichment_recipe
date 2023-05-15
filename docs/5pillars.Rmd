@@ -72,7 +72,9 @@ A number of guides recommending enhanced computational reproducibility practices
 and this article attempts to unify these concepts and assemble a group of best practices where
 computational reproducibility can be considered as complete, using a framework called the
 five pillars of reproducible computational research (**Figure 1**).
-These concepts are unpacked in the following sections.
+
+The intended audience is bioinformatics data analysts (not tool developers), however the
+principles described here should translate to other domains of study.
 
 ```{r,5pillars,fig.cap="Figure 1. The five pillars of computational reproducibility.",echo=FALSE,fig.height=6}
 
@@ -123,10 +125,19 @@ The code should be able to fetch the data from a publicly accessible location an
 processing and analysis without having to aquire the data some other way.
 
 A caveat for end-to-end code coverage is that sometimes manual data cleaning is unavoidable.
-In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended.
+In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended,
+then the computational workflow can begin with the cleaned dataset.
 
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
+
+Getting started with R and python:
+
+* Intro to R and Rstudio
+
+* Intro to python and ipython IDE
+
+* Intro to vscode
 
 ## Literate programming
 
@@ -322,21 +333,50 @@ software stack and project data.
 Moreover, the performance of computation in guest system is typically slower than when run direct on
 the host.
 
-Another potential solution to this is to use the Conda package environment management system that
-allows researchers to easily create, manage, and deploy software packages, dependencies, and
-environments across different computing platforms @Perkel2023-cv.
-It was initially developed to solve the problem of package dependency management in Python, but it now
-supports many other programming languages, including R, C/C++, Java, and more.
+Another potential solution to this is to use a package environment management system
+(eg: Conda or Guix).
+These allow users to easily create, manage, and deploy software packages,
+dependencies, and environments across different computing platforms @Perkel2023-cv.
+Conda was initially developed to solve the problem of package dependency management in Python,
+but it now supports many other programming languages, including R, C/C++, Java, and more.
 Conda allows researchers to create isolated environments with specific versions of
-packages and dependencies, so users can have different versions of R or python in different environments
+packages, so users can have different versions of R or python in different environments
 on the same host system.
-That said, some have reported difficulties with Conda solving some environments.
+Conda however does not typically disseminate the research code, as it is up to the reproducer to
+set that up inside the environment.
+Moreover Conda environments have limitations around portability and consistency, as Conda environments
+are tied to specific operating systems and hardware architecture.
+Guix on the other hand, gives system-level reproducibility, but has a smaller community and ecosystem
+of supported packages.
 
-* Containers: Docker/Guix/others
+Containers are an attempt to resolve some of the downsides of virtual machines and package managers.
+Container images can be thought of as similar to virtual machines, but are more lightweight as they
+share parts of the host operating system.
+This means that execution in a container entails only a small overhead as compared to virtual machines
+where the overhead is much larger, meaning that performance in containers is similar to the host system.
+Containers provide a consistent runtime environment, ensuring that applications runs the same way
+across different types of systems and environments.
+This is because containers include everything needed to run the application, including the system tools
+and libraries, ensuring that the environment is consistent across different systems.
+For example, the most popular containerisation system, Docker, has cross platform support, so it is
+possible to run Windows and Linux/Unix containers on any computer with Docker installed, with the
+promise of reproducibility.
+While there are several alternatives such as Podman and Rkt, Docker remains the most widely used
+containerisation system for web development and research.
+Due to its early adoption, Docker now has a large community of users, extensive documentation and
+a vast collection of pre-built container images called DockerHub.
+Docker can fetch images from DockerHub and run them on the host system with just a couple of commands,
+and typically within a few minutes.
+This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
+reproducibility.
 
-* Virtual machines
-
-* Wasm
+We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
+compute environment control.
+The ability to reproduce operating systems, programming languages and workflows in the browser
+opens up intriguing possibilities for more widespread reproduction and auditing without the need to
+install any software at all.
+For example, it is now possible embed a Wasm-enabled R terminal inside a Quarto HTML document, which
+enables in-browser reproducibility of R workflows @Balamuta2023-ma.
 
 ## Documentation
 
@@ -373,6 +413,67 @@ Archive versions of critical reference datasets.
 * Portico
 
 ## Bringing it all together
+
+Computational reproducibility of
+Jupyter notebooks from biomedical
+publications
+https://arxiv.org/pdf/2209.04308.pdf
+
+AlNoamany, Yasmin, and John A. Borghi. 2018. “Towards Computational Reproducibility: Researcher Perspectives on the Use and Sharing of
+Software.” Article. PEERJ COMPUTER SCIENCE, September. https://doi.org/ghkb9j (https://doi.org/ghkb9j).
+
+Archmiller, Althea A., Andrew D. Johnson, Jane Nolan, Margaret Edwards, Lisa H. Elliott, Jake M. Ferguson, Fabiola Iannarilli, et al. 2020.
+“Computational Reproducibility in the Wildlife Society’s Flagship Journals.” Article. JOURNAL OF WILDLIFE MANAGEMENT 84 (5): 1012–17.
+https://doi.org/gg66q7 (https://doi.org/gg66q7).
+
+Beaulieu-Jones, Brett K, and Casey S Greene. 2017. “Reproducibility of Computational Workflows Is Automated Using Continuous Analysis.”
+Nature Biotechnology, no. 4: 342.
+
+Catlin, Ann Christine, Chandima HewaNadungodage, and Andres Bejarano. 2019. “Lifecycle Support for Scientific Investigations: Integrating
+Data, Computing, and Workflows.” Article. COMPUTING IN SCIENCE & ENGINEERING 21 (4): 49–61. https://doi.org/gjt725 (https://doi.org
+/gjt725).
+
+Culina, Antica et al. 2018. “Navigating the Unfolding Open Data Landscape in Ecology and Evolution.” Nature Ecology & Evolution, 1–7.
+de Bayser, Maximilien, Leonardo G. Azevedo, and Renato Cerqueira. 2015. “ResearchOps: The Case for DevOps in Scientific Applications.” In
+2015 IFIP/IEEE International Symposium on Integrated Network Management (IM), 1398–1404. Ottawa, ON, Canada: IEEE. https://doi.org
+/ghkb9s (https://doi.org/ghkb9s).
+
+Díaz, Jessica, Jorge Pérez-Martínez, Agustin Yague, Andrea Villegas, and Antonio Antona. 2019. DevOps in Practice – A Preliminary Analysis of
+Two Multinational Companies.
+
+Hatton, L., and M. Van Genuchten. 2019. “Computational Reproducibility: The Elephant in the Room.” IEEE Software 36 (2): 137–44.
+https://doi.org/ggkvtr (https://doi.org/ggkvtr).
+
+Hocquet, Alexandre, and Frederic Wieber. 2021a. “Epistemic Issues in Computational Reproducibility: Software as the Elephant in the Room.”
+Article. EUROPEAN JOURNAL FOR PHILOSOPHY OF SCIENCE 11 (2). https://doi.org/gkm94m (https://doi.org/gkm94m).
+
+Hocquet, Alexandre, and Frédéric Wieber. 2021b. “Epistemic Issues in Computational Reproducibility: Software as the Elephant in the Room.”
+European Journal for Philosophy of Science 11 (2). https://doi.org/gkm94m (https://doi.org/gkm94m).
+
+Koehler Leman, Julia, Brian D. Weitzner, P. Douglas Renfrew, Steven M. Lewis, Rocco Moretti, Andrew M. Watkins, Vikram Khipple Mulligan, et al.
+2020. “Better Together: Elements of Successful Scientific Software Development in a Distributed Collaborative Community.” PLoS
+Computational Biology 16 (5): e1007507. https://doi.org/ggt62r (https://doi.org/ggt62r).
+
+Leipzig, Jeremy, Daniel Nüst, Charles Tapley Hoyt, Stian Soiland-Reyes, Karthik Ram, and Jane Greenberg. 2020. “The Role of Metadata in
+Reproducible Computational Research.”
+
+Maer-Matei, Monica Mihaela, Tiberiu Marian Georgescu, Cristina Mocanu, and Ana-Maria Zamfir. 2019/01/01////. “Skill Needs for Early Career
+Researchers.” Sustainability 11 (10). https://doi.org/ghkb9m (https://doi.org/ghkb9m).
+
+Murray, NJ et al. 2021. “Data Freshness in Ecology and Conservation.” Trends Ecol Evol 36 (6): 485–87.
+
+Obels, Pepijn, Daniël Lakens, Nicholas Coles, Jaroslav Gottfried, and Seth Green. 2020. “Analysis of Open Data and Computational
+
+Reproducibility in Registered Reports in Psychology.” Advances in Methods and Practices in Psychological Science 3 (May):
+251524592091887. https://doi.org/gg4vw4 (https://doi.org/gg4vw4).
+
+Peikert, Aaron, and Andreas Markus Brandmaier. 2019. “A Reproducible Data Analysis Workflow with R Markdown, Git, Make, and Docker.”
+
+PsyArXiv. https://doi.org/10.31234/osf.io/8xzqy (https://doi.org/10.31234/osf.io/8xzqy).
+@aaron_willcox ! " # || @Elliot_Gould_ ! " #
+
+
+
 
 We provide some practical resources for those interested in adopting various
 
