@@ -41,7 +41,7 @@ library("DiagrammeR")
 
 In research, computational reproducibility is the ability to use the materials from a past study
 (such as data, code and documentation) to regenerate the outputs including figures and tables to
-confirm the study's findings Goodman2016-wi.
+confirm the study's findings @Goodman2016-wi.
 Reproducibility is only the first step towards overall reliability, for example a study may be
 reproducible, but suffer from analytical problems that invalidate the results.
 If a study is reproducible, then at least these analytical issues can be more easily identified and
@@ -63,7 +63,7 @@ those studies.
 Irreproducible bioinformatics has the potential to place patient safety at risk, as demonstrated by an
 earlier case study @Baggerly2010-nr.
 
-As computational researchers, we are theoretically able to achieve 100% analytical reproducibility,
+Researchers are theoretically able to achieve 100% computational reproducibility,
 however in practice this is rarely achieved.
 Data and code availability, ability to install software easily, and other factors mean that most
 computational research works are unable to be reproduced @Samuel2022-ha.
@@ -142,8 +142,8 @@ such as figures and tables along with contextualising explanations and narrative
 The Sweave project, concieved in 2001, was designed to give LaTeX documents embedded R code chunks and
 was envisaged as a way to generate R documentation materials and generate statistical analysis reports
 @Leisch2002-yc.
-Around 2015, R Markdown emerged as a more popular alternative, as formatting is simpler as compared to
-Sweave, saving time.
+Around 2015, R Markdown emerged as a more popular alternative, as formatting content is simpler with 
+Markdown as compared to LaTeX, saving time.
 An example R Markdown script and output report is given in Figure 2.
 
 ![Figure 2. An example R Markdown script (left) and output document (right).](../img/markdownchunk.png)
@@ -154,7 +154,7 @@ In 2022, the company behind RStudio (Posit) released Quarto, the conceptual succ
 but with enhanced support for other computer languages like Python, Julia, and Observable JavaScript
 @Bauer2023-eh.
 
-Whether Rmarkdown, Jupyter or Quarto, literate programming offers some substantial benefits over
+Whether R Markdown, Jupyter or Quarto, literate programming offers some substantial benefits over
 alternative approaches:
 
 * The provenance of any result can be demonstrated.
@@ -165,7 +165,7 @@ copy-paste operations required might contain errors, or version mismatches.
 * It saves time.
 For the case where a report needs to be run routinely, this would involve significant copy-paste to
 be assembled "manually" with a word processor.
-Using a literate script would mean only minimal changes are required between interations.
+Using a literate script would mean only minimal changes are required between interations @Perkel2022-af.
 
 * It accommodates extensive documentation.
 This allows the analyst to include rich descriptions of scientific works.
@@ -180,15 +180,17 @@ disk with names like "chart1.png" or "model8.svg".
 When the number of outputs is large, it becomes unwieldy and hard to place which plot corresponds
 to which part of the script.
 By embedding the outputs (eg: charts and tables) in a document in the sequence that they were generated,
-it helps the reader understand the logical steps taken in any analysis.
+it helps the reader understand the logical steps taken in an analysis.
 
 * Amenable to version control.
 Version control is a useful best practice in software development (discussed below).
 
 * Output reports are free from code errors.
-The resulting document is only rendered when the entire script has compiled without errors.
+The output document is only rendered when the entire script has compiled without errors.
 In contrast, a regular script might generate some outputs and then encounter an error,
 so we are not sure whether the whole script is free of errors and completed successfully.
+Therefore it is good practice to routinely execute these scripts during the development process,
+and not rely too heavily on the interactive execution of individual chunks or lines.
 
 * Flexible output formats.
 These include PDF, DOC/DOCX and HTML, with HTML having some notable benefits to other formats
@@ -218,7 +220,7 @@ made to sets of files, typically other computer program source code, scripts and
 A set of files under version control is called a "repository" and represents a project or sub-project.
 Version control is used extensively by software developers and is considered one of the key best
 practices in software engineering.
-Distributed version control systems (DVCS) involve a central web-accessible server to hosting a
+Distributed version control systems (DVCS) involve a central web-accessible server hosting a
 repository, and each team member possesses a mirror copy on their local system.
 Having a central, publicly available node assists in disseminating changes within teams and releasing
 code to consumers.
@@ -253,16 +255,16 @@ Open-Source Software @Editorial2018-kt.
 Books, educational resources and other data types are well served using DVCS (see below).
 
 * Makes works easily sharable.
-Work is easier to reproduce because the source folder contains a complete workflow with linked code
-that doesn't need any modifications before being executed to reproduce some works.
+Work is easier to reproduce because the source folder contains a complete workflow with code linked
+to data and metadata, so it doesn't need any modifications before reproduction.
 
 * Protect against code loss.
 Computers sometimes fail and we sometimes delete or overwrite important files.
-If the code is unrecoverable it can be a significant loss of work that is costly to replace.
+If code is lost and unrecoverable it can be a significant cost to replace.
 Although DVCSs are not a back-up solution, they do add a layer of protection to the
 code.
-By preserving a copy of the repository on each team members computer in addition to the central
-repo, means the code can be easily recovered if any one of those computers fail.
+By preserving a copy of the repository on each team members' computer in addition to the central
+repository, means the code can be easily recovered if any one of those computers fail.
 
 Although DVCSs assist with code sharing, they are not considered a long term archiving solution and
 might not survive the "ten year challenge" of code reproducibility @Perkel2020-io.
@@ -274,12 +276,12 @@ link to these should be provided in the respective journal article/pre-print.
 
 Most popular software undergoes regular updates to patch bugs and add new features.
 Bioinformatics software is no different, and it is well known that such changes have the
-potential to cause changes to results @Seyednasrollah2015-cc.
+potential to affect results @Seyednasrollah2015-cc.
 This is why it is best practice to report the exact version of all programs used in an analysis
 (and packages therein) and even make archival copies for future reference @Sandve2013-lk.
 
 In R, such reporting is possible using the `sessionInfo()` command;
-while for python this is possible using the `session_info` package.
+while for Python this is possible using the `session_info` package.
 Using literate programming ensures that the output document contains a record of this important
 information.
 
@@ -287,7 +289,7 @@ Although regular software updates are overall a good thing, it poses a problem f
 reproducibility.
 A researcher trying to reproduce a 10 year old study in R v3.0 could have a headache, as they would need
 to roll back their R version, and possibly their operating system as well, as R and other languages
-requires certain system libraries like BLAS and LAPACK for low-level routines.
+requires certain system libraries for low-level routines.
 
 To avoid this, a virtual machine (VM) could be used to run a system-in-a-system.
 This means that the "host" machine can run another "guest" operating system with the right R version,
@@ -300,14 +302,14 @@ software stack and project data.
 Moreover, the performance of computation in guest system is typically slower than when run direct on
 the host.
 
-Another potential solution to this is to use a package environment management system
+Another potential solution to this is to use a package/environment management system
 (eg: Conda or Guix).
-These allow users to easily create, manage, and deploy software packages,
+These allow users to create, manage, and deploy software packages,
 dependencies, and environments across different computing platforms @Perkel2023-cv.
 Conda was initially developed to solve the problem of package dependency management in Python,
 but it now supports many other programming languages, including R, C/C++, Java, and others.
 Conda allows researchers to create isolated environments with specific versions of
-packages, so users can have different versions of R or python in different environments
+packages, so users can have different versions of R or Python in different environments
 on the same host system.
 Conda environments have limitations around portability and consistency, as such environments
 are tied to specific operating systems and hardware architecture.
@@ -318,7 +320,7 @@ Containers are an attempt to resolve some of the downsides of virtual machines a
 Container images can be thought of as similar to virtual machines, but are more lightweight as they
 share parts of the host operating system.
 In contrast to VMs, running containers incurs only a small reduction in performance as compared
-to running directly on the host system @Di_Tommaso2015.
+to running directly on the host system @Di_Tommaso2015-pw.
 Container images are highly portable because containers include everything needed to run the
 application, including the system tools and libraries, ensuring that the environment is consistent
 across different systems.
@@ -332,7 +334,7 @@ a vast collection of pre-built container images called DockerHub.
 Docker can fetch images from DockerHub and run them on the host system with just a couple of commands,
 and typically within a few minutes.
 This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
-reproducibility.
+reproducibility @Mangul2019-ei.
 
 We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
 compute environment control.
@@ -405,27 +407,39 @@ won't be generated, and the source of the error can be investigated.
 It is worthwhile to conduct such testing on a separate computer to understand how someone else in the
 scientific community would fare reproducing such a workflow.
 
-Some researchers have suggested to take it even further, by adopting the software development
-principles of unit tests and continuous integration/continuous delivery into the research process.
-By doing this, the entire project workflow is automatically executed and checked whenever a change is
-made to the code base.
+Some researchers have suggested to take it even further, by adapting software development
+principles of unit tests and continuous integration/continuous delivery.
+This approach, called "continuous analysis" involves automatic execution and testing whenever a change is
+made to the project's code base @Beaulieu-Jones2017-vj.
+
 If the workflow executes successfully and tests are passed, the repository can be decorated with a
 "badge" to inform users of the lack of errors in the code.
 If those tests are designed cleverly such that certain conclusions drawn in the corresponding research
 article can be assessed computationally, then such tests could be used to demonstrate computational
 reproducibility without the need for individuals to execute the workflow themselves.
 
-Extreme reproducibility should be the new standard.
+## Where to from here
 
+The key technological advances enabling the five pillars approach have been around for about a decade,
+yet progress on integrating these into computational research publications has been minimal.
+Part of the problem is that funding bodies and journals are focused on supporting novel research
+directions, instead of validating previous findings.
+Indeed the number of systematic replication studies in bioinformatics remains very small
+(eg: [@Ioannidis2009-hv; @Samuel2022-ha]), so we don't have much of a grasp as to how severe the problem
+actually is.
 
-More systematic studies to assess reproducible practices are required.
+A part of the problem lies in the lack of technical computer skills in many research groups.
+Specific training in these areas could help, but the most scalable solution would be to
+provide comprehensive beginner-friendly step-by-step guides for frequently used routines.
+For example, my group has just released such a protocol that walks novice users through the process
+of implementing functional enrichment analysis of gene expression data with the five pillars principles
+@Ziemann2023-nm.
+More such protocols are needed to make extreme reproducibility mainstream.
 
-More step-by-step guides required for frequently used routines.
 
 Adoption of these practices would require a change in incentives. https://www.nature.com/articles/s41562-016-0021
 
 
-With the above innovations, it's possible to reproduce a computational study with just a few
 
 
 
@@ -520,11 +534,11 @@ Put these on webarchive and provide persistent links
 | Data sharing | eg |
 
 
-### Getting started with data analysis in R and python
+### Getting started with data analysis in R and Python
 
 * Intro to R and Rstudio
 
-* Intro to python and ipython IDE
+* Intro to Python and iPython IDE
 
 * Intro to vscode
 
