@@ -20,6 +20,8 @@ Deakin University, Geelong, Australia, School of Life and Environmental Sciences
 
 Correspondance: m.ziemann@deakin.edu.au
 
+Source: https://github.com/markziemann/enrichment_recipe/blob/main/docs/5pillars.Rmd
+
 ## Summary
 
 Computational reproducibility is in theory a simple premise, however in practice it is difficult to
@@ -64,7 +66,7 @@ earlier case study @Baggerly2010-nr.
 As computational researchers, we are theoretically able to achieve 100% analytical reproducibility,
 however in practice this is rarely achieved.
 Data and code availability, ability to install software easily, and other factors mean that most
-computational research works are unable to be reproduced.
+computational research works are unable to be reproduced @Samuel2022-ha.
 
 A number of guides recommending enhanced computational reproducibility practices have emerged
 [@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
@@ -90,6 +92,7 @@ polygon(c(-0.2,10,10,-0.2),c(-0.4,-0.4,0.8,0.8),col="lightgray", border = NA)
 polygon(c(-0.2,5,10),c(6.3,8.5,6.3),col="lightgray", border = NA)
 points( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5), pch=19,cex=18,col=cols )
 text(5,7,lab="Five pillars of reproducible computational research", cex=1.5)
+#mtext("Five pillars of reproducible computational research", cex=1.5)
 
 labs <- c("Code version\ncontrol &\npersistent\n sharing",
   "Compute \nenvironment \ncontrol",
@@ -99,6 +102,7 @@ labs <- c("Code version\ncontrol &\npersistent\n sharing",
 
 text( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5) , lab=labs)
 text( 5 , 0.2 , lab="End-to-end code coverage")
+#text(5,7,lab="Code testing")
 text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ```
@@ -117,7 +121,6 @@ somewhat overused in the life sciences.
 Transfering data between compute platforms is also discouraged.
 For example, having workflows that involve combinations of web-based and scripted tools require
 data transfer steps which are inefficient and error-prone.
-
 Related to this, the code and data need to be "linked", which means the code is aware of the location
 of the data and how to get it.
 The code should be able to fetch the data from a publicly accessible location and conduct the downstream
@@ -141,6 +144,10 @@ was envisaged as a way to generate R documentation materials and generate statis
 @Leisch2002-yc.
 Around 2015, R Markdown emerged as a more popular alternative, as formatting is simpler as compared to
 Sweave, saving time.
+An example R Markdown script and output report is given in Figure 2.
+
+![Figure 2. An example R Markdown script (left) and output document (right).](../img/markdownchunk.png)
+
 Around the same time, Project Jupyter was developed to provide a "notebook" type interface, incorporating
 R, Python, Julia and other computer language chunks into documents @Perkel2018-rz.
 In 2022, the company behind RStudio (Posit) released Quarto, the conceptual successor of R Markdown,
@@ -197,7 +204,8 @@ ability to construct transparent data narratives with clear provenance in a conv
 form.
 
 Literate programming also works neatly with the concept of the "executable paper", the idea that
-the data analysis underlying an entire study can be reproduced with one or a few commands @Lasser2020-mm.
+the data analysis underlying an entire study can be reproduced with one or a few commands
+[@Strijkers2011-py ; @Editorial2017-yt; @Lasser2020-mm].
 A typical genomics/bioinformatics study could involve one large literate script, or be broken down into
 smaller scripts, where each one contains the code for generating a part of the article.
 A multi-script approach would benefit from a master script that executes each component.
@@ -232,9 +240,14 @@ Using a centralised code hosting platform such as "GitHub" or "BitBucket" can he
 from team members who may be working ascynchrously in different timezones and on different servers.
 It also makes the user's work searchable, which is convenient when code snippets from a project
 need to be reused for a new project.
-These centralised platforms also enable discussions of code "issues" such as bugs and feature requests.
+
+* Helps resolve issues.
+These centralised platforms also enable discussions of code issues such as bugs and feature requests.
 In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
 and allows team members to raise potential issues with a colleagues code (or one's own).
+This also allows the scientific community to raise an issue with the software maintainers.
+For example, this feature is used extensively during the peer review process for the Journal of
+Open-Source Software @Editorial2018-kt.
 
 * Supports documentation best practices.
 Books, educational resources and other data types are well served using DVCS (see below).
@@ -251,10 +264,9 @@ code.
 By preserving a copy of the repository on each team members computer in addition to the central
 repo, means the code can be easily recovered if any one of those computers fail.
 
-Although DVCSs assist with code sharing, they are not considered a long term solution and might not
-survive the "ten year challenge" of code reproducibility @Perkel2020-io.
-To achieve that, the code needs to be deposited to a long term
-repository.
+Although DVCSs assist with code sharing, they are not considered a long term archiving solution and
+might not survive the "ten year challenge" of code reproducibility @Perkel2020-io.
+To achieve that, the code needs to be deposited to a long term repository.
 Zenodo and Figshare repositories are both good options for long term archiving of software, and the
 link to these should be provided in the respective journal article/pre-print.
 
@@ -293,13 +305,11 @@ Another potential solution to this is to use a package environment management sy
 These allow users to easily create, manage, and deploy software packages,
 dependencies, and environments across different computing platforms @Perkel2023-cv.
 Conda was initially developed to solve the problem of package dependency management in Python,
-but it now supports many other programming languages, including R, C/C++, Java, and more.
+but it now supports many other programming languages, including R, C/C++, Java, and others.
 Conda allows researchers to create isolated environments with specific versions of
 packages, so users can have different versions of R or python in different environments
 on the same host system.
-Conda however does not typically disseminate the research code, as it is up to the reproducer to
-set that up inside the environment.
-Moreover Conda environments have limitations around portability and consistency, as Conda environments
+Conda environments have limitations around portability and consistency, as such environments
 are tied to specific operating systems and hardware architecture.
 Guix on the other hand, gives system-level reproducibility, but has a smaller community and ecosystem
 of supported packages.
@@ -307,13 +317,12 @@ of supported packages.
 Containers are an attempt to resolve some of the downsides of virtual machines and package managers.
 Container images can be thought of as similar to virtual machines, but are more lightweight as they
 share parts of the host operating system.
-This means that execution in a container entails only a small overhead as compared to virtual machines
-where the overhead is much larger, meaning that performance in containers is similar to the host system.
-Containers provide a consistent runtime environment, ensuring that applications runs the same way
-across different types of systems and environments.
-This is because containers include everything needed to run the application, including the system tools
-and libraries, ensuring that the environment is consistent across different systems.
-For example, the most popular containerisation system, Docker, has cross platform support, so it is
+In contrast to VMs, running containers incurs only a small reduction in performance as compared
+to running directly on the host system @Di_Tommaso2015.
+Container images are highly portable because containers include everything needed to run the
+application, including the system tools and libraries, ensuring that the environment is consistent
+across different systems.
+For example, the most popular containerisation system, Docker, makes it
 possible to run Windows and Linux/Unix containers on any computer with Docker installed, with the
 promise of reproducibility.
 While there are several alternatives such as Podman and Rkt, Docker remains the most widely used
@@ -332,6 +341,14 @@ opens up intriguing possibilities for more widespread reproduction and auditing 
 install any software at all.
 For example, it is now possible embed a Wasm-enabled R terminal inside a Quarto HTML document, which
 enables in-browser reproducibility of R workflows @Balamuta2023-ma.
+
+It is not sufficient to simply use these tools, they need to be shared as part of the publication
+process.
+Conda environments are described by a file called `environment.yml` which acts like a recipe for how to
+make the environment.
+As they are a recipe, these are small files which are easily shared in the project code repository.
+Docker images are larger, and cannot be shared in the code repository, so these need to be archived
+in a long term repository, such as Zenodo or FigShare.
 
 ## Documentation
 
@@ -370,19 +387,36 @@ Use webarchive to archive important resources.
 
 ## Bringing it all together
 
-These innovations, when brought together facilitate extreme reproducibility, ie: makes reproducing a previous study relatively
-easy in terms of complexity, number of commands, and in time.
-For example, we made an example transcriptome analysis workflow based on the five pillars approach and it could could be installed
-and generate differential expression and pathway enrichment results in a matter of minutes.
+When these features are brought together they facilitate extreme reproducibility, ie: makes reproducing a
+previous study relatively easy in terms of complexity, number of commands, and in time.
+For example, we made an example transcriptome analysis workflow based on the five pillars approach and
+it could could be installed and generate differential expression and pathway enrichment results in a
+matter of minutes @Ziemann_undated-zx.
 
+When not integrated correctly, problems readily emerge.
+A recent systematic examination of Jupyter notebooks in GitHub repositories accompanying research papers
+found that environment problems (eg: "module not found", "import error") and lack of data links
+(eg: "file not found" errors) accounted for 80% of code errors @Samuel2022-ha.
 
+This is why regular code testing is another recommended best practice.
+By regularly executing the workflow after changes are made ensures the absence of code errors.
+Executing literate scripts is the simplest approach, as if there is an error incurred the output report
+won't be generated, and the source of the error can be investigated.
+It is worthwhile to conduct such testing on a separate computer to understand how someone else in the
+scientific community would fare reproducing such a workflow.
+
+Some researchers have suggested to take it even further, by adopting the software development
+principles of unit tests and continuous integration/continuous delivery into the research process.
+By doing this, the entire project workflow is automatically executed and checked whenever a change is
+made to the code base.
+If the workflow executes successfully and tests are passed, the repository can be decorated with a
+"badge" to inform users of the lack of errors in the code.
+If those tests are designed cleverly such that certain conclusions drawn in the corresponding research
+article can be assessed computationally, then such tests could be used to demonstrate computational
+reproducibility without the need for individuals to execute the workflow themselves.
 
 Extreme reproducibility should be the new standard.
 
-It generally doesn't matter what type of computer you're using.
-
-The benefit is that even if one of the pillars breaks, the overall study could be reproduced
-thanks to the remaining pillars.
 
 More systematic studies to assess reproducible practices are required.
 
