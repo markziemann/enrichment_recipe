@@ -142,11 +142,11 @@ such as figures and tables along with contextualising explanations and narrative
 The Sweave project, concieved in 2001, was designed to give LaTeX documents embedded R code chunks and
 was envisaged as a way to generate R documentation materials and generate statistical analysis reports
 @Leisch2002-yc.
-Around 2015, R Markdown emerged as a more popular alternative, as formatting content is simpler with 
+Around 2015, R Markdown emerged as a more popular alternative, as formatting content is simpler with
 Markdown as compared to LaTeX, saving time.
-An example R Markdown script and output report is given in Figure 2.
+An example R Markdown script and output report is given in **Figure 2**.
 
-![Figure 2. An example R Markdown script (left) and output document (right).](../img/markdownchunk.png)
+![Figure 2. An example R Markdown script (left) and output document (right) @RStudio2016-fw.](../img/markdownchunk.png)
 
 Around the same time, Project Jupyter was developed to provide a "notebook" type interface, incorporating
 R, Python, Julia and other computer language chunks into documents @Perkel2018-rz.
@@ -221,11 +221,67 @@ A set of files under version control is called a "repository" and represents a p
 Version control is used extensively by software developers and is considered one of the key best
 practices in software engineering.
 Distributed version control systems (DVCS) involve a central web-accessible server hosting a
-repository, and each team member possesses a mirror copy on their local system.
+repository, and each team member possesses a mirror copy on their local system (**Figure 3**).
 Having a central, publicly available node assists in disseminating changes within teams and releasing
 code to consumers.
 There are many such DVCSs but `git` has emerged as the most popular
 solution due to it's many powerful features, speed/efficiency and large community and ecosystem.
+
+```{r,dvcs,fig.cap="Figure 3. Distributed version control. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
+
+cols2 <- adjustcolor( cols, alpha.f = 0.4)
+
+plot(0,type='n',axes=FALSE,ann=FALSE, xlim=c(0, 10), ylim=c(0, 8.5))
+polygon(c(-0.6,3,3,-0.6),c(0.8,0.8,5.2,5.2), col=cols2[1], border = NA)
+polygon(c(-0.2,2.8,2.8,-0.2),c(1,1,2,2), col=cols[1], border = NA)
+polygon(c(-0.2,2.8,2.8,-0.2),c(4,4,5,5), col=cols[1], border = NA)
+
+polygon(c(3.1,6.7,6.7,3.1),c(0.8,0.8,5.2,5.2), col=cols2[2], border = NA)
+polygon(c(3.3,6.5,6.5,3.3),c(1,1,2,2), col=cols[2], border = NA)
+polygon(c(3.3,6.5,6.5,3.3),c(4,4,5,5), col=cols[2], border = NA)
+
+polygon(c(6.8,10.2,10.2,6.8),c(0.8,0.8,5.2,5.2), col=cols2[3], border = NA)
+polygon(c(7,10,10,7),c(1,1,2,2), col=cols[3], border = NA)
+polygon(c(7,10,10,7),c(4,4,5,5), col=cols[3], border = NA)
+
+polygon(c(2.5,7.3,7.3,2.5),c(7,7,8.5,8.5), col=cols[4], border = NA)
+
+labs <- c("Developer 1",
+  "Local Repo",
+  "Working Files",
+  "Developer 2",
+  "Local Repo",
+  "Working Files",
+  "Developer 3",
+  "Local Repository",
+  "Working Files")
+
+text( c(1.2,1.2,1.2,4.9,4.9,4.9,8.5,8.5,8.5), c(0,1.5,4.5,0,1.5,4.5,0,1.5,4.5), labels=labs )
+text(4.9,7.7,labels="Main Repository",cex=1.5)
+
+arrows( 1, 2, 1, 4 ,lwd=3)
+arrows( 1.4, 4, 1.4, 2 ,lwd=3)
+arrows( 4.7, 2, 4.7, 4 ,lwd=3)
+arrows( 5.1, 4, 5.1, 2 ,lwd=3)
+arrows( 8.3, 2, 8.3, 4 ,lwd=3)
+arrows( 8.7, 4, 8.7, 2 ,lwd=3)
+arrows( 1, 5, 2.5, 7 ,lwd=3)
+arrows( 2.9, 7 , 1.4, 5 ,lwd=3)
+arrows( 4.7, 5, 4.7, 7 ,lwd=3)
+arrows( 5.1, 7 , 5.1, 5 ,lwd=3)
+arrows( 7.3, 7, 8.7, 5 ,lwd=3)
+arrows( 8.3, 5, 6.9, 7 ,lwd=3)
+
+text(c(0.7,4.4,8) ,c(3,3,3), labels="commit",srt=90)
+text(c(1.7,5.4,9) ,c(3,3,3), labels="update",srt=-90)
+text(c(1.5) ,c(6.2), labels="push",srt=50)
+text(c(2.4) ,c(5.9), labels="pull",srt=50)
+text(c(4.4) ,c(6), labels="push",srt=90)
+text(c(5.4) ,c(6), labels="pull",srt=-90)
+text(c(7.3) ,c(5.9), labels="push",srt=-60)
+text(c(8.2) ,c(6.2), labels="pull",srt=-60)
+
+```
 
 Computational researchers can benefit significantly by adopting DVCS into their routine
 practices.
@@ -318,7 +374,7 @@ of supported packages.
 
 Containers are an attempt to resolve some of the downsides of virtual machines and package managers.
 Container images can be thought of as similar to virtual machines, but are more lightweight as they
-share parts of the host operating system.
+share parts of the host operating system (**Figure 4**).
 In contrast to VMs, running containers incurs only a small reduction in performance as compared
 to running directly on the host system @Di_Tommaso2015-pw.
 Container images are highly portable because containers include everything needed to run the
@@ -334,7 +390,9 @@ a vast collection of pre-built container images called DockerHub.
 Docker can fetch images from DockerHub and run them on the host system with just a couple of commands,
 and typically within a few minutes.
 This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
-reproducibility @Mangul2019-ei.
+reproducibility [@Mangul2019-ei;@Mangul2019-xp].
+
+![Figure 4. Architecture of containers (left) compared to virtual machines (right)](../img/docker-containerized-and-vm-transparent-bg.webp)
 
 We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
 compute environment control.
@@ -417,6 +475,8 @@ If the workflow executes successfully and tests are passed, the repository can b
 If those tests are designed cleverly such that certain conclusions drawn in the corresponding research
 article can be assessed computationally, then such tests could be used to demonstrate computational
 reproducibility without the need for individuals to execute the workflow themselves.
+Therefore continuous analysis might be a future pediment (crowning feature) to the five-pillared
+"temple" of reproducibl research.
 
 ## Where to from here
 
@@ -456,6 +516,9 @@ Adoption of these practices would require a change in incentives. https://www.na
 
 
 ## References to read
+
+https://www.minot.bio/
+https://us02web.zoom.us/rec/play/zZsJzFME-9Uu5S5BKwX-9DRXQfHq1wnZjH4Mrgy2v1l3e2iE9BkA_Bwj8ZDcoz19BADqmZ6KU3hLA-oP.RKy6CJCCZD_iRjV2?canPlayFromShare=true&componentName=rec-play&continueMode=true&from=share_recording_detail&originRequestUrl=https%3A%2F%2Fus02web.zoom.us%2Frec%2Fshare%2FRbeIXIFsAd_oFNttD7zBeC-W8vswX-rq3r4XoUmlp2V2RFJLTd_wut9qhfuzrESF.wM6AyVmmcQks_cdy
 
 Computational reproducibility of
 Jupyter notebooks from biomedical
