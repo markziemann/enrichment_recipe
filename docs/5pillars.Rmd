@@ -130,6 +130,16 @@ A caveat for end-to-end code coverage is that sometimes manual data cleaning is 
 In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended,
 then the computational workflow can begin with the cleaned dataset.
 
+Another challenge is the fact that different parts of the workflow have different compute needs.
+For example, genomic sequencing analysis workflows typically involve the mapping of reads to the
+reference genome and variant calling which are demanding in memory and compute.
+These computationally demanding steps are typically conducted on high end servers and workstations.
+After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
+so downstream analysis could be conducted on commodity PCs or laptops.
+In those situations, 
+
+Later stage
+
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
 
@@ -304,8 +314,8 @@ These centralised platforms also enable discussions of code issues such as bugs 
 In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
 and allows team members to raise potential issues with a colleagues code (or one's own).
 This also allows the scientific community to raise an issue with the software maintainers.
-For example, this feature is used extensively during the peer review process for the Journal of
-Open-Source Software @Editorial2018-kt.
+For example, this feature is used extensively during the peer review process for the *Journal of
+Open-Source Software* @Editorial2018-kt.
 
 * Supports documentation best practices.
 Books, educational resources and other data types are well served using DVCS (see below).
@@ -374,8 +384,11 @@ of supported packages.
 
 Containers are an attempt to resolve some of the downsides of virtual machines and package managers.
 Container images can be thought of as similar to virtual machines, but are more lightweight as they
-share parts of the host operating system (**Figure 4**).
-In contrast to VMs, running containers incurs only a small reduction in performance as compared
+share parts of the host operating system.
+In the example shown in **Figure 4**, the six containerised applications share the same operating
+system, while the three VM applications each involve their own operating system which incurs a
+significant performance overhead @noauthor_2021-lt.
+Therefore, running workflows in containers incurs only a small reduction in performance as compared
 to running directly on the host system @Di_Tommaso2015-pw.
 Container images are highly portable because containers include everything needed to run the
 application, including the system tools and libraries, ensuring that the environment is consistent
@@ -392,7 +405,7 @@ and typically within a few minutes.
 This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
 reproducibility [@Mangul2019-ei;@Mangul2019-xp].
 
-![Figure 4. Architecture of containers (left) compared to virtual machines (right)](../img/docker-containerized-and-vm-transparent-bg.webp)
+![Figure 4. Architecture of containers (left) compared to virtual machines (right) @noauthor_2021-lt](../img/docker-containerized-and-vm-transparent-bg.webp)
 
 We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
 compute environment control.
@@ -407,8 +420,16 @@ process.
 Conda environments are described by a file called `environment.yml` which acts like a recipe for how to
 make the environment.
 As they are a recipe, these are small files which are easily shared in the project code repository.
-Docker images are larger, and cannot be shared in the code repository, so these need to be archived
-in a long term repository, such as Zenodo or FigShare.
+Docker images are larger, and cannot be shared in the code repository.
+They are commonly deposited to the DockerHub repository, but availability of images is dependent on the
+commercial viability of Docker Inc, so it isn't guaranteed to survive the 10-year challenge.
+A better option for bioinformatics workflows would be to use the BioContainers registry
+@Da_Veiga_Leprevost2017-yw, as it is community driven and supported by consortia such as *Elixir* and
+*Global Alliance for Genomics and Health* that will underpin its longevity.
+Still, these are not considered permanent archival services, so it is advised to deposit the image
+used in anarticle to a suitable persitent long-term archive (discussed below).
+The recipe used to build the Docker image, called the Dockerfile, is sufficiently small and can be added
+to the project repository.
 
 ## Documentation
 
@@ -447,11 +468,15 @@ Use webarchive to archive important resources.
 
 ## Bringing it all together
 
-When these features are brought together they facilitate extreme reproducibility, ie: makes reproducing a
-previous study relatively easy in terms of complexity, number of commands, and in time.
-For example, we made an example transcriptome analysis workflow based on the five pillars approach and
+This work is not designed to give strong recommendations on the exact combination of tools or resources
+to use in computational research, but to set out key principles and highlight some useful solutions
+that users can incorporate into their toolkit to improve the overall reproducibility of their work.
+
+When these five considerations are addressed, they facilitate extreme reproducibility, ie: makes
+reproduction relatively quick, and simple.
+For example, we made a transcriptome analysis workflow based on the five pillars approach and
 it could could be installed and generate differential expression and pathway enrichment results in a
-matter of minutes @Ziemann_undated-zx.
+matter of minutes with only a few commands @Ziemann_undated-zx.
 
 When not integrated correctly, problems readily emerge.
 A recent systematic examination of Jupyter notebooks in GitHub repositories accompanying research papers
@@ -468,7 +493,7 @@ scientific community would fare reproducing such a workflow.
 Some researchers have suggested to take it even further, by adapting software development
 principles of unit tests and continuous integration/continuous delivery.
 This approach, called "continuous analysis" involves automatic execution and testing whenever a change is
-made to the project's code base @Beaulieu-Jones2017-vj.
+made to a project's code base @Beaulieu-Jones2017-vj.
 
 If the workflow executes successfully and tests are passed, the repository can be decorated with a
 "badge" to inform users of the lack of errors in the code.
@@ -476,7 +501,7 @@ If those tests are designed cleverly such that certain conclusions drawn in the 
 article can be assessed computationally, then such tests could be used to demonstrate computational
 reproducibility without the need for individuals to execute the workflow themselves.
 Therefore continuous analysis might be a future pediment (crowning feature) to the five-pillared
-"temple" of reproducibl research.
+"temple" of reproducible research.
 
 ## Where to from here
 
@@ -496,24 +521,18 @@ of implementing functional enrichment analysis of gene expression data with the 
 @Ziemann2023-nm.
 More such protocols are needed to make extreme reproducibility mainstream.
 
+There are other challenges worth mentioning.
+Different parts of the workflow may have different compute needs.
+For example, genomic sequencing analysis workflows typically involve the mapping of reads to the
+reference genome and variant calling which are demanding in memory and compute.
+These computationally demanding steps are typically conducted on high end servers and workstations.
+After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
+so downstream analysis could be conducted on commodity PCs or laptops.
+In those situations, a workflow manager such as Snakemake or Nextflow could be useful to
+coordinate those hybrid computate workflows.
 
-Adoption of these practices would require a change in incentives. https://www.nature.com/articles/s41562-016-0021
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Adoption of these practices would require a change in incentives.
+https://www.nature.com/articles/s41562-016-0021
 
 ## References to read
 
