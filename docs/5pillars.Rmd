@@ -130,16 +130,6 @@ A caveat for end-to-end code coverage is that sometimes manual data cleaning is 
 In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended,
 then the computational workflow can begin with the cleaned dataset.
 
-Another challenge is the fact that different parts of the workflow have different compute needs.
-For example, genomic sequencing analysis workflows typically involve the mapping of reads to the
-reference genome and variant calling which are demanding in memory and compute.
-These computationally demanding steps are typically conducted on high end servers and workstations.
-After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
-so downstream analysis could be conducted on commodity PCs or laptops.
-In those situations, 
-
-Later stage
-
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
 
@@ -427,19 +417,62 @@ A better option for bioinformatics workflows would be to use the BioContainers r
 @Da_Veiga_Leprevost2017-yw, as it is community driven and supported by consortia such as *Elixir* and
 *Global Alliance for Genomics and Health* that will underpin its longevity.
 Still, these are not considered permanent archival services, so it is advised to deposit the image
-used in anarticle to a suitable persitent long-term archive (discussed below).
+used in an article to a suitable persitent long-term archive (discussed below).
 The recipe used to build the Docker image, called the Dockerfile, is sufficiently small and can be added
 to the project repository.
 
-## Documentation
-
-* Instructions needed
-
-* Requirements
-
-* Credits
-
 ## FAIR and persistent data sharing
+
+FAIR data sharing is one of the key features of open science, which characterises itself as science
+that is collaborative, transparent, accessible and inclusive [@noauthor_2023-uq].
+
+The Universal Declaration of Human Rights states [@United_Nations1948-ua]:
+
+>Everyone has the right freely to participate in the cultural life of the
+>community, to enjoy the arts and to share in scientific advancement and
+>its benefits.
+
+In this context, access to research data may be interpreted as a benefit of scientific advancement.
+In particular, when large data sets are generated with public funds, the public might expect that the
+benefts of that study, like the publications and underlying data are released.
+
+Data sharing has dual purposes, firstly this data may be useful in answering other research questions,
+and secondly to facilitate reproduction and auditing [@Wilkinson2016-qq].
+Data reuse prevents redundant research and facilitates new research ideas that were impossible without
+it.
+In terms of research rigour, inspecting raw data can uncover research integrity problems [@Miyakawa2020-yj],
+in addition to validation of scientific findings by independent computational reproduction [@Ioannidis2009-hv].
+In light of this, a research article without supporting data and code is much like a press release or
+advertisement and the claims made cannot be verified as true or not.
+
+Although it is common to see journal articles with "Data available upon reasonable request", this is less
+than ideal.
+I, and many fellow researchers have had the displeasure of attempting to contact corresponding
+authors of these studies and learn that they have moved on to another institute, retired, passed away,
+or the data has been lost or otherwise unavailable (if they receive a response at all).
+In the rare cases that the data has been retained, arranging access can be tedious as such datasets can
+run into hundreds of gigabytes which cannot be easily transferred across the internet.
+If many requests are made for a dataset, this can become time intensive for the sharers which is
+wasteful considering they could have shared the data from the start and reached a larger audience.
+
+
+
+
+FAIR principles: @Wilkinson2016-qq
+
+Long term data archiving (and sharing) not only faciliitates this,
+
+
+Using secondary data is 
+
+
+Moreover there is 
+
+
+
+Data available on request?
+
+NIH data sharing requirements.
 
 * When designed correctly, the code "knows" where to access the associated metadata and data sets are,
 which avoids "file not found" errors.
@@ -465,6 +498,14 @@ Use webarchive to archive important resources.
 * Arweave/IPFS
 
 * Portico
+
+## Documentation
+
+* Instructions needed
+
+* Requirements
+
+* Credits
 
 ## Bringing it all together
 
@@ -537,7 +578,6 @@ https://www.nature.com/articles/s41562-016-0021
 ## References to read
 
 https://www.minot.bio/
-https://us02web.zoom.us/rec/play/zZsJzFME-9Uu5S5BKwX-9DRXQfHq1wnZjH4Mrgy2v1l3e2iE9BkA_Bwj8ZDcoz19BADqmZ6KU3hLA-oP.RKy6CJCCZD_iRjV2?canPlayFromShare=true&componentName=rec-play&continueMode=true&from=share_recording_detail&originRequestUrl=https%3A%2F%2Fus02web.zoom.us%2Frec%2Fshare%2FRbeIXIFsAd_oFNttD7zBeC-W8vswX-rq3r4XoUmlp2V2RFJLTd_wut9qhfuzrESF.wM6AyVmmcQks_cdy
 
 Computational reproducibility of
 Jupyter notebooks from biomedical
