@@ -548,9 +548,12 @@ Where it says "yourname", put your Dockerhub alias.
 Where it says "yourprojectname", put the name of your project.
 I'd suggest the same name as your Github repo.
 
+For this step to work, it needs to be executed in a directory that has the
+`Dockerfile` present.
+
 ```bash
 
-docker build -t yourname/yourprojectname
+docker build -t yourname/yourprojectname .
 
 ```
 
