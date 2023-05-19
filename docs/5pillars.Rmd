@@ -227,7 +227,7 @@ code to consumers.
 There are many such DVCSs but `git` has emerged as the most popular
 solution due to it's many powerful features, speed/efficiency and large community and ecosystem.
 
-```{r,dvcs,fig.cap="Figure 3. Distributed version control. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
+```{r,dvcs,fig.cap="Figure 3. Distributed version control allows. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
 
 cols2 <- adjustcolor( cols, alpha.f = 0.4)
 
@@ -418,12 +418,13 @@ A better option for bioinformatics workflows would be to use the BioContainers r
 *Global Alliance for Genomics and Health* that will underpin its longevity.
 Still, these are not considered permanent archival services, so it is advised to deposit the image
 used in an article to a suitable persitent long-term archive (discussed below).
-The recipe used to build the Docker image, called the Dockerfile, is sufficiently small and can be added
-to the project repository.
+The recipe used to build the Docker image, called the `Dockerfile`, is sufficiently small and can be
+added to the project source code repository.
 
 ## FAIR and persistent data sharing
 
-FAIR data sharing is one of the key features of open science, which characterises itself as science
+Without data sharing, computational research is not reproducible nor auditable.
+Data sharing is also one of the key features of "open science", which is characterised as science
 that is collaborative, transparent, accessible and inclusive [@noauthor_2023-uq].
 
 The Universal Declaration of Human Rights states [@United_Nations1948-ua]:
@@ -433,46 +434,79 @@ The Universal Declaration of Human Rights states [@United_Nations1948-ua]:
 >its benefits.
 
 In this context, access to research data may be interpreted as a benefit of scientific advancement.
-In particular, when large data sets are generated with public funds, the public might expect that the
-benefts of that study, like the publications and underlying data are released.
+In particular, when large research projects are funded by the public, the public might expect that the
+benefts of that study, like the publications and underlying data are made publicly accessible.
 
-Data sharing has dual purposes, firstly this data may be useful in answering other research questions,
-and secondly to facilitate reproduction and auditing [@Wilkinson2016-qq].
-Data reuse prevents redundant research and facilitates new research ideas that were impossible without
-it.
+Data sharing has dual purposes, firstly to facilitate reproduction and auditing, and secondly to
+enable reuse in other contexts [@Wilkinson2016-qq].
+Data reuse increases efficiency, as it prevents redundant research and facilitates new research ideas
+that were impossible without it.
 In terms of research rigour, inspecting raw data can uncover research integrity problems [@Miyakawa2020-yj],
-in addition to validation of scientific findings by independent computational reproduction [@Ioannidis2009-hv].
+in addition to validating scientific findings by independent computational reproduction [@Ioannidis2009-hv].
 In light of this, a research article without supporting data and code is much like a press release or
-advertisement and the claims made cannot be verified as true or not.
+advertisement where the claims made cannot be verified as true or not.
 
 Although it is common to see journal articles with "Data available upon reasonable request", this is less
 than ideal.
-I, and many fellow researchers have had the displeasure of attempting to contact corresponding
-authors of these studies and learn that they have moved on to another institute, retired, passed away,
-or the data has been lost or otherwise unavailable (if they receive a response at all).
-In the rare cases that the data has been retained, arranging access can be tedious as such datasets can
-run into hundreds of gigabytes which cannot be easily transferred across the internet.
-If many requests are made for a dataset, this can become time intensive for the sharers which is
-wasteful considering they could have shared the data from the start and reached a larger audience.
+A systematic study of such data availability statements found that the data was successfully provided
+in just 6.8% of requests [@Gabelica2022-ci].
+In the rare cases that data is shared in accordance with the data availability statement, it poses
+a burden in terms of labour to lodge and respond to such requests, and if the data is large, may incur
+an additional cost for hosting/transferring these large files.
 
+The field of genomics has has a long history of data sharing @Brazma2001-yk, which is supported by
+policy leadership by funding bodies
+[@National_Health_and_Medical_Research_Council2019-yx;
+@Office_of_The_Director_National_Institutes_of_Health2023-ss] and data sharing policies of journals
+(eg [@Packer2018-ru; @Hanson2011-ub]), although there are some challenges.
 
+Some researchers would rather keep data for their private use.
+Some may keep data private due to concerns over participant privacy.
+This is a well-founded concern for identifiable data, however once identifying features are removed,
+it is nearly impossible to reidentify genomic data @Venkatesaramani2021-tn unless the attackers have
+preexisting genomic data describing an individual or ancestry [@Schadt2012-md; @Gymrek2013-fz].
+Therefore sharing deidentified genomic data and metadata is likely to carry little risk to participant
+privacy.
+Still, much human genomic data and metadata resides in restricted databases due to the scope of
+data sharing that was agreed to in the consent process.
+For example the consent form may only allow sharing of data to researchers investigating certain
+diseases, which means a vetting process must be undertaken before sharing data with external
+investigators.
+In the interests of reuse and reproducibility, future studies could consider a consent form that allows
+more broad sharing of deidentified data.
 
+In order to maximise the value of shared data for reuse and reproducibility, it needs to be Findable,
+Accessible, Interoperable and Reusable (FAIR) for people and for computers @Wilkinson2016-qq.
+High throughput biology has already built a number of data repositories for specific data types
+conforming to FAIR principles (eg: GEO, SRA, PRIDE [@Edgar2002-hs; @Kodama2012-bn; @Deutsch2017-hc]).
+However other domains lack well known specialised organised data repositories, such as evolutionary
+biology, ecology, cell biology, social sciences and computing.
+The re3data.org registry of data repositories may be useful to find a repository that accepts data
+from these fields [@Pampel2013-ep].
+Moreover general recommendations have been proposed to enhance data FAIRness in ecology, but which
+can also be applied to other disciplines [@Roche2015-aq].
 
-FAIR principles: @Wilkinson2016-qq
+Key recommendations include:
 
-Long term data archiving (and sharing) not only faciliitates this,
+1. Depositing data to a specialised repository if possible, otherwise a general purpose repository.
 
+2. If possible, avoid large supplementary data files accompanying journal articles.
 
-Using secondary data is 
+2. Provide detailed metadata.
 
+3. Preferably archive and share raw data, and use existing standards for the discipline.
 
-Moreover there is 
+Once the quality of the data set has been established researchers may consider depositing it
+to a data repository early, before publicisation, as it has some advantages.
+Most data repositories have an optional 12-month embargo period so researchers can share publicly
+at a later date once they're happy with the overall project.
+The data repository acts as an additional backup to the host institutions' own in case of data loss
+or calamity.
 
+By assuming the data and metadata can be sourced from a public location, the workflow developers ensure
+that the code they share won't suffer from "file not found errors" during reproduction.
+This ensures code and data are linked, which has been a  [@Peng2011-ia]
 
-
-Data available on request?
-
-NIH data sharing requirements.
 
 * When designed correctly, the code "knows" where to access the associated metadata and data sets are,
 which avoids "file not found" errors.
@@ -492,6 +526,10 @@ Use webarchive to archive important resources.
 * NCBI
 
 * Zenodo
+
+* Dryad
+
+* GigaDB
 
 * Figshare
 
