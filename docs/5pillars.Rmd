@@ -1,5 +1,5 @@
 ---
-title: "The five pillars of computational reproducibility"
+title: "The five pillars of computational reproducibility: A bioinformatics perspective"
 author: "Mark Ziemann"
 date: "`r Sys.Date()`"
 output:
@@ -70,9 +70,8 @@ computational research works are unable to be reproduced @Samuel2022-ha.
 
 A number of guides recommending enhanced computational reproducibility practices have emerged
 [@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
-@Brito2020-ld; @Rodrigues2023-fw; @Wilson2017-uq; @Akalin2018-eg ]
-and this article attempts to unify these concepts and assemble a group of best practices where
-computational reproducibility can be considered as complete, using a framework called the
+@Brito2020-ld; @Rodrigues2023-fw; @Wilson2017-uq; @Akalin2018-eg ; @Peikert2021-eq ].
+This article attempts to unify these concepts into five key principles called the
 five pillars of reproducible computational research (**Figure 1**).
 The intended audience is bioinformatics data analysts (not tool developers), however the
 principles described here should translate to other domains of study.
@@ -227,7 +226,7 @@ code to consumers.
 There are many such DVCSs but `git` has emerged as the most popular
 solution due to it's many powerful features, speed/efficiency and large community and ecosystem.
 
-```{r,dvcs,fig.cap="Figure 3. Distributed version control allows. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
+```{r,dvcs,fig.cap="Figure 3. Distributed version control. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
 
 cols2 <- adjustcolor( cols, alpha.f = 0.4)
 
@@ -424,25 +423,15 @@ added to the project source code repository.
 ## FAIR and persistent data sharing
 
 Without data sharing, computational research is not reproducible nor auditable.
+Lack of data sharing is one of the key reasons why research is irreproducible
+[@Ioannidis2009-hv, @Archmiller2020-er ].
 Data sharing is also one of the key features of "open science", which is characterised as science
 that is collaborative, transparent, accessible and inclusive [@noauthor_2023-uq].
-
-The Universal Declaration of Human Rights states [@United_Nations1948-ua]:
-
->Everyone has the right freely to participate in the cultural life of the
->community, to enjoy the arts and to share in scientific advancement and
->its benefits.
-
-In this context, access to research data may be interpreted as a benefit of scientific advancement.
-In particular, when large research projects are funded by the public, the public might expect that the
-benefts of that study, like the publications and underlying data are made publicly accessible.
-
-Data sharing has dual purposes, firstly to facilitate reproduction and auditing, and secondly to
-enable reuse in other contexts [@Wilkinson2016-qq].
-Data reuse increases efficiency, as it prevents redundant research and facilitates new research ideas
-that were impossible without it.
+Indeed, inspecting raw data can uncover research integrity problems [@Miyakawa2020-yj],
+In addition to facilitating reproduction and auditing, sharing enables reuse in other contexts.
+Data reuse increases efficiency, as it prevents redundant research expenditure and facilitates new
+research ideas that were previously impossible [@Wilkinson2016-qq].
 In terms of research rigour, inspecting raw data can uncover research integrity problems [@Miyakawa2020-yj],
-in addition to validating scientific findings by independent computational reproduction [@Ioannidis2009-hv].
 In light of this, a research article without supporting data and code is much like a press release or
 advertisement where the claims made cannot be verified as true or not.
 
@@ -477,24 +466,33 @@ more broad sharing of deidentified data.
 
 In order to maximise the value of shared data for reuse and reproducibility, it needs to be Findable,
 Accessible, Interoperable and Reusable (FAIR) for people and for computers @Wilkinson2016-qq.
+
+![Figure 5. Overview of the FAIR data principles @Kalendralis2021-jb](../img/gr2)
+
 High throughput biology has already built a number of data repositories for specific data types
 conforming to FAIR principles (eg: GEO, SRA, PRIDE [@Edgar2002-hs; @Kodama2012-bn; @Deutsch2017-hc]).
 However other domains lack well known specialised organised data repositories, such as evolutionary
 biology, ecology, cell biology, social sciences and computing.
-The re3data.org registry of data repositories may be useful to find a repository that accepts data
+The **re3data.org** registry of data repositories may be useful to find a repository that accepts data
 from these fields [@Pampel2013-ep].
-Moreover general recommendations have been proposed to enhance data FAIRness in ecology, but which
+If no specialised repository exists, then a general purpose repository such as
+[Dryad](https://datadryad.org/), [FigShare](https://figshare.com/), or [Zenodo](https://zenodo.org/)
+should be considered.
+Moreover, general recommendations have been proposed to enhance data FAIRness in ecology, but which
 can also be applied to other disciplines [@Roche2015-aq].
 
 Key recommendations include:
 
 1. Depositing data to a specialised repository if possible, otherwise a general purpose repository.
 
-2. If possible, avoid large supplementary data files accompanying journal articles.
+2. Avoid commodity cloud storage as these are impermanent.
 
-2. Provide detailed metadata.
+3. Avoid large supplementary data files accompanying journal articles as these are less findable and
+accessible.
 
-3. Preferably archive and share raw data, and use existing standards for the discipline.
+4. Provide detailed metadata.
+
+5. Preferably archive and share raw data, and use existing standards for the discipline.
 
 Once the quality of the data set has been established researchers may consider depositing it
 to a data repository early, before publicisation, as it has some advantages.
@@ -502,40 +500,18 @@ Most data repositories have an optional 12-month embargo period so researchers c
 at a later date once they're happy with the overall project.
 The data repository acts as an additional backup to the host institutions' own in case of data loss
 or calamity.
-
 By assuming the data and metadata can be sourced from a public location, the workflow developers ensure
 that the code they share won't suffer from "file not found errors" during reproduction.
-This ensures code and data are linked, which has been a  [@Peng2011-ia]
+This ensures code and data are linked, which has been a priority for reproducibility [@Peng2011-ia],
+and a source of problems for shared code [@Samuel2022-ha].
 
-
-* When designed correctly, the code "knows" where to access the associated metadata and data sets are,
-which avoids "file not found" errors.
-Metadata are usually small, so they can also be included in the repository as flat text files.
-Small data files can also be included in the repository, although keep in mind that big data files
-(>10MB) such as raw array scans, fastq files and the like are unsuitable for retention in a version
-control repository as the large files will slow down code updates signifiantly.
-Larger data files belong in a dedicated data repository, discussed below.
-If the metadata and small data require some cleaning, then include the original and cleaned data in the
-repository.
-The code should refer only to the cleaned data and the original files are there only for reference.
-
-Archive versions of critical reference datasets.
-
-Use webarchive to archive important resources.
-
-* NCBI
-
-* Zenodo
-
-* Dryad
-
-* GigaDB
-
-* Figshare
-
-* Arweave/IPFS
-
-* Portico
+In addition to the experimental data, reference data that is critical to a project should be archived.
+For example, in the field of genomics, gene function annotation sets are relied upon for a common
+proceduce called "pathway analysis".
+These annotation sets are regularly updated, but versions are rarely reported [@Wijesooriya2022-ly]
+and finding historical data versions is sometimes difficult.
+So in order to guarantee future reproducibility, shapshots of those reference data should be archived &
+shared if the licence permits it.
 
 ## Documentation
 
@@ -545,17 +521,14 @@ Use webarchive to archive important resources.
 
 * Credits
 
+
+
 ## Bringing it all together
 
-This work is not designed to give strong recommendations on the exact combination of tools or resources
+Due to the rapidly devloping software landscape, this work is not designed to give strong
+recommendations on the exact combination of tools or resources
 to use in computational research, but to set out key principles and highlight some useful solutions
 that users can incorporate into their toolkit to improve the overall reproducibility of their work.
-
-When these five considerations are addressed, they facilitate extreme reproducibility, ie: makes
-reproduction relatively quick, and simple.
-For example, we made a transcriptome analysis workflow based on the five pillars approach and
-it could could be installed and generate differential expression and pathway enrichment results in a
-matter of minutes with only a few commands @Ziemann_undated-zx.
 
 When not integrated correctly, problems readily emerge.
 A recent systematic examination of Jupyter notebooks in GitHub repositories accompanying research papers
@@ -617,54 +590,10 @@ https://www.nature.com/articles/s41562-016-0021
 
 https://www.minot.bio/
 
-Computational reproducibility of
-Jupyter notebooks from biomedical
-publications
-https://arxiv.org/pdf/2209.04308.pdf
+https://www.researchgate.net/publication/349603799_Making_radiotherapy_more_efficient_with_FAIR_data/figures?lo=1
 
-RESEARCHOPS: A PRINCIPLED FRAMEWORK AND GUIDE TO COMPUTATIONAL REPRODUCIBILITY.
-https://osf.io/ubj76/download
-
-AlNoamany, Yasmin, and John A. Borghi. 2018. “Towards Computational Reproducibility: Researcher Perspectives on the Use and Sharing of
-Software.” Article. PEERJ COMPUTER SCIENCE, September. https://doi.org/ghkb9j (https://doi.org/ghkb9j).
-
-Archmiller, Althea A., Andrew D. Johnson, Jane Nolan, Margaret Edwards, Lisa H. Elliott, Jake M. Ferguson, Fabiola Iannarilli, et al. 2020.
-“Computational Reproducibility in the Wildlife Society’s Flagship Journals.” Article. JOURNAL OF WILDLIFE MANAGEMENT 84 (5): 1012–17.
-https://doi.org/gg66q7 (https://doi.org/gg66q7).
-
-Beaulieu-Jones, Brett K, and Casey S Greene. 2017. “Reproducibility of Computational Workflows Is Automated Using Continuous Analysis.”
-Nature Biotechnology, no. 4: 342.
-
-Catlin, Ann Christine, Chandima HewaNadungodage, and Andres Bejarano. 2019. “Lifecycle Support for Scientific Investigations: Integrating
-Data, Computing, and Workflows.” Article. COMPUTING IN SCIENCE & ENGINEERING 21 (4): 49–61. https://doi.org/gjt725 (https://doi.org
-/gjt725).
-
-Culina, Antica et al. 2018. “Navigating the Unfolding Open Data Landscape in Ecology and Evolution.” Nature Ecology & Evolution, 1–7.
-de Bayser, Maximilien, Leonardo G. Azevedo, and Renato Cerqueira. 2015. “ResearchOps: The Case for DevOps in Scientific Applications.” In
-2015 IFIP/IEEE International Symposium on Integrated Network Management (IM), 1398–1404. Ottawa, ON, Canada: IEEE. https://doi.org
-/ghkb9s (https://doi.org/ghkb9s).
-
-Díaz, Jessica, Jorge Pérez-Martínez, Agustin Yague, Andrea Villegas, and Antonio Antona. 2019. DevOps in Practice – A Preliminary Analysis of
-Two Multinational Companies.
-
-Hatton, L., and M. Van Genuchten. 2019. “Computational Reproducibility: The Elephant in the Room.” IEEE Software 36 (2): 137–44.
-https://doi.org/ggkvtr (https://doi.org/ggkvtr).
-
-Hocquet, Alexandre, and Frederic Wieber. 2021a. “Epistemic Issues in Computational Reproducibility: Software as the Elephant in the Room.”
-Article. EUROPEAN JOURNAL FOR PHILOSOPHY OF SCIENCE 11 (2). https://doi.org/gkm94m (https://doi.org/gkm94m).
-
-Hocquet, Alexandre, and Frédéric Wieber. 2021b. “Epistemic Issues in Computational Reproducibility: Software as the Elephant in the Room.”
-European Journal for Philosophy of Science 11 (2). https://doi.org/gkm94m (https://doi.org/gkm94m).
-
-Koehler Leman, Julia, Brian D. Weitzner, P. Douglas Renfrew, Steven M. Lewis, Rocco Moretti, Andrew M. Watkins, Vikram Khipple Mulligan, et al.
-2020. “Better Together: Elements of Successful Scientific Software Development in a Distributed Collaborative Community.” PLoS
-Computational Biology 16 (5): e1007507. https://doi.org/ggt62r (https://doi.org/ggt62r).
-
-Leipzig, Jeremy, Daniel Nüst, Charles Tapley Hoyt, Stian Soiland-Reyes, Karthik Ram, and Jane Greenberg. 2020. “The Role of Metadata in
-Reproducible Computational Research.”
-
-Maer-Matei, Monica Mihaela, Tiberiu Marian Georgescu, Cristina Mocanu, and Ana-Maria Zamfir. 2019/01/01////. “Skill Needs for Early Career
-Researchers.” Sustainability 11 (10). https://doi.org/ghkb9m (https://doi.org/ghkb9m).
+Maer-Matei, Monica Mihaela, Tiberiu Marian Georgescu, Cristina Mocanu, and Ana-Maria Zamfir. 2019/01/01////.
+“Skill Needs for Early Career Researchers.” Sustainability 11 (10). https://doi.org/ghkb9m (https://doi.org/ghkb9m).
 
 Murray, NJ et al. 2021. “Data Freshness in Ecology and Conservation.” Trends Ecol Evol 36 (6): 485–87.
 
