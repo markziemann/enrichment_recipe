@@ -1,5 +1,5 @@
 ---
-title: "The five pillars of computational reproducibility: A bioinformatics perspective"
+title: "The five pillars of computational reproducibility: Bioinformatics and beyond"
 author: "Mark Ziemann"
 date: "`r Sys.Date()`"
 output:
@@ -18,6 +18,8 @@ Mark Ziemann
 
 Deakin University, Geelong, Australia, School of Life and Environmental Sciences.
 
+ORCID: 0000-0002-7688-6974
+
 Correspondance: m.ziemann@deakin.edu.au
 
 Source: https://github.com/markziemann/enrichment_recipe/blob/main/docs/5pillars.Rmd
@@ -26,10 +28,15 @@ Source: https://github.com/markziemann/enrichment_recipe/blob/main/docs/5pillars
 
 Computational reproducibility is in theory a simple premise, however in practice it is difficult to
 achieve.
-Building upon past efforts and proposals to maximise reproducibility and rigour, we
-present a framework called the five pillars of reproducible computational research.
-These are a combination of best practices which ensure that the computational research work can be
-reproduced quickly and easily, and will endure relatively long time-frames.
+Building upon past efforts and proposals to maximise reproducibility and rigour in
+bioinformatics, we present a framework called the five pillars of reproducible computational
+research.
+These include (1) code version control and sharing, (2) compute environment control,
+(3) literate programming, (4) documentation and (5) FAIR data sharing.
+These best practices will ensure that computational research work can be
+reproduced quickly and easily, long into the future.
+This guide is designed for bioinformatic data analyists, but should be relevant for other
+domains.
 
 ## Introduction
 
@@ -46,25 +53,25 @@ Reproducibility is only the first step towards overall reliability, for example 
 reproducible, but suffer from analytical problems that invalidate the results.
 If a study is reproducible, then at least these analytical issues can be more easily identified and
 rectified.
-So reproducibility is a necessary stepping-stone that in theory should enhance the overall reliability
-of computational research including replicability and robustness.
+Therefore, reproducibility is a necessary stepping-stone that in theory should enhance the overall
+reliability of computational research including replicability and robustness.
 Replicability being defined as the ability to repeat the entire study and come up with similar overall
 results.
 Robustness refers to the ability for the findings to be generalisable to other situations
 @Nosek2022-zc.
 
-Unreliable research is a waste of resources and time, and can mislead readers to pursue doomed
+Unreliable research is a waste of resources and time and can mislead readers to pursue doomed
 research directions.
 Much has been written on how irreproducibility has reached crisis levels in psychology and life
 sciences [@Baker2015-bs; @Begley2012-di].
-Indeed in bioinformatics, the situation is grim with a 2009 report showing only a small fraction
+Indeed, in bioinformatics, the situation is grim with a 2009 report showing only a small fraction
 of studies able to be reproduced @Ioannidis2009-hv, which brings into question the reliability of
 those studies.
 Irreproducible bioinformatics has the potential to place patient safety at risk, as demonstrated by an
 earlier case study @Baggerly2010-nr.
 
 Researchers are theoretically able to achieve 100% computational reproducibility,
-however in practice this is rarely achieved.
+however, in practice this is rarely achieved.
 Data and code availability, ability to install software easily, and other factors mean that most
 computational research works are unable to be reproduced @Samuel2022-ha.
 
@@ -74,7 +81,7 @@ A number of guides recommending enhanced computational reproducibility practices
 This article attempts to unify these concepts into five key principles called the
 five pillars of reproducible computational research (**Figure 1**).
 The intended audience is bioinformatics data analysts (not tool developers), however the
-principles described here should translate to other domains of study.
+principles described here could equally apply to other domains of study.
 
 ```{r,5pillars,fig.cap="Figure 1. The five pillars of computational reproducibility.",echo=FALSE,fig.height=6}
 
@@ -114,16 +121,16 @@ This removes the need for any manual steps, which are not only time-consuming bu
 Without end-to-end code coverage, most of the other best practices described here are not possible.
 Scripted workflows, although not always free of errors, enable better auditing and easier reproduction
 which would be difficult for graphical tools like spreadsheets.
-Indeed spreadsheets are prone to data entry, manipulation and formula errors @Panko1996-ko, and are
+Indeed, spreadsheets are prone to data entry, manipulation and formula errors @Panko1996-ko, and are
 somewhat overused in the life sciences.
 
-Transfering data between compute platforms is also discouraged.
+Transferring data between compute platforms is also discouraged.
 For example, having workflows that involve combinations of web-based and scripted tools require
 data transfer steps which are inefficient and error-prone.
 Related to this, the code and data need to be "linked", which means the code is aware of the location
 of the data and how to get it.
 The code should be able to fetch the data from a publicly accessible location and conduct the downstream
-processing and analysis without having to aquire the data some other way.
+processing and analysis without having to acquire the data some other way.
 
 A caveat for end-to-end code coverage is that sometimes manual data cleaning is unavoidable.
 In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended,
@@ -138,7 +145,7 @@ Literate programming combines "chunks" of analytical code with human readable te
 After compilation, the resulting output document contains the code together with computational results
 such as figures and tables along with contextualising explanations and narratives.
 
-The Sweave project, concieved in 2001, was designed to give LaTeX documents embedded R code chunks and
+The Sweave project, conceived in 2001, was designed to give LaTeX documents embedded R code chunks and
 was envisaged as a way to generate R documentation materials and generate statistical analysis reports
 @Leisch2002-yc.
 Around 2015, R Markdown emerged as a more popular alternative, as formatting content is simpler with
@@ -157,14 +164,14 @@ Whether R Markdown, Jupyter or Quarto, literate programming offers some substant
 alternative approaches:
 
 * The provenance of any result can be demonstrated.
-The resulting document produced contains the code executed, together with the results (eg: a chart).
+The resulting document produced contains the code executed, together with the results (e.g.: a chart).
 This is in contrast to a data analysis report assembled in a word processor, which due to the many
 copy-paste operations required might contain errors, or version mismatches.
 
 * It saves time.
 For the case where a report needs to be run routinely, this would involve significant copy-paste to
 be assembled "manually" with a word processor.
-Using a literate script would mean only minimal changes are required between interations @Perkel2022-af.
+Using a literate script would mean only minimal changes are required between iterations @Perkel2022-af.
 
 * It accommodates extensive documentation.
 This allows the analyst to include rich descriptions of scientific works.
@@ -178,8 +185,8 @@ When using a regular script, an analyst might make dozens of charts which are wr
 disk with names like "chart1.png" or "model8.svg".
 When the number of outputs is large, it becomes unwieldy and hard to place which plot corresponds
 to which part of the script.
-By embedding the outputs (eg: charts and tables) in a document in the sequence that they were generated,
-it helps the reader understand the logical steps taken in an analysis.
+By embedding the outputs such as charts and tables in a document in the sequence that they were
+generated, it helps the reader understand the logical steps taken in an analysis.
 
 * Amenable to version control.
 Version control is a useful best practice in software development (discussed below).
@@ -188,7 +195,7 @@ Version control is a useful best practice in software development (discussed bel
 The output document is only rendered when the entire script has compiled without errors.
 In contrast, a regular script might generate some outputs and then encounter an error,
 so we are not sure whether the whole script is free of errors and completed successfully.
-Therefore it is good practice to routinely execute these scripts during the development process,
+Therefore, it is good practice to routinely execute these scripts during the development process,
 and not rely too heavily on the interactive execution of individual chunks or lines.
 
 * Flexible output formats.
@@ -201,7 +208,7 @@ These features make literate programming a quantum leap for science communicatio
 situations.
 Whether this is sharing a data analysis report, giving a presentation at a meeting,
 writing a research article or self-publishing an e-book, literate programming provides the
-ability to construct transparent data narratives with clear provenance in a convieniently sharable
+ability to construct transparent data narratives with clear provenance in a conveniently sharable
 form.
 
 Literate programming also works neatly with the concept of the "executable paper", the idea that
@@ -223,8 +230,8 @@ Distributed version control systems (DVCS) involve a central web-accessible serv
 repository, and each team member possesses a mirror copy on their local system (**Figure 3**).
 Having a central, publicly available node assists in disseminating changes within teams and releasing
 code to consumers.
-There are many such DVCSs but `git` has emerged as the most popular
-solution due to it's many powerful features, speed/efficiency and large community and ecosystem.
+There are many such DVCSs, but `git` has emerged as the most popular
+solution due to its many powerful features, speed/efficiency and large community and ecosystem.
 
 ```{r,dvcs,fig.cap="Figure 3. Distributed version control. Adapted from @Chacon2014-ys.",echo=FALSE,fig.height=6}
 
@@ -287,21 +294,21 @@ practices.
 Below I outline some of the benefits.
 
 * Keeps a complete history of all code changes over time.
-We always know which version of the script is the most up-to-date.
+We always know which version of the script is the most up to date.
 We can inspect and execute the code and reproduce the analysis at any particular point in the past.
 Commit messages are retained, which gives a record of the motivations, purpose and person behind each
 modification.
 
 * Helps collaboration and project management.
 Using a centralised code hosting platform such as "GitHub" or "BitBucket" can help manage contributions
-from team members who may be working ascynchrously in different timezones and on different servers.
+from team members who may be working asynchronously in different time zones and on different servers.
 It also makes the user's work searchable, which is convenient when code snippets from a project
 need to be reused for a new project.
 
 * Helps resolve issues.
 These centralised platforms also enable discussions of code issues such as bugs and feature requests.
-In bioinformatics teams, issues can be used to track the progress of a project through it's milestones
-and allows team members to raise potential issues with a colleagues code (or one's own).
+In bioinformatics teams, issues can be used to track the progress of a project through its milestones
+and allow team members to raise potential issues with the code.
 This also allows the scientific community to raise an issue with the software maintainers.
 For example, this feature is used extensively during the peer review process for the *Journal of
 Open-Source Software* @Editorial2018-kt.
@@ -318,13 +325,13 @@ Computers sometimes fail and we sometimes delete or overwrite important files.
 If code is lost and unrecoverable it can be a significant cost to replace.
 Although DVCSs are not a back-up solution, they do add a layer of protection to the
 code.
-By preserving a copy of the repository on each team members' computer in addition to the central
-repository, means the code can be easily recovered if any one of those computers fail.
+Preserving a copy of the repository on each team members' computer in addition to the central
+repository means the code can be easily recovered if any one of those computers fails.
 
-Although DVCSs assist with code sharing, they are not considered a long term archiving solution and
-might not survive the "ten year challenge" of code reproducibility @Perkel2020-io.
-To achieve that, the code needs to be deposited to a long term repository.
-Zenodo and Figshare repositories are both good options for long term archiving of software, and the
+Although DVCSs assist with code sharing, they are not considered a long-term archiving solution and
+might not survive the "ten-year challenge" of code reproducibility @Perkel2020-io.
+To achieve that, the code needs to be deposited to a long-term repository.
+Zenodo and Figshare repositories are both good options for long-term archiving of software, and the
 link to these should be provided in the respective journal article/pre-print.
 
 ## Compute environment control
@@ -335,21 +342,21 @@ potential to affect results @Seyednasrollah2015-cc.
 This is why it is best practice to report the exact version of all programs used in an analysis
 (and packages therein) and even make archival copies for future reference @Sandve2013-lk.
 
-In R, such reporting is possible using the `sessionInfo()` command;
+In R, such reporting is possible using the `sessionInfo()` command,
 while for Python this is possible using the `session_info` package.
-Using literate programming ensures that the output document contains a record of this important
-information.
+Using literate programming and sharing output documents ensures that a record of this important
+information is made available.
 
 Although regular software updates are overall a good thing, it poses a problem for future
 reproducibility.
-A researcher trying to reproduce a 10 year old study in R v3.0 could have a headache, as they would need
+A researcher trying to reproduce a ten-year-old study in R v3.0 could have a headache, as they would need
 to roll back their R version, and possibly their operating system as well, as R and other languages
 requires certain system libraries for low-level routines.
 
 To avoid this, a virtual machine (VM) could be used to run a system-in-a-system.
 This means that the "host" machine can run another "guest" operating system with the right R version,
 without needing to change the host R version.
-While this provides good reproducibility, setting up an environment with a 10 year old operating system,
+While this provides good reproducibility, setting up an environment with a ten-year-old operating system,
 R and packages would take a few hours to accomplish.
 Researchers could take a snapshot of their VM system and share it to help reproducibility and
 auditability, however the size of these images is relatively large due to the fact it contains the OS,
@@ -358,7 +365,7 @@ Moreover, the performance of computation in guest system is typically slower tha
 the host.
 
 Another potential solution to this is to use a package/environment management system
-(eg: Conda or Guix).
+(e.g.: [Conda](https://conda.org/) or [Guix](https://guix.gnu.org/)).
 These allow users to create, manage, and deploy software packages,
 dependencies, and environments across different computing platforms @Perkel2023-cv.
 Conda was initially developed to solve the problem of package dependency management in Python,
@@ -371,8 +378,8 @@ are tied to specific operating systems and hardware architecture.
 Guix on the other hand, gives system-level reproducibility, but has a smaller community and ecosystem
 of supported packages.
 
-Containers are an attempt to resolve some of the downsides of virtual machines and package managers.
-Container images can be thought of as similar to virtual machines, but are more lightweight as they
+Containers are an attempt to resolve some of the downsides of VMs and package managers.
+Container images can be thought of as similar to VMs, but are more lightweight as they
 share parts of the host operating system.
 In the example shown in **Figure 4**, the six containerised applications share the same operating
 system, while the three VM applications each involve their own operating system which incurs a
@@ -394,7 +401,7 @@ and typically within a few minutes.
 This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
 reproducibility [@Mangul2019-ei;@Mangul2019-xp].
 
-![Figure 4. Architecture of containers (left) compared to virtual machines (right) @noauthor_2021-lt](../img/docker-containerized-and-vm-transparent-bg.webp)
+![Figure 4. Architecture of containers (left) compared to VMs (right) @noauthor_2021-lt](../img/docker-containerized-and-vm-transparent-bg.webp)
 
 We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
 compute environment control.
@@ -409,14 +416,14 @@ process.
 Conda environments are described by a file called `environment.yml` which acts like a recipe for how to
 make the environment.
 As they are a recipe, these are small files which are easily shared in the project code repository.
-Docker images are larger, and cannot be shared in the code repository.
+Docker images are larger and cannot be shared in the code repository.
 They are commonly deposited to the DockerHub repository, but availability of images is dependent on the
 commercial viability of Docker Inc, so it isn't guaranteed to survive the 10-year challenge.
 A better option for bioinformatics workflows would be to use the BioContainers registry
 @Da_Veiga_Leprevost2017-yw, as it is community driven and supported by consortia such as *Elixir* and
 *Global Alliance for Genomics and Health* that will underpin its longevity.
 Still, these are not considered permanent archival services, so it is advised to deposit the image
-used in an article to a suitable persitent long-term archive (discussed below).
+used in an article to a suitable persistent long-term archive (discussed below).
 The recipe used to build the Docker image, called the `Dockerfile`, is sufficiently small and can be
 added to the project source code repository.
 
@@ -443,7 +450,7 @@ In the rare cases that data is shared in accordance with the data availability s
 a burden in terms of labour to lodge and respond to such requests, and if the data is large, may incur
 an additional cost for hosting/transferring these large files.
 
-The field of genomics has has a long history of data sharing @Brazma2001-yk, which is supported by
+The field of genomics has a long history of data sharing @Brazma2001-yk, which is supported by
 policy leadership by funding bodies
 [@National_Health_and_Medical_Research_Council2019-yx;
 @Office_of_The_Director_National_Institutes_of_Health2023-ss] and data sharing policies of journals
@@ -454,11 +461,11 @@ Some may keep data private due to concerns over participant privacy.
 This is a well-founded concern for identifiable data, however once identifying features are removed,
 it is nearly impossible to reidentify genomic data @Venkatesaramani2021-tn unless the attackers have
 preexisting genomic data describing an individual or ancestry [@Schadt2012-md; @Gymrek2013-fz].
-Therefore sharing deidentified genomic data and metadata is likely to carry little risk to participant
+Therefore, sharing deidentified genomic data and metadata is likely to carry little risk to participant
 privacy.
 Still, much human genomic data and metadata resides in restricted databases due to the scope of
 data sharing that was agreed to in the consent process.
-For example the consent form may only allow sharing of data to researchers investigating certain
+For example, the consent form may only allow sharing of data to researchers investigating certain
 diseases, which means a vetting process must be undertaken before sharing data with external
 investigators.
 In the interests of reuse and reproducibility, future studies could consider a consent form that allows
@@ -466,16 +473,17 @@ more broad sharing of deidentified data.
 
 In order to maximise the value of shared data for reuse and reproducibility, it needs to be Findable,
 Accessible, Interoperable and Reusable (FAIR) for people and for computers @Wilkinson2016-qq.
+These principles are summarised in **Figure 5**.
 
-![Figure 5. Overview of the FAIR data principles @Kalendralis2021-jb](../img/gr2)
+![Figure 5. Overview of the FAIR data principles @Kalendralis2021-jb](../img/gr2.jpg)
 
 High throughput biology has already built a number of data repositories for specific data types
-conforming to FAIR principles (eg: GEO, SRA, PRIDE [@Edgar2002-hs; @Kodama2012-bn; @Deutsch2017-hc]).
+conforming to FAIR principles (e.g.: GEO, SRA, PRIDE [@Edgar2002-hs; @Kodama2012-bn; @Deutsch2017-hc]).
 However other domains lack well known specialised organised data repositories, such as evolutionary
 biology, ecology, cell biology, social sciences and computing.
 The **re3data.org** registry of data repositories may be useful to find a repository that accepts data
 from these fields [@Pampel2013-ep].
-If no specialised repository exists, then a general purpose repository such as
+If no specialised repository exists, then a general-purpose repository such as
 [Dryad](https://datadryad.org/), [FigShare](https://figshare.com/), or [Zenodo](https://zenodo.org/)
 should be considered.
 Moreover, general recommendations have been proposed to enhance data FAIRness in ecology, but which
@@ -483,7 +491,7 @@ can also be applied to other disciplines [@Roche2015-aq].
 
 Key recommendations include:
 
-1. Depositing data to a specialised repository if possible, otherwise a general purpose repository.
+1. Depositing data to a specialised repository if possible, otherwise, a general-purpose repository.
 
 2. Avoid commodity cloud storage as these are impermanent.
 
@@ -492,7 +500,7 @@ accessible.
 
 4. Provide detailed metadata.
 
-5. Preferably archive and share raw data, and use existing standards for the discipline.
+5. Preferably archive and share raw data and use existing standards for the discipline.
 
 Once the quality of the data set has been established researchers may consider depositing it
 to a data repository early, before publicisation, as it has some advantages.
@@ -507,33 +515,67 @@ and a source of problems for shared code [@Samuel2022-ha].
 
 In addition to the experimental data, reference data that is critical to a project should be archived.
 For example, in the field of genomics, gene function annotation sets are relied upon for a common
-proceduce called "pathway analysis".
+procedure called "pathway analysis" @Khatri2012-ye.
 These annotation sets are regularly updated, but versions are rarely reported [@Wijesooriya2022-ly]
 and finding historical data versions is sometimes difficult.
-So in order to guarantee future reproducibility, shapshots of those reference data should be archived &
-shared if the licence permits it.
+In order to guarantee future reproducibility, snapshots of those reference data should be archived
+and shared if the licence permits it.
 
 ## Documentation
 
-* Instructions needed
+Documentation is the glue that binds a data science project together.
+The manuscript/published article is the central artifact that outlines the research project and
+links to the supporting materials.
+From a reproducibility standpoint, the methods section is the most important section.
+It should be detailed enough so that other researchers can understand and replicate the
+experiments/analysis and yield similar results.
+The "Materials Design Analysis Reporting" (MDAR) checklist for authors has been developed to assist in
+comprehensive methodological reporting in the life sciences [@Mellor2022-up].
 
-* Requirements
+Researchers should consider depositing their thorough laboratory/*in silico* protocols as separate
+outputs to relevant repositories such as [protocols.io](https://www.protocols.io/),
+[RIO Journal](https://riojournal.com/) or [Zenodo](https://zenodo.org/), minting a Digital Object
+Identifier (DOI) that can be cited in the manuscript.
+This is particularly helpful when there are strict word limits on articles.
 
-* Credits
+The manuscript should have clear links to supporting materials including datasets, software code and
+other resources like computational environments (e.g.: Docker images).
+Each of these supporting materials also require documentation to ensure that their context can be
+understood and that they can be reused.
+
+The Code repository should have a detailed "README" file which should communicate:
+
+* The purpose of the code/software/overall project.
+
+* How to reproduce the analysis.
+
+* How to contribute/report issues.
+
+* Credits to the contributors.
 
 
 
-## Bringing it all together
 
-Due to the rapidly devloping software landscape, this work is not designed to give strong
-recommendations on the exact combination of tools or resources
+
+Dataset raw and intermediate files with metadata
+
+* Compute environment
+
+* Credits different authors.
+
+
+
+## Limitations and challenges
+
+Due to the constantly developing software landscape, this review is not designed to give strong
+recommendations on the exact combination of tools or resources.
 to use in computational research, but to set out key principles and highlight some useful solutions
 that users can incorporate into their toolkit to improve the overall reproducibility of their work.
 
 When not integrated correctly, problems readily emerge.
 A recent systematic examination of Jupyter notebooks in GitHub repositories accompanying research papers
-found that environment problems (eg: "module not found", "import error") and lack of data links
-(eg: "file not found" errors) accounted for 80% of code errors @Samuel2022-ha.
+found that environment problems (e.g.: "module not found", "import error") and lack of data links
+(e.g.: "file not found" errors) accounted for 80% of code errors @Samuel2022-ha.
 
 This is why regular code testing is another recommended best practice.
 By regularly executing the workflow after changes are made ensures the absence of code errors.
@@ -542,7 +584,7 @@ won't be generated, and the source of the error can be investigated.
 It is worthwhile to conduct such testing on a separate computer to understand how someone else in the
 scientific community would fare reproducing such a workflow.
 
-Some researchers have suggested to take it even further, by adapting software development
+Some researchers have suggested adapting software development
 principles of unit tests and continuous integration/continuous delivery.
 This approach, called "continuous analysis" involves automatic execution and testing whenever a change is
 made to a project's code base @Beaulieu-Jones2017-vj.
@@ -552,23 +594,21 @@ If the workflow executes successfully and tests are passed, the repository can b
 If those tests are designed cleverly such that certain conclusions drawn in the corresponding research
 article can be assessed computationally, then such tests could be used to demonstrate computational
 reproducibility without the need for individuals to execute the workflow themselves.
-Therefore continuous analysis might be a future pediment (crowning feature) to the five-pillared
+Continuous analysis might therefore be a future pediment (crowning feature) to the five-pillared
 "temple" of reproducible research.
-
-## Where to from here
 
 The key technological advances enabling the five pillars approach have been around for about a decade,
 yet progress on integrating these into computational research publications has been minimal.
 Part of the problem is that funding bodies and journals are focused on supporting novel research
 directions, instead of validating previous findings.
 Indeed the number of systematic replication studies in bioinformatics remains very small
-(eg: [@Ioannidis2009-hv; @Samuel2022-ha]), so we don't have much of a grasp as to how severe the problem
-actually is.
+(e.g.: [@Ioannidis2009-hv; @Samuel2022-ha]), so we don't have much of a grasp as to how severe the
+problem actually is.
 
 A part of the problem lies in the lack of technical computer skills in many research groups.
 Specific training in these areas could help, but the most scalable solution would be to
 provide comprehensive beginner-friendly step-by-step guides for frequently used routines.
-For example, my group has just released such a protocol that walks novice users through the process
+For example, our group has just released such a protocol that walks novice users through the process
 of implementing functional enrichment analysis of gene expression data with the five pillars principles
 @Ziemann2023-nm.
 More such protocols are needed to make extreme reproducibility mainstream.
@@ -581,7 +621,7 @@ These computationally demanding steps are typically conducted on high end server
 After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
 so downstream analysis could be conducted on commodity PCs or laptops.
 In those situations, a workflow manager such as Snakemake or Nextflow could be useful to
-coordinate those hybrid computate workflows.
+coordinate those hybrid computational workflows.
 
 Adoption of these practices would require a change in incentives.
 https://www.nature.com/articles/s41562-016-0021
@@ -589,23 +629,6 @@ https://www.nature.com/articles/s41562-016-0021
 ## References to read
 
 https://www.minot.bio/
-
-https://www.researchgate.net/publication/349603799_Making_radiotherapy_more_efficient_with_FAIR_data/figures?lo=1
-
-Maer-Matei, Monica Mihaela, Tiberiu Marian Georgescu, Cristina Mocanu, and Ana-Maria Zamfir. 2019/01/01////.
-“Skill Needs for Early Career Researchers.” Sustainability 11 (10). https://doi.org/ghkb9m (https://doi.org/ghkb9m).
-
-Murray, NJ et al. 2021. “Data Freshness in Ecology and Conservation.” Trends Ecol Evol 36 (6): 485–87.
-
-Obels, Pepijn, Daniël Lakens, Nicholas Coles, Jaroslav Gottfried, and Seth Green. 2020. “Analysis of Open Data and Computational
-
-Reproducibility in Registered Reports in Psychology.” Advances in Methods and Practices in Psychological Science 3 (May):
-251524592091887. https://doi.org/gg4vw4 (https://doi.org/gg4vw4).
-
-Peikert, Aaron, and Andreas Markus Brandmaier. 2019. “A Reproducible Data Analysis Workflow with R Markdown, Git, Make, and Docker.”
-
-PsyArXiv. https://doi.org/10.31234/osf.io/8xzqy (https://doi.org/10.31234/osf.io/8xzqy).
-@aaron_willcox ! " # || @Elliot_Gould_ ! " #
 
 ## Practical guides
 
