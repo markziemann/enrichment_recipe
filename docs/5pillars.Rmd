@@ -35,7 +35,7 @@ These include (1) code version control and sharing, (2) compute environment cont
 (3) literate programming, (4) documentation and (5) FAIR data sharing.
 These best practices will ensure that computational research work can be
 reproduced quickly and easily, long into the future.
-This guide is designed for bioinformatic data analyists, but should be relevant for other
+This guide is designed for bioinformatic data analysts, but should be relevant for other
 domains.
 
 ## Introduction
@@ -138,6 +138,15 @@ then the computational workflow can begin with the cleaned dataset.
 
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
+A "master script" that coordinates the execution of individual parts of an analysis is an excellent
+way to reduce the number of commands required for reproduction.
+This can be coded in standard languages like R/R Markdown, Python/Jupyter notebook or the Unix Shell.
+Projects entailing big data analysis might benefit from a build/workflow automation solution like `make`,
+`snakemake` [@Koster2012-sq; @Molder2021-mp] or `nextflow` [@Di_Tommaso2017-yo].
+The advantage of such tools is that if the analysis were to fail mid-way,
+for example at step 8 of a 15-step workflow, the analysis of steps 1-7 wouldn't need to be repeated.
+After fixing the issue with code at step 8, re-running the analysis would pick up at step 8 again,
+which saves labour and compute time.
 
 ## Literate programming
 
@@ -192,7 +201,7 @@ generated, it helps the reader understand the logical steps taken in an analysis
 Version control is a useful best practice in software development (discussed below).
 
 * Output reports are free from code errors.
-The output document is only rendered when the entire script has compiled without errors.
+The output document is only rendered when the entire script has been compiled without errors.
 In contrast, a regular script might generate some outputs and then encounter an error,
 so we are not sure whether the whole script is free of errors and completed successfully.
 Therefore, it is good practice to routinely execute these scripts during the development process,
@@ -202,13 +211,13 @@ and not rely too heavily on the interactive execution of individual chunks or li
 These include PDF, DOC/DOCX and HTML, with HTML having some notable benefits to other formats
 including better usability for mobile devices like phones and tablets, and the ability to
 support richer content such as interactive charts and dynamic tables (searchable, filterable, sortable).
-Outputs include HTML documents, but also slideshows and even e-books.
+Outputs include HTML documents, but also slideshows and even ebooks.
 
 These features make literate programming a quantum leap for science communication in a range of
 situations.
 Whether this is sharing a data analysis report, giving a presentation at a meeting,
-writing a research article or self-publishing an e-book, literate programming provides the
-ability to construct transparent data narratives with clear provenance in a conveniently sharable
+writing a research article or self-publishing an ebook, literate programming provides the
+ability to construct transparent data narratives with clear provenance in a conveniently shareable
 form.
 
 Literate programming also works neatly with the concept of the "executable paper", the idea that
@@ -316,7 +325,7 @@ Open-Source Software* @Editorial2018-kt.
 * Supports documentation best practices.
 Books, educational resources and other data types are well served using DVCS (see below).
 
-* Makes works easily sharable.
+* Makes works easily shareable.
 Work is easier to reproduce because the source folder contains a complete workflow with code linked
 to data and metadata, so it doesn't need any modifications before reproduction.
 
@@ -351,7 +360,7 @@ Although regular software updates are overall a good thing, it poses a problem f
 reproducibility.
 A researcher trying to reproduce a ten-year-old study in R v3.0 could have a headache, as they would need
 to roll back their R version, and possibly their operating system as well, as R and other languages
-requires certain system libraries for low-level routines.
+require certain system libraries for low-level routines.
 
 To avoid this, a virtual machine (VM) could be used to run a system-in-a-system.
 This means that the "host" machine can run another "guest" operating system with the right R version,
@@ -361,8 +370,8 @@ R and packages would take a few hours to accomplish.
 Researchers could take a snapshot of their VM system and share it to help reproducibility and
 auditability, however the size of these images is relatively large due to the fact it contains the OS,
 software stack and project data.
-Moreover, the performance of computation in guest system is typically slower than when run direct on
-the host.
+Moreover, the performance of computation in the guest system is typically slower than when run directly
+on the host.
 
 Another potential solution to this is to use a package/environment management system
 (e.g.: [Conda](https://conda.org/) or [Guix](https://guix.gnu.org/)).
@@ -398,17 +407,17 @@ Due to its early adoption, Docker now has a large community of users, extensive 
 a vast collection of pre-built container images called DockerHub.
 Docker can fetch images from DockerHub and run them on the host system with just a couple of commands,
 and typically within a few minutes.
-This accellerates the installation procedure dramatically which is a known bottleneck for bioinformatic
+This accelerates the installation procedure dramatically which is a known bottleneck for bioinformatic
 reproducibility [@Mangul2019-ei;@Mangul2019-xp].
 
-![Figure 4. Architecture of containers (left) compared to VMs (right) @noauthor_2021-lt](../img/docker-containerized-and-vm-transparent-bg.webp)
+![Figure 4. Architecture of containers (left) compared to VMs (right) @noauthor_2021-lt.](../img/docker-containerized-and-vm-transparent-bg.webp)
 
 We are also watching with interest the early development of WebAssembly (Wasm) based approaches for
 compute environment control.
 The ability to reproduce operating systems, programming languages and workflows in the browser
 opens up intriguing possibilities for more widespread reproduction and auditing without the need to
 install any software at all.
-For example, it is now possible embed a Wasm-enabled R terminal inside a Quarto HTML document, which
+For example, it is now possible to embed a Wasm-enabled R terminal inside a Quarto HTML document, which
 enables in-browser reproducibility of R workflows @Balamuta2023-ma.
 
 It is not sufficient to simply use these tools, they need to be shared as part of the publication
@@ -475,14 +484,14 @@ In order to maximise the value of shared data for reuse and reproducibility, it 
 Accessible, Interoperable and Reusable (FAIR) for people and for computers @Wilkinson2016-qq.
 These principles are summarised in **Figure 5**.
 
-![Figure 5. Overview of the FAIR data principles @Kalendralis2021-jb](../img/gr2.jpg)
+![Figure 5. Overview of the FAIR data principles @Kalendralis2021-jb.](../img/gr2.jpg)
 
 High throughput biology has already built a number of data repositories for specific data types
 conforming to FAIR principles (e.g.: GEO, SRA, PRIDE [@Edgar2002-hs; @Kodama2012-bn; @Deutsch2017-hc]).
 However other domains lack well known specialised organised data repositories, such as evolutionary
 biology, ecology, cell biology, social sciences and computing.
-The **re3data.org** registry of data repositories may be useful to find a repository that accepts data
-from these fields [@Pampel2013-ep].
+The [re3data.org](https://www.re3data.org/) registry of data repositories may be useful to find a
+repository that accepts data from these fields [@Pampel2013-ep].
 If no specialised repository exists, then a general-purpose repository such as
 [Dryad](https://datadryad.org/), [FigShare](https://figshare.com/), or [Zenodo](https://zenodo.org/)
 should be considered.
@@ -501,6 +510,9 @@ accessible.
 4. Provide detailed metadata.
 
 5. Preferably archive and share raw data and use existing standards for the discipline.
+
+6. Use file formats that are compatible with many different types of software; e.g.: comma-separated
+values (CSV) files are preferred over Excel files.
 
 Once the quality of the data set has been established researchers may consider depositing it
 to a data repository early, before publicisation, as it has some advantages.
@@ -524,9 +536,9 @@ and shared if the licence permits it.
 ## Documentation
 
 Documentation is the glue that binds a data science project together.
-The manuscript/published article is the central artifact that outlines the research project and
+The manuscript/published article is the central artefact that outlines the research project and
 links to the supporting materials.
-From a reproducibility standpoint, the methods section is the most important section.
+From a reproducibility standpoint, the methods section is the most critical part.
 It should be detailed enough so that other researchers can understand and replicate the
 experiments/analysis and yield similar results.
 The "Materials Design Analysis Reporting" (MDAR) checklist for authors has been developed to assist in
@@ -539,31 +551,50 @@ Identifier (DOI) that can be cited in the manuscript.
 This is particularly helpful when there are strict word limits on articles.
 
 The manuscript should have clear links to supporting materials including datasets, software code and
-other resources like computational environments (e.g.: Docker images).
+other resources like computational environments (Table 1).
 Each of these supporting materials also require documentation to ensure that their context can be
 understood and that they can be reused.
 
-The Code repository should have a detailed "README" file which should communicate:
+| Item | Location |
+| --- | --- |
+| Data set and metadata | Persistent repository |
+| Code base and documentation | DVCS (eg: GitHub) and snapshot deposited to persistent repository |
+| Container image | Container registry and persistent repository |
 
-* The purpose of the code/software/overall project.
+: Table 1. Supporting information for a five-pillar research article.
 
-* How to reproduce the analysis.
+The code repository should have a detailed `README` file which plays a critical role in reproducibility.
+It should outline the purpose of the code/software/overall project and how it relates to the
+manuscript/article.
+For example, some articles may rely on more than one repository for various parts of the research
+project, so these need to be explained.
 
-* How to contribute/report issues.
+The `README` should outline exactly what is required in order to reproduce the
+analysis, including the requirements and the instructions to reproduce.
+Hardware requirements such as RAM, CPU architecture, GPU needs, etc need to be outlined.
+Software requirements, such as operating system, container engine, workflow manager,
+etc, also need to be described.
+The exact instructions for reproduction should be clearly outlined.
+These instructions should be tested whenever changes are made to the codebase.
 
-* Credits to the contributors.
+As outlined above, one of the goals is to reduce the complexity of reproduction, using a master script.
+For example, the pathway analysis workflow we previously developed could be reproduced and inspected
+with just six commands, starting from a new Ubuntu linux install [@Ziemann2023-nm].
+By minimising the complexity of reproduction and writing the instructions clearly in the `README`,
+reproducibility is made possible to a larger segment of the computational research community,
+especially those who are not experts in the languages used.
 
+In addition, the `README` should outline how users can contribute to the codebase and how to report
+issues, such as code errors and discrepancies.
+The `README` should also list the contributors to the codebase and acknowledge any financial support.
 
-
-
-
-Dataset raw and intermediate files with metadata
-
-* Compute environment
-
-* Credits different authors.
-
-
+The need for documentation extends to the other supporting information.
+The deposited data set needs thorough descriptive metadata to provide context.
+The container image and code snapshot should be deposited to a persistent repository with
+a thorough description of their purpose.
+Both the data and container image descriptions need to contain links to the DOI of the manuscript,
+so that machines or individuals browsing these resources can understand the context of the overall
+research project.
 
 ## Limitations and challenges
 
@@ -616,7 +647,7 @@ More such protocols are needed to make extreme reproducibility mainstream.
 There are other challenges worth mentioning.
 Different parts of the workflow may have different compute needs.
 For example, genomic sequencing analysis workflows typically involve the mapping of reads to the
-reference genome and variant calling which are demanding in memory and compute.
+reference genome and variant calling which are demanding in memory and computaion.
 These computationally demanding steps are typically conducted on high end servers and workstations.
 After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
 so downstream analysis could be conducted on commodity PCs or laptops.
