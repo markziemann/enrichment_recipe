@@ -26,7 +26,7 @@ Source: https://github.com/markziemann/enrichment_recipe/blob/main/docs/5pillars
 
 ## Summary
 
-Computational reproducibility is in theory a simple premise, however in practice it is difficult to
+Computational reproducibility is a simple premise in theory, but in practice it is difficult to
 achieve.
 Building upon past efforts and proposals to maximise reproducibility and rigour in
 bioinformatics, we present a framework called the five pillars of reproducible computational
@@ -39,12 +39,6 @@ This guide is designed for bioinformatic data analysts, but should be relevant f
 domains.
 
 ## Introduction
-
-```{r,libs,echo=FALSE}
-
-library("DiagrammeR")
-
-```
 
 In research, computational reproducibility is the ability to use the materials from a past study
 (such as data, code and documentation) to regenerate the outputs including figures and tables to
@@ -64,22 +58,25 @@ Unreliable research is a waste of resources and time and can mislead readers to 
 research directions.
 Much has been written on how irreproducibility has reached crisis levels in psychology and life
 sciences [@Baker2015-bs; @Begley2012-di].
-Indeed, in bioinformatics, the situation is grim with a 2009 report showing only a small fraction
-of studies able to be reproduced @Ioannidis2009-hv, which brings into question the reliability of
+Indeed, in bioinformatics, the situation is grim with a 2009 systematic evaluation showing only
+2 of 18 articles could be reproduced (11%) @Ioannidis2009-hv, bringing into question the reliability of
 those studies.
+Workshops conducted by NIH intramural researchers in 2018/2019 sought to reproduce five bioinformatics
+studies and could not reproduce *any*, citing missing data, software and documentation
+@Zaringhalam2020-ms.
+A recent systamatic analysis of Jupyter notebooks in biomedical articles had similar observations, with
+only 245/4169 (5.9%) notebooks giving similar results compared to the original, with irreproducibility
+blamed on missing data, broken dependencies and buggy code @Samuel2022-ha.
 Irreproducible bioinformatics has the potential to place patient safety at risk, as demonstrated by an
 earlier case study @Baggerly2010-nr.
-
-Researchers are theoretically able to achieve 100% computational reproducibility,
-however, in practice this is rarely achieved.
-Data and code availability, ability to install software easily, and other factors mean that most
-computational research works are unable to be reproduced @Samuel2022-ha.
+Researchers are theoretically able to achieve 100% computational reproducibility, yet as we see,
+in practice this is rarely achieved.
 
 A number of guides recommending enhanced computational reproducibility practices have emerged
-[@Peng2011-ia; @Tan2010-is; @Sandve2013-lk; @Piccolo2016-ji; @Gruning2018-sg; @Lewis2016-qh;
-@Brito2020-ld; @Rodrigues2023-fw; @Wilson2017-uq; @Akalin2018-eg ; @Peikert2021-eq ].
-This article attempts to unify these concepts into five key principles called the
-five pillars of reproducible computational research (**Figure 1**).
+[ @Tan2010-is; @Peng2011-ia; @Sandve2013-lk; @Piccolo2016-ji; @Lewis2016-qh;
+@Wilson2017-uq ; @Akalin2018-eg ; @Gruning2018-sg; @Brito2020-ld; @Peikert2021-eq ; @Rodrigues2023-fw]
+This article, inspired by Peikert and BrandMaier @Peikert2021-eq, attempts to unify these concepts into
+five key principles called the five pillars of reproducible computational research (**Figure 1**).
 The intended audience is bioinformatics data analysts (not tool developers), however the
 principles described here could equally apply to other domains of study.
 
@@ -115,7 +112,7 @@ text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
 
 ## End-to-end code coverage
 
-End-to-end code coverage is the foundation for reproducibility as the codebase should ideally contain all
+End-to-end code coverage is the foundation for reproducibility as the codebase should contain all
 instructions for completing a data analysis task.
 This removes the need for any manual steps, which are not only time-consuming but also prone to errors.
 Without end-to-end code coverage, most of the other best practices described here are not possible.
@@ -133,8 +130,8 @@ The code should be able to fetch the data from a publicly accessible location an
 processing and analysis without having to acquire the data some other way.
 
 A caveat for end-to-end code coverage is that sometimes manual data cleaning is unavoidable.
-In those cases, retaining raw and cleaned data and providing a cleaning protocol is recommended,
-then the computational workflow can begin with the cleaned dataset.
+In those cases, retaining raw and cleaned data along with a cleaning protocol is recommended.
+Then the computational workflow can begin with the cleaned dataset.
 
 A guiding principle of the five pillars approach is that the publishing researchers should strive
 to make the reproduction process easier and faster for those who wish to.
@@ -142,7 +139,8 @@ A "master script" that coordinates the execution of individual parts of an analy
 way to reduce the number of commands required for reproduction.
 This can be coded in standard languages like R/R Markdown, Python/Jupyter notebook or the Unix Shell.
 Projects entailing big data analysis might benefit from a build/workflow automation solution like `make`,
-`snakemake` [@Koster2012-sq; @Molder2021-mp] or `nextflow` [@Di_Tommaso2017-yo].
+`snakemake` [@Koster2012-sq; @Molder2021-mp], `drake` [@Michael_Landau2018-kk] or
+`nextflow` [@Di_Tommaso2017-yo].
 The advantage of such tools is that if the analysis were to fail mid-way,
 for example at step 8 of a 15-step workflow, the analysis of steps 1-7 wouldn't need to be repeated.
 After fixing the issue with code at step 8, re-running the analysis would pick up at step 8 again,
@@ -165,6 +163,10 @@ An example R Markdown script and output report is given in **Figure 2**.
 
 Around the same time, Project Jupyter was developed to provide a "notebook" type interface, incorporating
 R, Python, Julia and other computer language chunks into documents @Perkel2018-rz.
+Similarly, the [Streamlit](https://streamlit.io/) tool, which was originally invented for creating
+Python-based web dashboards but is equally capable of generating data science reports
+[e.g.: @Nantasenamat2023-wr].
+
 In 2022, the company behind RStudio (Posit) released Quarto, the conceptual successor of R Markdown,
 but with enhanced support for other computer languages like Python, Julia, and Observable JavaScript
 @Bauer2023-eh.
@@ -187,7 +189,7 @@ This allows the analyst to include rich descriptions of scientific works.
 For example, a report may contain background, methods, results, discussion and references.
 Not only text, but various objects can be included like links to other resources,
 tables, images, videos, etc.
-More information on documentation below.
+This means it is possible to author an entire journal articles using literate programming.
 
 * Outputs are arranged.
 When using a regular script, an analyst might make dozens of charts which are written to the
@@ -208,7 +210,7 @@ Therefore, it is good practice to routinely execute these scripts during the dev
 and not rely too heavily on the interactive execution of individual chunks or lines.
 
 * Flexible output formats.
-These include PDF, DOC/DOCX and HTML, with HTML having some notable benefits to other formats
+These include PDF, DOC/DOCX and HTML, the latter having some notable benefits
 including better usability for mobile devices like phones and tablets, and the ability to
 support richer content such as interactive charts and dynamic tables (searchable, filterable, sortable).
 Outputs include HTML documents, but also slideshows and even ebooks.
@@ -328,6 +330,8 @@ Books, educational resources and other data types are well served using DVCS (se
 * Makes works easily shareable.
 Work is easier to reproduce because the source folder contains a complete workflow with code linked
 to data and metadata, so it doesn't need any modifications before reproduction.
+It is relatively easy to add a software license with a DVCS like `GitHub`, so consumers can understand
+the conditions of using it.
 
 * Protect against code loss.
 Computers sometimes fail and we sometimes delete or overwrite important files.
@@ -342,6 +346,11 @@ might not survive the "ten-year challenge" of code reproducibility @Perkel2020-i
 To achieve that, the code needs to be deposited to a long-term repository.
 Zenodo and Figshare repositories are both good options for long-term archiving of software, and the
 link to these should be provided in the respective journal article/pre-print.
+
+`git` is typically used at the command line, however it is also integrated into Rstudio, JupyterLab and
+VS Code, and there are also several `git` clients with graphical interfaces which better allow inspection
+of code changes.
+
 
 ## Compute environment control
 
@@ -398,7 +407,7 @@ to running directly on the host system @Di_Tommaso2015-pw.
 Container images are highly portable because containers include everything needed to run the
 application, including the system tools and libraries, ensuring that the environment is consistent
 across different systems.
-For example, the most popular containerisation system, Docker, makes it
+For example, the most popular containerisation system, Docker [@Merkel2014-ek], makes it
 possible to run Windows and Linux/Unix containers on any computer with Docker installed, with the
 promise of reproducibility.
 While there are several alternatives such as Podman and Rkt, Docker remains the most widely used
@@ -551,18 +560,7 @@ Identifier (DOI) that can be cited in the manuscript.
 This is particularly helpful when there are strict word limits on articles.
 
 The manuscript should have clear links to supporting materials including datasets, software code and
-other resources like computational environments (Table 1).
-Each of these supporting materials also require documentation to ensure that their context can be
-understood and that they can be reused.
-
-| Item | Location |
-| --- | --- |
-| Data set and metadata | Persistent repository |
-| Code base and documentation | DVCS (eg: GitHub) and snapshot deposited to persistent repository |
-| Container image | Container registry and persistent repository |
-
-: Table 1. Supporting information for a five-pillar research article.
-
+other resources like computational environments.
 The code repository should have a detailed `README` file which plays a critical role in reproducibility.
 It should outline the purpose of the code/software/overall project and how it relates to the
 manuscript/article.
@@ -571,55 +569,59 @@ project, so these need to be explained.
 
 The `README` should outline exactly what is required in order to reproduce the
 analysis, including the requirements and the instructions to reproduce.
+Typically it is written in the markdown format, which should be familiar
 Hardware requirements such as RAM, CPU architecture, GPU needs, etc need to be outlined.
 Software requirements, such as operating system, container engine, workflow manager,
 etc, also need to be described.
 The exact instructions for reproduction should be clearly outlined.
+This should include what the output objects of the analysis are, and instructions on how to access the
+results and what should be expected.
+Literate programming allows for thorough documentation of workflow methods and results which makes
+it more accessible for reproducers to comprehend the workflow details, which is not possible with
+standard code comments [@Rule2019-eh].
 These instructions should be tested whenever changes are made to the codebase.
 
-As outlined above, one of the goals is to reduce the complexity of reproduction, using a master script.
+As outlined above, one of the goals is to reduce the complexity of reproduction, and using a master
+script is a simple way to do this.
+It also makes the README documentation much simpler.
 For example, the pathway analysis workflow we previously developed could be reproduced and inspected
 with just six commands, starting from a new Ubuntu linux install [@Ziemann2023-nm].
 By minimising the complexity of reproduction and writing the instructions clearly in the `README`,
 reproducibility is made possible to a larger segment of the computational research community,
 especially those who are not experts in the languages used.
 
-In addition, the `README` should outline how users can contribute to the codebase and how to report
-issues, such as code errors and discrepancies.
+In addition, the `README` should outline the contents of the repository, how users can contribute to
+the codebase and how to report issues, such as code errors and discrepancies.
 The `README` should also list the contributors to the codebase and acknowledge any financial support.
+It may also include a link to the research article, citation instructions and a mention of the software
+license.
 
 The need for documentation extends to the other supporting information.
 The deposited data set needs thorough descriptive metadata to provide context.
 The container image and code snapshot should be deposited to a persistent repository with
 a thorough description of their purpose.
 Both the data and container image descriptions need to contain links to the DOI of the manuscript,
-so that machines or individuals browsing these resources can understand the context of the overall
-research project.
+so that machines or individuals browsing these resources can understand the context of these objects
+relative to the overall research project.
 
 ## Limitations and challenges
 
 Due to the constantly developing software landscape, this review is not designed to give strong
-recommendations on the exact combination of tools or resources.
-to use in computational research, but to set out key principles and highlight some useful solutions
-that users can incorporate into their toolkit to improve the overall reproducibility of their work.
+recommendations on the exact combination of tools or resources to use in computational research,
+but to set out key principles and highlight some useful solutions that users can incorporate
+into their toolkit to improve the overall reproducibility of their work.
 
-When not integrated correctly, problems readily emerge.
-A recent systematic examination of Jupyter notebooks in GitHub repositories accompanying research papers
-found that environment problems (e.g.: "module not found", "import error") and lack of data links
-(e.g.: "file not found" errors) accounted for 80% of code errors @Samuel2022-ha.
-
-This is why regular code testing is another recommended best practice.
-By regularly executing the workflow after changes are made ensures the absence of code errors.
-Executing literate scripts is the simplest approach, as if there is an error incurred the output report
-won't be generated, and the source of the error can be investigated.
+When these principles are not integrated correctly and checked, problems readily emerge
+[@Barba2016-kk; @Samuel2022-ha; @Zaringhalam2020-ms].
+This is why regular code testing is another recommended best practice, especially after making updates
+to the code or data [@Rule2019-eh; @The_Turing_Way_Community2019-ig].
 It is worthwhile to conduct such testing on a separate computer to understand how someone else in the
 scientific community would fare reproducing such a workflow.
 
-Some researchers have suggested adapting software development
+Moreover, some have suggested adapting software development
 principles of unit tests and continuous integration/continuous delivery.
 This approach, called "continuous analysis" involves automatic execution and testing whenever a change is
-made to a project's code base @Beaulieu-Jones2017-vj.
-
+made to a project's code base [@Beaulieu-Jones2017-vj; @Blischak2019-dq].
 If the workflow executes successfully and tests are passed, the repository can be decorated with a
 "badge" to inform users of the lack of errors in the code.
 If those tests are designed cleverly such that certain conclusions drawn in the corresponding research
@@ -630,106 +632,20 @@ Continuous analysis might therefore be a future pediment (crowning feature) to t
 
 The key technological advances enabling the five pillars approach have been around for about a decade,
 yet progress on integrating these into computational research publications has been minimal.
-Part of the problem is that funding bodies and journals are focused on supporting novel research
-directions, instead of validating previous findings.
-Indeed the number of systematic replication studies in bioinformatics remains very small
-(e.g.: [@Ioannidis2009-hv; @Samuel2022-ha]), so we don't have much of a grasp as to how severe the
+Part of the problem is the incentive structures in academia, with funding bodies and journals are
+focused on novel research directions rather than confirming previous findings
+[@Kaelin2017-id; @Munafo2017-ty].
+Indeed the number of systematic replication studies in bioinformatics remains small
+(e.g.: [@Ioannidis2009-hv; ; @Samuel2022-ha]), so we don't have much of a grasp as to how severe the
 problem actually is.
 
-A part of the problem lies in the lack of technical computer skills in many research groups.
-Specific training in these areas could help, but the most scalable solution would be to
+A lack of technical computer skills in many research groups is another culprit.
+Specific workshop-based training in these areas could help, but the most scalable solution would be to
 provide comprehensive beginner-friendly step-by-step guides for frequently used routines.
 For example, our group has just released such a protocol that walks novice users through the process
 of implementing functional enrichment analysis of gene expression data with the five pillars principles
 @Ziemann2023-nm.
 More such protocols are needed to make extreme reproducibility mainstream.
-
-There are other challenges worth mentioning.
-Different parts of the workflow may have different compute needs.
-For example, genomic sequencing analysis workflows typically involve the mapping of reads to the
-reference genome and variant calling which are demanding in memory and computaion.
-These computationally demanding steps are typically conducted on high end servers and workstations.
-After initial processing, the resulting variant files are ~100X smaller than the raw sequence files,
-so downstream analysis could be conducted on commodity PCs or laptops.
-In those situations, a workflow manager such as Snakemake or Nextflow could be useful to
-coordinate those hybrid computational workflows.
-
-Adoption of these practices would require a change in incentives.
-https://www.nature.com/articles/s41562-016-0021
-
-## References to read
-
-https://www.minot.bio/
-
-## Practical guides
-
-We provide some practical resources for those interested in adopting various
-
-Put these on webarchive and provide persistent links
-
-| Topic | Resource |
-| --- | --- |
-| General coding for science | eg |
-| Version control | eg |
-| Literate programming | eg |
-| Environment control | eg |
-| Documentation | eg |
-| Data sharing | eg |
-
-
-### Getting started with data analysis in R and Python
-
-* Intro to R and Rstudio
-
-* Intro to Python and iPython IDE
-
-* Intro to vscode
-
-### Literate programming with jupyter, R Markdown and Quarto
-
-* https://medium.com/@itsjzt/beginner-guide-to-markdown-229adce30074
-
-* https://www.dataquest.io/blog/r-markdown-guide-cheatsheet/
-
-* https://tysonbarrett.com/Rstats/chapter-9-reproducible-workflow-with-rmarkdown.html
-
-* https://andrewbtran.github.io/NICAR/2017/reproducibility-rmarkdown/rmarkdown.html
-
-* https://quarto.org/docs/computations/r.html
-
-* https://quarto.org/docs/computations/python.html
-
-* https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/
-
-* https://www.dataquest.io/blog/jupyter-notebook-tutorial/
-
-* https://medium.com/velotio-perspectives/the-ultimate-beginners-guide-to-jupyter-notebooks-6b00846ed2af
-
-### Practical guides for `git` and GitHub
-
-* https://www.datacamp.com/tutorial/github-and-git-tutorial-for-beginners/
-
-* https://www.freecodecamp.org/news/introduction-to-git-and-github/
-
-* https://www.geo.uzh.ch/microsite/reproducible_research/post/rr-rstudio-git/
-
-* https://anderfernandez.com/en/blog/how-to-link-and-use-git-with-rstudio/
-
-* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
-
-* https://blog.reviewnb.com/github-jupyter-notebook/
-
-* https://andgarc.github.io/basic-git-jupyter-lesson/index.html
-
-### Practical guides for Conda, Guix and Docker
-
-
-### Practical guides for documenting computational research
-
-
-### Practical guides to data sharing
-
-
 
 ## Acknowledgements
 
