@@ -23,3 +23,8 @@ bioinformatics powerhouse.
 
 * `glossary.md`: If you are new to bioinformatics, or if any of the terms here don't 
 make sense, take a look at this glossary.
+
+## Notes
+
+`5pillars.Rmd`: The 5 pillars manuscript has moved - it is now located in a dedicated repository:
+https://github.com/markziemann/5pillars
