@@ -14,7 +14,8 @@ bibliography: references.bib
 csl: plos-computational-biology.csl
 ---
 
-Mark Ziemann<sup>1</sup>*, Anusuiya Bora<sup>2</sup>
+[Mark Ziemann<sup>1</sup>*](https://orcid.org/0000-0002-7688-6974),
+[Anusuiya Bora<sup>2</sup>](https://orcid.org/0009-0006-2908-1352)
 
 **Affiliations**
 
