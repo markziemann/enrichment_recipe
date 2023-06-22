@@ -38,8 +38,8 @@ reproducibility.
 The findings indicate that current enrichment analysis practices are inadequate.
 To address this, we provide a set of template scripts and a step-by-step protocol to adapt them to
 a new project's enrichment analysis needs.
-This recipe is built according to a framework we call "five pillars", which when implemented together
-facilitates extreme reproducibility.
+This recipe is built according to the "five pillars" framework, which facilitates extreme
+reproducibility.
 
 ## Introduction
 
@@ -81,47 +81,16 @@ avoiding any "file not found" errors @Peng2011-ia.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
 for each part sequentially, making the entire manuscript reproducible by executing just one command
 and without any manual steps @Lasser2020-mm.
-Taken together, computational reproducibility is a spectrum (**Figure 1**) @Akalin2018-eg, and rests upon five
-pillars (**Figure 2**).
-Currently, bioinformatics work at the gold standard is rare, despite the availability of such tools for
+Taken together, computational reproducibility is a spectrum @Akalin2018-eg, and the *five pillars*
+framework has been described as a way of achieving extreme reproducibility @Ziemann2023-pt.
+Currently, bioinformatics work at this gold standard is rare, despite the availability of such tools for
 over a decade.
-
-![Figure 1. The computational research reproducibility spectrum. Creator: Altuna Akalin. Republished with permission @Akalin2018-eg.](img/repro.webp "The computational research reproducibility spectrum.")
-
-```{r,5pillars,fig.cap="Figure 2. The five pillars of computational reproducibility.",echo=FALSE,fig.height=6}
-
-library("RColorBrewer")
-cols <- brewer.pal(5, "Set2")
-cols2 <- adjustcolor( cols, alpha.f = 0.7)
-plot(0,type='n',axes=FALSE,ann=FALSE, xlim=c(0, 10), ylim=c(0, 8.5))
-polygon(c(0,1.8,1.8,0),c(1,1,6,6), col=cols2[1], border = NA)
-polygon(c(2,3.8,3.8,2),c(1,1,6,6), col=cols2[2], border = NA)
-polygon(c(4,5.8,5.8,4),c(1,1,6,6), col=cols2[3], border = NA)
-polygon(c(6,7.8,7.8,6),c(1,1,6,6), col=cols2[4], border = NA)
-polygon(c(8,9.8,9.8,8),c(1,1,6,6), col=cols2[5], border = NA)
-polygon(c(-0.2,10,10,-0.2),c(-0.4,-0.4,0.8,0.8),col="lightgray", border = NA)
-polygon(c(-0.2,5,10),c(6.3,8.5,6.3),col="lightgray", border = NA)
-points( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5), pch=19,cex=18,col=cols )
-text(5,7,lab="Five pillars of reproducible computational research", cex=1.5)
-
-labs <- c("Code version\ncontrol &\npersistent\n sharing",
-  "Compute \nenvironment \ncontrol",
-  "Literate\nprogramming",
-  "Documentation",
-  "FAIR &\npersistent\ndata sharing")
-
-text( c(0.9,2.9,4.9,6.9,8.9) , c(4.5,2.5,4.5,2.5,4.5) , lab=labs)
-text( 5 , 0.3 , lab="End-to-end code coverage")
-text( 9, -0.2 , lab=expression(italic("created by Mark Ziemann")),cex=0.5)
-
-```
-
 
 In this article, we focus on enrichment analysis, which is one of the most used methods in
 computational biology, and involves the summarisation of omics data to reflect biological changes,
 such as the detection of pathway activation in development or disease
 [@Slonim2002-sf; @Khatri2012-do].
-While enrichment analysis is undoubtedly a key method for the interpretation of large
+While enrichment analysis is undoubtedly a key method for the interpretation of large omics
 data sets, there are concerns that inadvertent misuse of these methods leads to
 unreliable results.
 These potential problems include (i) the lack of a correct background for over-representation tests,
@@ -216,12 +185,12 @@ shown in the article observed again in reproduction, and all conclusions were su
 ### Results
 
 After conducting this reproduction study according to the methods described in the respective articles,
-the 20 articles were classified based on the degree of reproducibility (Figure 3).
+the 20 articles were classified based on the degree of reproducibility (Figure 1).
 Six studies were classified as low reproducibility, while 10 were classified as medium and just three
 were classified as high.
 Justifications for these classifications are provided in Table 1.
 
-```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 3. Examining reproducibility in a sample of 20 journal articles."}
+```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 1. Examining reproducibility in a sample of 20 journal articles."}
 
 score1 <- c("PMC6405693","PMC6425008","PMC6535219","PMC6539328","PMC6542760","PMC6561911","PMC6663624")
 score2 <- c("PMC6368841","PMC6381667","PMC6463127","PMC6557785","PMC6580941","PMC6591946",
@@ -279,7 +248,7 @@ lists was highly variable.
 We have developed a step-by-step protocol for how to conduct an extremely reproducible
 enrichment analysis, which is attached as a supplementary file (Suppl Info 1) and published to
 protocols.io with a permissive license.
-This protocol has the features of reproducibility mentioned in **Figure 1** and **Figure 2** including
+This protocol is in accordance with the *five pillars* including
 version control with git and GitHub, compute environment control using Docker, literate programming
 with Rmarkdown, persistent code and data sharing with Zenodo and documentation of all of these to
 empower others to reproduce the workflow.
@@ -309,11 +278,11 @@ The ability to provide extended descriptions is helpful for providing contextual
 the purpose of the work, detailed methods and interpretations derived from the analysis.
 The Rmarkdown script contains code chunks that perform specific tasks including fetching an example
 data set from DEE2, inspecting data quality, differential expression and two types of enrichment
-analysis: over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 4**).
+analysis: over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 2**).
 For each enrichment analysis conducted, a checklist is provided to comply with reporting guidelines
 @Zhao2023-ok.
 
-```{r,diagram,echo=FALSE,fig.cap = "Figure 4. Flow chart of example workflow."}
+```{r,diagram,echo=FALSE,fig.cap = "Figure 2. Flow chart of example workflow."}
 
 library("DiagrammeR")
 grViz("digraph flowchart {
@@ -390,7 +359,7 @@ Genes with fewer than 10 reads per sample on average were removed from the analy
 genes.
 Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
 1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells
-(Figure 5A).
+(Figure 3A).
 Up and down-regulated gene sets were subjected to ORA separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
@@ -401,18 +370,18 @@ expression, rather than large gene sets that undergo small expression changes.
 This led to the identification of up-regulated pathways related to nuclear RNA export,
 glucokinase regulation and G1/S DNA replication pathways; while down-regulated pathways
 were associated with interferon signaling, interleukin signaling, granulopoiesis and NADPH oxidase
-(host defence) (Figure 5B).
+(host defence) (Figure 3B).
 
 After FCS, we identified 241 up-regulated gene sets and 155 down-regulated gene sets.
 FCS up-regulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
-and defective homologous recombination repair (Figure 5C).
+and defective homologous recombination repair (Figure 3C).
 Down-regulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
 
 Regarding up-regulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
 Jaccard index of 0.54, however these methods disagreed in down-regulated pathways, with a Jaccard
-index of only 0.27 (Figure 5D).
+index of only 0.27 (Figure 3D).
 
-![Figure 5. Differential expression and enrichment analysis with the example workflow.](img/fig_example.png "Example enrichment analysis on")
+![Figure 3. Differential expression and enrichment analysis with the example workflow.](../img/fig_example.png "Example enrichment analysis on")
 
 ## Concluding remarks
 
@@ -453,7 +422,9 @@ reproduce only 6 (11%) @Begley2012-di.
 It is clear that as a field, the life sciences need to raise the rate of reproducibility or risk the
 public perceiving it as unreliable and wasteful.
 
-We propose the five pillars (**Figure 2**), as a framework to guarantee computational reproducibility.
+This article is an attempt to foster increased reproducibility in genomics by demonstrating the
+implementation of the five pillars principles into a commonly used routine, namely differential
+expression and pathway enrichment analysis.
 However, these concepts may be difficult for novice analysts, and so we provide a step-by-step
 protocol to guide them on how to customise template Dockerfile and Rmarkdown scripts to suit their
 project's needs.
