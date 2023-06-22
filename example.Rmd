@@ -47,6 +47,10 @@ The raw data have been processed by the DEE2 project, and the summary gene expre
 available at the dee2.io website, and programmatically with the getDEE2 bioconductor package
 (Ziemann et al, 2019).
 
+The gene counts have also been deposited to the `/data` folder in the `example.Rdata` file in case
+the DEE2 resource becomes unavailable.
+To import it, use the command: `load("data/example.Rdata")`
+
 Alternatively, you could fetch data from another resource like NCBI GEO, Zenodo or from the host
 storage drive.
 
@@ -180,11 +184,12 @@ I've compiled a reporting checklist:
 | Other parameters | Min gene set size of 10 |
 
 Get the gene sets loaded in R.
+They are located in the `/ref` folder of the repo.
 
 ```{r,gs}
 # from https://reactome.org/download/current/ReactomePathways.gmt.zip
-genesets2 <- read.gmt("ReactomePathways_2023-03-06.gmt")
-gsets <- gmtPathways("ReactomePathways_2023-03-06.gmt")
+genesets2 <- read.gmt("ref/ReactomePathways_2023-03-06.gmt")
+gsets <- gmtPathways("ref/ReactomePathways_2023-03-06.gmt")
 
 ```
 
@@ -203,14 +208,40 @@ defdn <- unique(sapply(strsplit(defdn," "),"[[",2))
 bg <- rownames(def)
 bg <- unique(sapply(strsplit(bg," "),"[[",2))
 
+message("number of genes in each group")
+lapply(list("background"=bg,"up-regulated"=defup,"down-regulated"=defdn),length)
+
 ```
 
-Enrichment firstly with upregulated genes
+One of the quirky things I learned about clusterprofiler is that
+not all genes specified by the user as background are included in
+the enrichmentcalculation.
+It appears as though the genes not included in the annotation set are
+discarded.
+I believe this is a subtle but significant problem.
+To fix it is relatively easy from the user's point of view.
+Just create a new gene set that consists of all detected genes and
+
+Adding all detected genes to the background appears to improve results!
+
+```{r,gs2}
+
+bgdf <- data.frame("background",bg)
+colnames(bgdf) <- c("term","gene")
+genesets2 <- rbind(genesets2,bgdf)
+
+```
+
+Enrichment firstly with upregulated genes.
+Note that the BgRatio contains the correct number of genes in the background now.
 
 ```{r,oraup}
 
+# show 10 pathways only
+n_pw=10
+
 ora_up <- as.data.frame(enricher(gene = defup ,
-  universe = bg,  maxGSSize = 5000, TERM2GENE = genesets2,
+  universe = bg,  maxGSSize = 50000, TERM2GENE = genesets2,
   pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
 
 ora_up$geneID <- NULL
@@ -227,7 +258,7 @@ ora_up$es <- gr/br
 ora_up <- ora_up[order(-ora_up$es),]
 ora_up$Description=NULL
 
-head(ora_up) %>%
+head(ora_up,n_pw) %>%
   kbl(row.names = FALSE, caption="Top upregulated pathways in Aza treatment") %>%
   kable_paper("hover", full_width = F)
 
@@ -240,10 +271,8 @@ Now with the downregulated genes
 
 ```{r,oradn}
 
-n_pw=10
-
 ora_dn <- as.data.frame(enricher(gene = defdn ,
-  universe = bg,  maxGSSize = 5000, TERM2GENE = genesets2,
+  universe = bg,  maxGSSize = 50000, TERM2GENE = genesets2,
   pAdjustMethod="fdr",  pvalueCutoff = 1, qvalueCutoff = 1  ))
 
 ora_dn$geneID <- NULL
@@ -363,7 +392,6 @@ barplot(c(fgsea_dn_vec,fgsea_up_vec),
 mtext("FCS test")
 
 ```
-
 
 ## Compare pathway results
 

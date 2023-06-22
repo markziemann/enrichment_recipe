@@ -27,7 +27,7 @@ ENV DIRPATH /enrichment_recipe
 WORKDIR $DIRPATH
 
 # Copy the REACTOME DB fromlocal disk to the container
-COPY ReactomePathways_2023-03-06.gmt /enrichment_recipe
+COPY ref/ReactomePathways_2023-03-06.gmt /enrichment_recipe
 
 # change folder permissions so user can work freely
 RUN chmod -R 777 /enrichment_recipe
