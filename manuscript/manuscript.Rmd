@@ -185,7 +185,7 @@ shown in the article observed again in reproduction, and all conclusions were su
 ### Results
 
 After conducting this reproduction study according to the methods described in the respective articles,
-the 20 articles were classified based on the degree of reproducibility (Figure 1).
+the 20 articles were classified based on the degree of reproducibility (**Figure 1**).
 Six studies were classified as low reproducibility, while 10 were classified as medium and just three
 were classified as high.
 Justifications for these classifications are provided in Table 1.
@@ -357,29 +357,32 @@ For quality control the number of reads per sample was calculated, and found to 
 11-16M.
 Genes with fewer than 10 reads per sample on average were removed from the analysis, leaving 13,168
 genes.
+A multi-dimensional scaling plot showed clustering of samples into their treatment
+groups, suggesting a robust effect of the chemical treatment (**Figure 3A**).
 Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
 1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells
-(Figure 3A).
+(**Figure 3B**).
 Up and down-regulated gene sets were subjected to ORA separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
-With ORA, we observed 149 up-regulated and 48 down-regulated gene sets.
+With ORA, we observed 201 up-regulated and 99 down-regulated gene sets.
 We prioritised the enrichment analysis by enrichment score, a pseudo measure for effect size,
 which tends to highlight smaller and more specific gene sets undergoing more drastic differential
 expression, rather than large gene sets that undergo small expression changes.
-This led to the identification of up-regulated pathways related to nuclear RNA export,
-glucokinase regulation and G1/S DNA replication pathways; while down-regulated pathways
-were associated with interferon signaling, interleukin signaling, granulopoiesis and NADPH oxidase
-(host defence) (Figure 3B).
+This led to the identification of up-regulated pathways related to nuclear RNA import and
+glucokinase regulation; while down-regulated pathways
+were associated with interferon signaling, interleukin signaling and NADPH oxidase
+(host defence) (**Figure 3C**).
 
-After FCS, we identified 241 up-regulated gene sets and 155 down-regulated gene sets.
-FCS up-regulated pathways were associated with prometaphase chromosome condensation, nuclear RNA export
-and defective homologous recombination repair (Figure 3C).
-Down-regulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF signaling.
+After FCS, we identified 239 up-regulated gene sets and 158 down-regulated gene sets.
+FCS up-regulated pathways were associated with prometaphase chromosome condensation, nuclear RNA
+transport and defective homologous recombination repair (**Figure 3D**).
+Down-regulated pathways related to endosomal/lysosome pathway, interferon signaling and TLR/TNF
+signaling.
 
 Regarding up-regulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
-Jaccard index of 0.54, however these methods disagreed in down-regulated pathways, with a Jaccard
-index of only 0.27 (Figure 3D).
+Jaccard index of 0.58, while this agreement was lower for down-regulated pathways, with a Jaccard
+index of 0.46 (**Figure 3E**).
 
 ![Figure 3. Differential expression and enrichment analysis with the example workflow.](../img/fig_example.png "Example enrichment analysis on")
 
