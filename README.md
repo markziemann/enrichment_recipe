@@ -42,7 +42,7 @@ docker run -it -v ${pwd}:/enrichment_recipe --entrypoint /bin/bash mziemann/enri
 Then inside the container, execute the Rmarkdown script.
 
 ```
-R -e 'rmarkdown::render("example.Rmd")
+R -e 'rmarkdown::render("example.Rmd")'
 ```
 
 After it completes, exit R and the container.
@@ -55,3 +55,16 @@ docker cp $(docker ps -aql):/enrichment_recipe/example.html .
 
 The result you obtain should be identical to [this one](https://ziemann-lab.net/public/enrichment_recipe/example.html)
 we generated previously.
+
+## Rebuild the docker image
+
+If for some reason you need to rebuild the docker image, use the following:
+
+```
+docker build -t mziemann/enrichment_recipe --no-cache .
+```
+
+Note that the Dockerfile must be in the current directory.
+The "no cache" option forces docker to repeat the entire build,
+even if a cached occurrance is saved.
+
