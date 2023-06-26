@@ -21,7 +21,7 @@ RUN R -e 'install.packages(c("kableExtra","vioplot","gplots","eulerr","rmdformat
 RUN R -e 'BiocManager::install(c("getDEE2","DESeq2","fgsea","clusterProfiler","mitch"))'
 
 # Clone the repository that contains the research code and execute it
-RUN git clone https://github.com/markziemann/enrichment_recipe.git
+RUN  git clone https://github.com/markziemann/enrichment_recipe.git
 
 # Set the container working directory
 ENV DIRPATH /enrichment_recipe
