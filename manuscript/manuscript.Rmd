@@ -91,15 +91,16 @@ In this article, we focus on enrichment analysis, which is one of the most used 
 computational biology, and involves the summarisation of omics data to reflect biological changes,
 such as the detection of pathway activation in development or disease
 [@Slonim2002-sf; @Khatri2012-do].
-As of August 2020, this type of analysis was cited in 131,332 articles [@Xie2021-ch], illustrating
-how crucial these tools are in the interpretation of omics data.
-Moreover, analysis of related keywords in PubMed suggests the number of articles describing
+As of August 2020, this type of analysis was cited 131,332 times [@Xie2021-ch].
+The most popular tool for enrichment analysis appears to be DAVID [@Sherman2022-hf].
+Its 11 related journal articles have received a total of 37,035 citations from 27,129
+separate PubMed articles (as at 29th June 2023).
+Examination of related keywords in PubMed suggests the number of articles describing
 "enrichment analysis" is doubling every two years, as omics analysis becomes accessible to
 more researchers around the world.
 
-While enrichment analysis is undoubtedly a key method for the interpretation of large omics
-data sets, there are concerns that inadvertent misuse of these methods leads to
-unreliable results.
+These observations highlight that these tools are essential in the interpretation of omics data.
+However, there are concerns that inadvertent misuse of these methods leads to unreliable results.
 These potential problems include (i) the lack of a correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
 [@Timmons2015-ex; @Reimand2019-uw; @Wijesooriya2022-li; @Zhao2023-ok].
@@ -160,7 +161,7 @@ reanalyse the raw dataset from scratch. These articles are listed in the bibliog
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring @Zeeberg2004-na.
 The reproducibility analysis was performed using the respective methodologies stated in the methods
-sections of the 20 articles using DAVID version 6.8 (March-May 2022).
+sections of the 20 articles using DAVID version 6.8 (March-May 2022) [@Sherman2022-hf].
 
 Briefly, we used the DAVID "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
