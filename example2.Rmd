@@ -1,5 +1,5 @@
 ---
-title: "An example of extremely reproducible enrichment analysis"
+title: "A second example of extremely reproducible enrichment analysis"
 author: "Mark Ziemann & Anusuiya Bora"
 date: "`r Sys.Date()`"
 output:
@@ -40,38 +40,50 @@ suppressPackageStartupMessages({
 ```
 
 For this guide I will be using bulk RNA-seq data from a previous study, which is
-deposited at NCBI GEO and SRA under accession numbers: GSE55123 and SRP038101 (Lund et al, 2014).
-The experiment is designed to investigate the effect of Azacitidine treatment on AML3 cells.
+deposited at NCBI GEO with [accession GSE93236](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE93236).
 
-The raw data have been processed by the DEE2 project, and the summary gene expression counts are
-available at the dee2.io website, and programmatically with the getDEE2 bioconductor package
-(Ziemann et al, 2019).
+The experiment is designed to investigate the effect of knowckdown of the histone methyltransferase set7.
 
-The gene counts have also been deposited to the `/data` folder in the `example.Rdata` file in case
-the DEE2 resource becomes unavailable.
-To import it, use the command: `load("data/example.Rdata")`
-
-Alternatively, you could fetch data from another resource like NCBI GEO, Zenodo or from the host
-storage drive.
+We will be fetching the gene expression count matrix directly from NCBI GEO for downstream analysis.
+Link: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93236/suppl/GSE93236_Keating_Set7_KD_counts.tsv.gz
 
 ```{r,fetch}
 
-mdat <- getDEE2Metadata("hsapiens")
+download.file("https://ftp.ncbi.nlm.nih.gov/geo/series/GSE93nnn/GSE93236/suppl/GSE93236_Keating_Set7_KD_counts.tsv.gz",
+  destfile="GSE93236_Keating_Set7_KD_counts.tsv.gz")
 
-# get sample sheet
-ss <- subset(mdat,SRP_accession=="SRP038101")
+x <- read.table("GSE93236_Keating_Set7_KD_counts.tsv.gz")
 
-# fetch the whole set of RNA-seq data
-x <- getDEE2("hsapiens",ss$SRR_accession , metadata=mdat, legacy=TRUE)
-mx <- x$GeneCounts
-rownames(mx) <- paste(rownames(mx),x$GeneInfo$GeneSymbol)
+dim(x)
+
+# there is a row we need to remove
+mx <- x[rownames(x)!="NOTINBED",]
+
+head(mx)
+
 dim(mx)
 
-# aza no filtering
-ss$trt <- grepl("Treated",ss$Experiment_title)
+```
+
+The row names contains an underscore that we need to remove.
+
+```{r,geneid_fix}
+
+rownames(mx) <- sub("_"," ",rownames(mx))
+
+head(mx)
+
+```
+
+Curate sample sheet from the colnames.
+
+```{r,samplesheet1}
+
+ss <- as.data.frame(colnames(x))
+ss$trt <- as.numeric(grepl("Set7KD",colnames(x)))
 
 ss %>%
-  kbl(caption="sample sheet for Aza treatment in AML3 cells") %>%
+  kbl(caption="sample sheet for Set7KD experiment") %>%
   kable_paper("hover", full_width = F)
 
 ```
@@ -100,9 +112,9 @@ XMAX=max(mds[,1])*1.3
 YMIN=min(mds[,2])*1.3
 YMAX=max(mds[,2])*1.3
 
-cols <- as.character(grepl("Treated",ss$Experiment_title))
-cols <- gsub("FALSE","lightblue",cols)
-cols <- gsub("TRUE","pink",cols)
+cols <- as.character(ss$trt)
+cols <- gsub("0","lightblue",cols)
+cols <- gsub("1","pink",cols)
 plot(mds, xlab="Coordinate 1", ylab="Coordinate 2",
   xlim=c(XMIN,XMAX),ylim=c(YMIN,YMAX),
   pch=19,cex=2,col=cols, main="MDS plot")
@@ -154,7 +166,7 @@ HEADER=paste(DET,"detected genes;",NSIG,"w/FDR<0.05;",NUP,"up;",NDN,"down")
 
 plot(log10(def$baseMean) ,def$log2FoldChange,
   cex=0.6,pch=19,col="darkgray",
-  main="5-azacitidine treatment in AML3 cells",
+  main="Set7KD in endothelial cells",
   xlab="log10(basemean)",ylab="log2(fold change)")
 
 points(log10(sigf$baseMean) ,sigf$log2FoldChange,
@@ -180,7 +192,7 @@ I've compiled a reporting checklist:
 | Background list | Genes with >=10 reads per sample on average across all samples |
 | Gene Selection Criteria | DESeq2 FDR<0.05 |
 | ORA directionality | Separate tests for up- and down-regulation |
-| Data availability | via DEE2 at accession SRP038101 (human) |
+| Data availability | GEO under accession GSE93236 |
 | Other parameters | Min gene set size of 10 |
 
 Get the gene sets loaded in R.
@@ -328,7 +340,7 @@ mtext("ORA test")
 | Background list | Genes with >=10 reads per sample on average across all samples |
 | Gene Selection Criteria | DESeq2 FDR<0.05 |
 | ORA directionality | Separate tests for up- and down-regulation |
-| Data availability | via DEE2 at accession SRP038101 (human) |
+| Data availability | GEO under accession GSE93236 |
 | Other parameters | Min gene set size of 10 |
 
 ```{r,fgsea}
