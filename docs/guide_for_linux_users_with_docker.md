@@ -9,10 +9,10 @@ typically these are conducted irreproducibly with web-based and graphical interf
 omitting important methodological information.
 To enable complete reproducibility, the analysis needs to be conducted non-interactively, recording the
 versions of all dependancies.
-This is achieved using an **Rmarkdown script** running inside a **docker container**.
+This is achieved using an **R Markdown script** running inside a **docker container**.
 This allows all instructions to complete the workflow in a sequence, including parameters which
 sometimes are not described in methods sections.
-Rmarkdown and other literate programming approaches are useful for such workflows because the end
+R Markdown and other literate programming approaches are useful for such workflows because the end
 result combines code, outputs (like charts and tables), together with free text, which can be used for
 extended descriptions of experiment design, input data, interpretation of results, etc.
 Using R allows to leverage the large ecosystem of bioinformatics software in CRAN and Bioconductor
@@ -366,7 +366,7 @@ Use the arrow keys to navigate to the bottom of the file and use the enter key t
 necessary.
 Enter the sentences about the project here.
 If you want to add lots more information like subheadings, links, images, tables and other stuff, all
-of that is possible with the markdown syntax, and can be found on this ["cheatsheet"](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+of that is possible with the Markdown syntax, and can be found on this ["cheatsheet"](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 Once you're finished adding content to the README, exit nano using Ctrl + X.
 It will prompt you to save, where you should select "y" and you will return to a normal command prompt.
 
@@ -437,7 +437,8 @@ RUN R -e 'BiocManager::install(c("getDEE2","DESeq2","fgsea","clusterProfiler","m
 RUN git clone https://github.com/markziemann/enrichment_recipe.git
 
 # Set the container working directory
-ENV DIRPATH /enrichment_recipe WORKDIR $DIRPATH
+ENV DIRPATH /enrichment_recipe
+WORKDIR $DIRPATH
 
 ```
 
@@ -539,7 +540,7 @@ Data archives like Zenodo and FigShare will accept large general data sets, and 
 Archive and Gene Expression Omnibus will accept high throughput sequence and microarray data.
 This has the dual benefit of enhancing data reuse.
 
-Of the above options, only option 2 will require you to make any changes to the Dockerfile.
+Of the above options, only option (b) will require you to make any changes to the Dockerfile.
 
 **16. Build the new docker image**
 
@@ -613,25 +614,45 @@ git push origin main
 
 ```
 
-### Customise the Rmarkdown workflow to your needs
+### Customise the R Markdown workflow to your needs
 
-**19. Understand the structure of the Rmd file**
+**19. Launch an Docker based Rstudio server for development**
 
-In this section I will be walking you through the process of adapting the provided template Rmd
-workflow for your needs.
-If you are new to this sort of thing, then stay with me as I dissect the structure of the Rmd and
-describe its working parts.
-If you are an advanced Rmarkdown user, you can skip over this.
+In this section, I will be walking you through the process of adapting the provided R Markdown
+template workflow for your needs.
+This will involve re-writing a lot of the code in the template R Markdown file, and so we need
+to have a development environment.
+We will do this inside the Docker container, using the Rstudio server.
+To launch it, you will need to run the following command.
 
-Rmarkdown is a literate programming script language that combines R together with Markdown, a
-lightweight markup language. It allows us to combine documentation together with R code and the results
-of the R analysis such as charts and tables.
-The ability to add documentation is really important as it allows us to write thorough descriptions of
-the analysis such as background, methods, findings, conclusions and bibliography.
-In fact it makes it possible to write a whole manuscript, just using Rmarkdown (and this is becoming
-more popular). 
+```
+docker run -p 8787:8787 -e PASSWORD=bioc yourname/yourproject
+```
 
-Fetch a copy of example.Rmd to act as your template.
+Once launched, you can access the new Rstudio server using your internet browser by visiting
+`http://localhost:8787/`.
+Enter `rstudio` as the username and `bioc` as the password.
+You will be greeted with the typical Rstudio development environment.
+Important parts to locate are the "Console", "Terminal" and "Files" panes.
+Notice that the working directory is user rstudio's home directory, and that it is empty.
+In order for us to work with the files needed, firstly the project directory needs to be copied to
+the user rstudio's home directory.
+
+In a bash terminal, enter the command:
+
+```bash
+cp -r /yourproject/ ~
+cd yourproject
+```
+In an R console enter the following:
+
+```R
+setwd("yourproject")
+```
+
+Now the project directory will be visible in the files pane, click on it to see the contents.
+
+Now fetch a copy of the template R Markdown script using the bash terminal.
 
 ```bash
 
@@ -639,18 +660,23 @@ wget https://raw.githubusercontent.com/markziemann/enrichment_recipe/main/exampl
 
 ```
 
-Once downloaded, you can edit it with nano.
-If you only want to view the file, you can use the "less" command.
-If you want to change the file name, you can do that with the "mv" command.
+It should appear in the files pane and then you can click on it and a code editor will appear.
+If at any time you want to change the file's name, close the editor window, select the checkbox next
+to the filename in the files pane and hit "rename" and change it to something meaningful to you.
+Just like other linux files, you should avoid spaces or special characters in the filename.
 
-```bash
-
-mv example.Rmd myworkflow.Rmd
-
-```
+To reiterate, R Markdown is a literate programming script language that combines R together with
+Markdown, a lightweight markup language.
+It allows us to combine documentation together with R code and the results of the R analysis such as
+charts and tables.
+The ability to add documentation is really important as it allows us to write thorough descriptions of
+the analysis such as background, methods, findings, conclusions and bibliography.
+In fact it makes it possible to write a whole manuscript, just using R Markdown (and this is becoming
+more popular). 
 
 **20. Change the header to your needs**
 
+Click on the Rmd file in the files pane to open the editor.
 The header is a section the very top of the Rmd file delineated with three hyphens `---`
 
 ```bash
@@ -676,45 +702,39 @@ The `Sys.Date()` command ensures that the date of execution is recorded in the f
 The other settings, like theme and figure size you should keep as-is for now until you have a working
 workflow.
 
-**21. Understand markdown text**
+**21. Understand Markdown text**
 
-Let's take a look at the next section in the Rmd file immediately below the header, which is markdown.
+Let's take a look at the next section in the Rmd file immediately below the header, which is Markdown.
 
-```
+>Source: https://github.com/markziemann/enrichment_recipe
 
-Source: https://github.com/markziemann/enrichment_recipe
+> ## Introduction
 
-## Introduction
-
-This guide is a Rmarkdown script that conducts differential expression and enrichment analysis, which
-are very popular workflows for transcriptome data.
-
-This is meant to be a boilerplate template, which you can remix and modify to suit your analytical needs.
-
-In the code chunk below called `libs`, you can add and remove required R library dependancies.
-Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
-
-```
+>This guide is a R Markdown script that conducts differential expression and enrichment analysis, which
+>are very popular workflows for transcriptome data.
+>This is meant to be a boilerplate template, which you can remix and modify to suit your analytical needs.
+>In the code chunk below called `libs`, you can add and remove required R library dependancies.
+>Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
 
 There is a link to the source repository, which is good practice because it allows the reader to
 inspect the raw code and its history.
 Under that, we have a subheading called introduction, as denoted by hashes.
 The more hashes, the smaller the subheading.
-These are useful to structure your work, and the Rmarkdown engine recognises these to create a table of
+These are useful to structure your work, and the R Markdown engine recognises these to create a table of
 contents.
 Free text can be used to write descriptions of background information, methods and results, which
 allows comprehensive documentation of workflows.
 Your reports should have introduction, methods, results and conclusions sections.
 A bibliography is recommended.
-There are many formatting options provided by markdown such as italics, bold, block quotes, numbered
+There are many formatting options provided by Markdown such as italics, bold, block quotes, numbered
 and bullet points, tables, and it is possible to embed images and videos. 
 
 To understand the capabilities of Markdown further, visit this [guide](Free text can be used to write descriptions of background information, methods and results, which allows comprehensive documentation of workflows.).
 
 **22. Understand how code chunks are formatted**
 
-R code is embedded in an Rmarkdown script inside "chunks".
-There can be any number of chunks.
+R code is embedded in an R Markdown script inside "chunks".
+There can be any number of chunks, and they can be any size, although we try to keep them to <50 lines.
 They are delineated with triple backticks (`).
 The chunk header comes after the triple backtics and it is bordered with curly braces ({}).
 Inside the braces, you will find a lower case "r" which specifies to the render engine that this is R
@@ -745,7 +765,8 @@ suppressPackageStartupMessages({
 
 **23. Understand the workflow**
 
-Before you start making changes to the workflow, it is a good idea to understand the process first.
+Before you start making changes to the workflow, it is a good idea to understand the overall process
+first.
 The example.Rmd script contains instruction for the five-step workflow.
 
 **a.** It begins with fetching some RNA-seq data from a website called Digital Expression Explorer 2
@@ -792,53 +813,52 @@ understand the modular nature of these chunks.
 The types of modifications you might make are:
 
 * Instead of fetching from DEE2, you analyse a count matrix that you have on disk or saved on a data
-archive.
+archive. 
+Another example that I work with a lot is the [Set7KD dataset](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE93236).
 
 * Instead of RNA-seq, you have microarray data which would be better analysed with limma.
 
 * Instead of performing differential analysis in R, you already have a list of genes in a text file which
-you want to perform enrichment analysis with.
+you want to analyse.
 
 * The format of the gene identifiers in the example.Rmd workflow is the ensembl identifier followed by
 the gene symbol separated with a space (eg: "ENSG00000165949 IFI27").
-
-* This could be different in your data, and some work may be required to adapt the code for your gene
+This could be different in your data, and some work may be required to adapt the code for your gene
 identifiers.
 
-To do this, you can use the command line interface inside your container as detailed below.
-(If you prefer the more visual Rstudio integrated development environment (IDE), a guide for that is
-given below.)
+While working on the Rmd script, you will be prototyping code in the Rstudio window inside
+the docker container.
+The changes are not going to automatically appear in your main project directory, so you will need to
+copy them over yourself.
+While the code editor is open you can use the Ctrl+A and Ctrl+C shortcuts to copy the whole script
+and then paste that into a text editor on the host machine, and save it to the main project directory
+on the host machine.
 
-```bash
-
-docker run -it -v ${pwd}/enrichment_recipe --entrypoint /bin/bash yourname/yourprojectname
+If your Docker container is closed/shut down for any reason, you can restart the stopped container
+and recover your work using the following command:
 
 ```
+docker start  `docker ps -q -l`
+```
 
-Then once in the container, type `R` to get a R prompt.
-
-In a separate window (not in a container) navigate to the project directory, use `nano` to open up the
-Rmd script. 
-
-The general process is to begin at the top of the script and customise all the sections to meet your
-needs, starting at the header.
-To ensure that the code works, copy the code chunks or individual lines from the nano window and paste
-them to the R prompt to execute them in sequence.
+The process of editing the template script is typically to begin at the top of the script and customise
+all the sections to meet your needs, starting at the header.
+To ensure that the code works, use Rstudio's "Run" button to run chunks in sequence.
 There will be many modifications necessary to get your data workflow just right. 
 
 The first type of challenge is to get the data you have loaded into R.
 Use the suggestions in step 15.
 If you have uploaded the data to a persistent archive, the script can fetch it from that location with
 commands like `download.file()`.
-If you have added the data file to the Github repo, it will be available to be read with functions like
-`read.table()`, `read.csv()`, `readLines()` or similar depending on the file format.
+If you have added the data file to the Github repo, it will be available to be read from the disk 
+with functions like `read.table()`, `read.csv()`, `readLines()` or similar depending on the file format.
 
 The next set of changes will be around differences in the format of the input datasets.
 This includes the gene identifiers, but also ensuring that your data is in the correct structure.
 For example DESeq2 requires the counts in a matrix, not a data frame.
 Commands like `str()`, `class()` and `head()` can be used to diagnose the data structure.
 
-If you're importing sets of gene identifiers for clusterprofiler, you can safely delete unnecessary
+If you're importing sets of gene identifiers for clusterProfiler, you can safely delete unnecessary
 sections such as differential expression and fgsea.
 Naturally you can add additional analytics steps to the workflow.
 
@@ -850,77 +870,20 @@ Take another look at the libraries that are loaded near the top of the Rmd file,
 that that are unnecessary. 
 
 Once you are happy with the performance of each chunk, it is important to "knit" the entire Rmd script.
-Use the `rmarkdown::render()` command.
+In Rstudio there is a "knit" button, but the `rmarkdown::render()` command also works.
 This ensures the Rmd has no critical code errors (but doesn't guarantee the analytical validity).
-
-**Development using Rstudio**
-
-There are a lot of people who would rather develop their scripts with the Rstudio graphical interface.
-Rstudio is included in the docker image, so running it this way shouldn't be that difficult.
-You may select this approach as an alternative to step 24.
-If you prefer the command line approach, you can safely skip this part and jump to step 25.
-
-
-**a.** Run the docker container. This will spawn a web service which can be accessed using your
-
-```bash
-
-docker run -it -v  -e PASSWORD=bioc  -p 8787:8787 mziemann/enrichment_recipe
-
-```
-
-**b.** In a web browser, visit localhost:8787/ it will prompt you for the username "rstudio" and password
-"bioc".
-Then you will be greeted with the Rstudio window.
-When starting it, the home directory will be empty.
-
-**c.** To get a copy of the working script into your home directory where you can work with it we will need
-to use the terminal built into the Rstudio interface.
-The terminal is located in the left panel with the "Terminal" pane, which is located next to the
-"Console" pane.
-
-The copy command will copy the project folder into your home directory.
-This is necessary as the user "rstudio" does not have write permissions outside of ther home directory.
-Naturally if you changed the project folder name/github repo name you should use that name instead.
-
-```bash
-
-cp -r /enrichment_recipe/ ~
-
-```
-
-**d.** The folder will now appear in the lower right "Files" panel, which you can double-click on to see
-the contents and click on the workflow Rmd.
-
-**e.** Note that the R console still thinks it is located in the home directory "~".
-You should change the working directory to the project directory you just copied, so that the console
-can access the scripts and data.
-
-In the console type:
-
-```r
-
-setwd("enrichment_recipe")
-
-```
-
-Naturally if you changed the project folder name/github repo name you should use that name instead.
-
-**f.** Now you can make edits to the workflow Rmd, and take advantage of the Rstudio shortcuts to execute
-whole chunks or sections.
-Continue making amendments until the workflow is to your satisfaction.
-Be sure to "knit" the entire Rmd to ensure that it runs without any issues.
 Once knitted, you can also inspect the html report to ensure that all data visualistions, tables and
 other elements are appearing as desired.
 
-**g.** Once you are happy with the appearance of the html report, we need to get the Rmd out of the container
+Once you are happy with the appearance of the html report, we need to get the Rmd out of the container
 and in the project folder so we can commit and push the changes.
-Exit the container and use the `docker cp` command.
+Exit the container by hitting Ctrl+C in the window running the Docker container and use the
+`docker cp` command.
 Be sure to substitute you project/repo name and workflow Rmd name in the command below.
 
 ```bash
 
-docker cp $(docker ps -aql):/enrichment_recipe/myworkflow.Rmd .
+docker cp $(docker ps -aql):/home/rstudio/yourproject/yourworkflow.Rmd .
 
 ```
 
@@ -950,9 +913,36 @@ git push origin main
 
 Then inspect the repo on github.com to ensure that all the neccessary files have been updated.
 
+### Update the Docker image
+
+**27. Rebuild the Docker image**
+
+It is necessary to rebuild the image so that the Rmd file is present.
+The slow way is to rebuild using the exact same Dockerfile, but with caching switched off.
+
+```
+docker build --no-cache -t mziemann/set7kd .
+```
+
+A faster way (saving ~20 mins) would be to modify the Dockerfile slightly so that it uses the cached
+build data as much as possible, by replacing this line:
+
+```
+RUN git clone https://github.com/markziemann/set7kd.git
+```
+
+With this:
+```
+RUN git clone https://github.com/markziemann/set7kd.git \
+ && cd set7kd \
+ && git pull \
+ && cd -
+```
+It will ensure that the Docker image has the newest
+
 ### Push the image to Dockerhub
 
-**27. Dockerhub push**
+**28. Dockerhub push**
 
 This is an optional step, which uploads your docker image to Dockerhub.
 This is a good idea if you want to share it openly, however Dockerhub is not a guaranteed data archive
@@ -996,7 +986,7 @@ Just substitute the names for your docker image and your Rmd script.
 
 ### Long term archiving
 
-**28. Save the image**
+**29. Save the image**
 
 As Dockerhub is not a guaranteed data archive, there's a good chance that over time the company in
 charge of Dockerhub removes images that are not monetised.
@@ -1010,7 +1000,7 @@ docker save yourname/yourprojectname | gzip > projectname.tar.gz
 
 ```
 
-**29. Reproducibility check**
+**30. Reproducibility check**
 
 Before uploading to a data archive, it is a good idea to check that the tar.gz is also reproducible.
 Try sending the tar.gz to another computer that has docker installed for reproduction.
@@ -1026,7 +1016,7 @@ docker import projectname.tar yourname/yourprojectname
 
 Again, use step 5 as a guide for reproduction.
 
-**30. Upload to Zenodo**
+**31. Upload to Zenodo**
 
 If you are new to Zenodo, you'll need to make a new user profile, then upload the image as a new
 dataset.
