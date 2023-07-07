@@ -887,15 +887,12 @@ docker cp $(docker ps -aql):/home/rstudio/yourproject/yourworkflow.Rmd .
 
 ```
 
-You may want to copy the html report out as well with the same approach.
-
 ### Update the software repository
 
 **25. Prepare changes**
 
 Now that the Rmd script is working, it is time to push these changes to the GitHub repo.
 Now is a good time to update the Dockerfile to remove unnecessary packages and add newly required ones.
-You may want to rebuild the image, knit the Rmd and inspect the html report for validity.
 Also take another look at the README and use nano to make any additional updates.
 
 **26. Commit and push changes**
@@ -913,7 +910,7 @@ git push origin main
 
 Then inspect the repo on github.com to ensure that all the neccessary files have been updated.
 
-### Update the Docker image
+### Update the Docker image and push to Dockerhub
 
 **27. Rebuild the Docker image**
 
@@ -938,9 +935,7 @@ RUN git clone https://github.com/markziemann/set7kd.git \
  && git pull \
  && cd -
 ```
-It will ensure that the Docker image has the newest
-
-### Push the image to Dockerhub
+It will ensure that the Docker image has the updated contents of the Gihub repo.
 
 **28. Dockerhub push**
 
