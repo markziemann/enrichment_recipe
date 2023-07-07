@@ -623,10 +623,10 @@ template workflow for your needs.
 This will involve re-writing a lot of the code in the template R Markdown file, and so we need
 to have a development environment.
 We will do this inside the Docker container, using the Rstudio server.
-To launch it, you will need to run the following command.
+To launch it, you will need to run the following command in a bash terminal on the host machine.
 
 ```
-docker run -p 8787:8787 -e PASSWORD=bioc yourname/yourproject
+docker run -p 8787:8787 -e PASSWORD=bioc yourname/yourprojectname
 ```
 
 Once launched, you can access the new Rstudio server using your internet browser by visiting
@@ -638,16 +638,17 @@ Notice that the working directory is user rstudio's home directory, and that it 
 In order for us to work with the files needed, firstly the project directory needs to be copied to
 the user rstudio's home directory.
 
-In a bash terminal, enter the command:
+In a bash terminal, enter the commands:
 
 ```bash
-cp -r /yourproject/ ~
-cd yourproject
+cp -r /yourprojectname/ ~
+cd yourprojectname
 ```
-In an R console enter the following:
+
+Then in an R console enter the following:
 
 ```R
-setwd("yourproject")
+setwd("yourprojectname")
 ```
 
 Now the project directory will be visible in the files pane, click on it to see the contents.
@@ -729,7 +730,7 @@ A bibliography is recommended.
 There are many formatting options provided by Markdown such as italics, bold, block quotes, numbered
 and bullet points, tables, and it is possible to embed images and videos. 
 
-To understand the capabilities of Markdown further, visit this [guide](Free text can be used to write descriptions of background information, methods and results, which allows comprehensive documentation of workflows.).
+To understand the capabilities of Markdown further, visit this [guide](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 **22. Understand how code chunks are formatted**
 
@@ -744,6 +745,10 @@ In the below example, the chunk name is "libs" because in that chunk, libraries 
 loaded.
 Providing a unique name for each chunk is a good idea, and helps in troubleshooting errors if they occur.
 (Ignore the single quotes in the chunk below).
+
+There are many options that can be specified in the chunk header, from figure size, to captions, and
+many other behaviours.
+See this [guide](https://yihui.org/knitr/options/) for a deep dive into them.
 
 ```r
 
@@ -794,7 +799,7 @@ The list of all detected genes was used as the "background".
 The top clusterprofiler results are visualised as a barchart, but there are other visualisation options.
 For fgsea, the Wald statistic was used as a ranking metric.
 Top fgsea results are also depicted in a bar chart.
-Reactome pathways (downloaded 2023-03-06) were used for both ORA and FCS.
+Reactome pathways were used for both ORA and FCS.
 Gene sets with FDR<0.05 were considered as significant.
 
 **e.** Then a comparison of the two enrichment approaches is conducted.
@@ -860,7 +865,7 @@ Commands like `str()`, `class()` and `head()` can be used to diagnose the data s
 
 If you're importing sets of gene identifiers for clusterProfiler, you can safely delete unnecessary
 sections such as differential expression and fgsea.
-Naturally you can add additional analytics steps to the workflow.
+Naturally, you can add additional analytics steps to the workflow.
 
 Throughout this process, errors will arise.
 Use google and other search engines to help you fix these problems.
@@ -875,7 +880,7 @@ This ensures the Rmd has no critical code errors (but doesn't guarantee the anal
 Once knitted, you can also inspect the html report to ensure that all data visualistions, tables and
 other elements are appearing as desired.
 
-Once you are happy with the appearance of the html report, we need to get the Rmd out of the container
+If you are happy with the appearance of the html report, we need to get the Rmd out of the container
 and in the project folder so we can commit and push the changes.
 Exit the container by hitting Ctrl+C in the window running the Docker container and use the
 `docker cp` command.
@@ -883,7 +888,7 @@ Be sure to substitute you project/repo name and workflow Rmd name in the command
 
 ```bash
 
-docker cp $(docker ps -aql):/home/rstudio/yourproject/yourworkflow.Rmd .
+docker cp $(docker ps -aql):/home/rstudio/yourprojectname/yourworkflow.Rmd .
 
 ```
 
