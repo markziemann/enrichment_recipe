@@ -707,15 +707,18 @@ workflow.
 
 Let's take a look at the next section in the Rmd file immediately below the header, which is Markdown.
 
->Source: https://github.com/markziemann/enrichment_recipe
+```
+Source: https://github.com/markziemann/enrichment_recipe
 
-> ## Introduction
+## Introduction
 
->This guide is a R Markdown script that conducts differential expression and enrichment analysis, which
->are very popular workflows for transcriptome data.
->This is meant to be a boilerplate template, which you can remix and modify to suit your analytical needs.
->In the code chunk below called `libs`, you can add and remove required R library dependancies.
->Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
+This guide is a R Markdown script that conducts differential expression and enrichment analysis, which
+are very popular workflows for transcriptome data.
+This is meant to be a boilerplate template, which you can remix and modify to suit your analytical needs.
+In the code chunk below called `libs`, you can add and remove required R library dependancies.
+Check that the libraries listed here match the Dockerfile, otherwise you might get errors.
+
+```
 
 There is a link to the source repository, which is good practice because it allows the reader to
 inspect the raw code and its history.
@@ -940,7 +943,12 @@ RUN git clone https://github.com/markziemann/set7kd.git \
  && git pull \
  && cd -
 ```
-It will ensure that the Docker image has the updated contents of the Gihub repo.
+
+It will ensure that the Docker image has the updated contents of the Gihub repo when you build:
+
+```
+docker build -t yourname/yourprojectname .
+```
 
 **28. Dockerhub push**
 
@@ -1023,3 +1031,11 @@ dataset.
 Provide a thorough metadata about the image such as purpose, design, GitHub link and steps to reproduce
 so that folks in the future can understand what it's about.
 Include this link in you research article and it will be reproducible well into the future.
+
+**32. Upload GitHub Repository to Zenodo**
+
+From the repository homepage on GitHub.com you can download the full repo as a zip file.
+This file can be uploaded to Zenodo for long term archiving.
+Zenodo has an edit feature so you can update when future changes are made to the repo.
+If the repository is expected to undergo frequent updates, consider depositing the repo at 
+[Software Heritage](https://www.softwareheritage.org/).
