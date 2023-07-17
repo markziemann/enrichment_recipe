@@ -46,6 +46,7 @@ reproducibility.
 ```{r,libs,echo=FALSE}
 
 library("DiagrammeR")
+library("RColorBrewer")
 
 ```
 
@@ -71,13 +72,13 @@ and can be installed with a single command.
 
 In addition to shared code, data and containerisation, there are a few other ways researchers can make
 their work more reproducible.
-Firstly, thorough documentation makes the reproducibility process a great deal easier and more accessible
-to novice bioinformaticians.
+Thorough documentation makes the reproducibility process a great deal easier and more
+accessible, especially to novice bioinformaticians.
 Version control keeps track of code and documentation changes over time and manages the edits made by
 multiple contributors.
 Literate programming using R Markdown or Jupyter notebooks provides optimal documentation by embedding
 free text explanations together with the code and outputs such as charts and tables.
-Secondly, code and data can be linked. This means that the code "knows" the location of the data,
+Code and data can be linked. This means that the code "knows" the location of the data,
 avoiding any "file not found" errors @Peng2011-ia.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
 for each part sequentially, making the entire manuscript reproducible by executing just one or a few
@@ -110,8 +111,8 @@ We are concerned about the reliability of published enrichment analyses, as web-
 point-and-click tools appear to be far more popular than computer script-based methods for this type
 of work @Wijesooriya2022-li.
 Although web-based tools are convenient, they are a potential reproducibility concern.
-Firstly, incomplete reporting of methods, options and parameters is common.
-Secondly, algorithms and functional annotation sets undergo regular updates, and previous versions are
+Incomplete reporting of methods, options and parameters is common.
+Algorithms and functional annotation sets undergo regular updates, and previous versions are
 typically not made available, hampering later reproducibility.
 In some cases, the entire web resource can become unavailable, and hence irreproducible due to
 a phenomenon known as link decay @Hennessey2013-tj.
@@ -170,14 +171,15 @@ The species was specified as *Homo sapiens*.
 Next we clicked on the "Functional Annotation Tool" link, bringing up the "Annotation Summary Results”
 page.
 We followed the steps indicated in the respective papers to select appropriate gene sets investigated
-in the articles such as gene ontology (biological process, molecular function), KEGG pathways, etc.
+in the articles such as gene ontology (GO; biological process, molecular function), Kyoto Encyclopedia
+of Genes and Genomes (KEGG) pathways, etc.
 Next, the "Functional Annotation Chart" was clicked on, opening a new window with a table of
 enrichment results, which were saved for future reference.
 
-The data presented in the paper was compared with the results we obtained, recording any
+The results presented in the paper were compared to those we obtained, recording any
 discrepancies.
 Additionally, the statements made in the abstract, results, and discussion sections were carefully
-examined and cross-checked with our results to understand whether those assertions survive reproduction
+examined and cross-checked with our results to understand whether those assertions survived reproduction
 or not.
 
 Each article was critically evaluated and given a score of one (1) to three (3).
@@ -252,7 +254,7 @@ research.
 
 ## A container-based approach to addressing reproducibility of enrichment analysis
 
-### Implementation
+### Method overview
 
 We have developed a step-by-step protocol for how to conduct an extremely reproducible
 enrichment analysis, which is attached as a supplementary file (Suppl Info 1) and published to
@@ -261,18 +263,59 @@ This protocol is in accordance with the *five pillars*, and includes
 version control with git and GitHub, compute environment control using Docker, literate programming
 with R Markdown, persistent code and data sharing with Zenodo and documentation of all of these to
 empower others to reproduce the workflow.
-
 Central to this protocol is the provision of template Dockerfile and an R Markdown script, which
 are intended to be remixed and altered by end users to suit their project's needs.
+The general steps involved are shown in **Figure 2**.
 
-The Dockerfile uses a base image from Bioconductor which should correspond to the latest available
+```{r,method_diagram,echo=FALSE,fig.height=6,fig.cap = "Figure 2. Flow chart of example workflow. An estimated amount of time to conduct each step is given."}
+
+library("RColorBrewer")
+library("shape")
+
+cols <- brewer.pal(5, "Set2")
+cols2 <- adjustcolor( cols, alpha.f = 0.7)
+plot(0,type='n',axes=FALSE,ann=FALSE, xaxs="i", yaxs="i", xlim=c(0, 11), ylim=c(-3, 8.5))
+
+polygon(c(0,6,6,0),c(8.5,8.5,7.5,7.5), col=cols2[1], border = NA)
+text( 3, 8.0, lab="1. Install Docker: 7 mins",cex=1.5)
+
+polygon(c(0.5,7.5,7.5,0.5),c(7.0,7.0,6.0,6.0), col=cols2[2], border = NA)
+text( 3.9, 6.5, lab="2. Validate example: 14 mins",cex=1.5)
+
+polygon(c(1,8.5,8.5,1),c(5.5,5.5,4.5,4.5), col=cols2[3], border = NA)
+text( 4.8, 5.0, lab="3. Create GitHub repo: 29 mins",cex=1.5)
+
+polygon(c(1.5,10.5,10.5,1.5),c(4,4,3,3), col=cols2[4], border = NA)
+text( 6.1, 3.5, lab="4. Build custom Docker image: 45 mins",cex=1.5)
+
+polygon(c(2,10.5,10.5,2),c(2.5,2.5,1.5,1.5), col=cols2[5], border = NA)
+text( 6.3, 2, lab="5. Customize R Markdown: 3-12 hrs",cex=1.5)
+
+polygon(c(2.5,9.5,9.5,2.5),c(1,1,0,0),col="lightgray", border = NA)
+text( 6.1, 0.5, lab="6. Update repository: 70 mins",cex=1.5)
+
+polygon(c(3,11,11,3),c(-0.5,-0.5,-1.5,-1.5), col=cols2[1], border = NA)
+text( 7.0, -1, lab="7. Update Docker image: 40 mins",cex=1.5)
+
+polygon(c(3.5,12,12,3.5),c(-2,-2,-3,-3), col=cols2[2], border = NA)
+text( 7.6, -2.5, lab="8. Long Term Archiving: 180 mins",cex=1.5)
+
+#Arrows(2, 7.5, 2.5, 7.0, lwd=2, arr.type="triangle")
+#Arrows(2.5, 6, 3, 5.5, lwd=2, arr.type="triangle")
+#Arrows(3, 4.5, 3.5, 4, lwd=2, arr.type="triangle")
+#Arrows(3.5, 3, 4, 2.5, lwd=2, arr.type="triangle")
+#Arrows(4, 1.5, 4.5, 1, lwd=2, arr.type="triangle")
+
+```
+
+The Dockerfile uses a base image from Bioconductor that corresponds to the latest available
 stable release version, on the Ubuntu operating system.
 The image contains instructions for installing a few useful utilities including `nano` and `git` for
 modifying scripts, and `magic-wormhole` for transferring data between computers.
 It installs R packages from CRAN and Bioconductor repositories to fulfill common tasks in transcriptome
 analysis such as fetching RNA-seq counts from DEE2 with `getDEE2` @Ziemann2019-zo,
 differential expression with `DESeq2` @Love2014-hd,
-enrichment analysis with `clusterprofiler`, `fgsea` and `mitch`
+enrichment analysis with `clusterProfiler`, `fgsea` and `mitch`
 [@Yu2012-ts; @Korotkevich2016-ls; @Kaspi2020-dq].
 It also contains instructions to clone a github repository, which contains the scripts that run the
 analytical workflow.
@@ -287,9 +330,9 @@ The ability to provide extended descriptions is helpful for providing contextual
 the purpose of the work, detailed methods and interpretations derived from the analysis.
 The R Markdown script contains code chunks that perform specific tasks including fetching an example
 data set from DEE2, inspecting data quality, differential expression and two types of enrichment
-analysis: over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 2**).
+analysis: over-representation analysis (ORA) and functional class scoring (FCS) (**Figure 3**).
 
-```{r,diagram,echo=FALSE,fig.cap = "Figure 2. Flow chart of example workflow."}
+```{r,diagram2,echo=FALSE,fig.cap = "Figure 3. Flow chart of example workflow."}
 
 library("DiagrammeR")
 grViz("digraph flowchart {
@@ -319,7 +362,7 @@ An example checklist is shown in **Table 2**.
 | Reporting criteria | Method or resource used |
 | -- | -- |
 | Origin of gene sets | Reactome (2023-03-06) |
-| Tool used | ClusterProfiler v4.4.4 |
+| Tool used | `clusterProfiler` v4.4.4 |
 | Statistical test used | hypergeometric test |
 | P-value correction for multiple comparisons | FDR method |
 | Background list | Genes with >=10 reads per sample on average across all samples |
@@ -346,11 +389,11 @@ The software versions used in this example analysis are provided in Table 3.
 | BioC/DESeq2 | 1.38.3 | differential expression |
 | BioC/fgsea | 1.24.0 | functional class scoring |
 | BioC/clusterProfiler | 4.6.1 | over-representation analysis |
-| Bioc/mitch | 1.10.0 | multi-contrast enrichment |
+| BioC/mitch | 1.10.0 | multi-contrast enrichment |
 
 : Table 3. The software bundled in the example Docker image.
 
-Reproducing this workflow is relatively quick and simple, requiring six commands and approximately four
+Reproducing this workflow is relatively quick and simple, requiring six commands and approximately 4-7
 minutes starting from a base Linux install.
 The steps include installing Docker, pulling and running the container, running the R Markdown script,
 exiting the container and copy the newly created report from the container to the current working
@@ -385,14 +428,14 @@ For quality control the number of reads per sample was calculated, and found to 
 Genes with fewer than 10 reads per sample on average were removed from the analysis, leaving 13,168
 genes.
 A multi-dimensional scaling plot showed clustering of samples into their treatment
-groups, suggesting a robust effect of the chemical treatment (**Figure 3A**).
+groups, suggesting a robust effect of the chemical exposure (**Figure 4A**).
 Differential expression analysis revealed 3,598 differentially expressed genes with FDR<0.05, with
 1,672 exhibiting higher expression and 1,926 exhibiting lower expression in 5-azacytidine treated cells
-(**Figure 3B**).
+(**Figure 4B**).
 Up and down-regulated gene sets were subjected to ORA separately, using the list of
 13,168 genes as the background, and gene sets from REACTOME.
 
-![Figure 3. Differential expression and enrichment analysis with the example workflow.
+![Figure 4. Differential expression and enrichment analysis with the example workflow.
 (A) An MDS plot of gene expression data for the largest two principal components.
 Blue and pink points represent control and azacitidine-treated
 samples respectively.
@@ -417,11 +460,11 @@ expression, rather than large gene sets that undergo small expression changes.
 This led to the identification of up-regulated pathways related to nuclear RNA import and
 glucokinase regulation; while down-regulated pathways
 were associated with interferon signaling, interleukin signaling and NADPH oxidase
-(host defence) (**Figure 3C**).
+(host defence) (**Figure 4C**).
 
 After FCS, we identified 239 up-regulated gene sets and 158 down-regulated gene sets (FDR<0.05).
 FCS up-regulated pathways were associated with prometaphase chromosome condensation, nuclear RNA
-transport and defective homologous recombination repair (**Figure 3D**).
+transport and defective homologous recombination repair (**Figure 4D**).
 This finding is consistent with changes to the cell cycle observed in 5-azacytidine treated cells,
 where the proportion of cells in G2/M phase is reduced, and proxy measures of apoptosis appear
 slightly higher @Lund2014-et.
@@ -433,7 +476,7 @@ hypomethylating agents for similar durations [@Li2014-op; @Chiappinelli2015-tv; 
 
 Regarding up-regulated pathways, the similarity between ORA and FCS was relatively high, exhibiting a
 Jaccard index of 0.58, while this agreement was lower for down-regulated pathways, with a Jaccard
-index of 0.46 (**Figure 3E**).
+index of 0.46 (**Figure 4E**).
 
 ## Concluding remarks
 
