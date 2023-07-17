@@ -547,12 +547,15 @@ in track record evaluations.
 
 ## Acknowledgements
 
+We thank Ms Megan Soria (Deakin University) for discussions on the concept and manuscript.
 This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
 platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
 
 ## Availability of materials
 
 * Protocol: can be found at protocols.io @Ziemann2023-kz.
+
+* Video series is uploaded to YouTube: https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
 
 * Code repository including template Dockerfile and R Markdown script: https://github.com/markziemann/enrichment_recipe
 
