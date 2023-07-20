@@ -1,6 +1,5 @@
 ---
 title: "A recipe for extremely reproducible enrichment analysis (and why we need it)"
-author: "Mark Ziemann and Anusuiya Bora"
 date: "`r Sys.Date()`"
 output:
   rmdformats::robobook:
@@ -25,7 +24,7 @@ csl: plos-computational-biology.csl
 
 (*) Corresponding author: m.ziemann@deakin.edu.au
 
-## Abstract
+# Abstract
 
 Unreliable and irreproducible research is a significant problem that wastes resources and risks
 undermining the public perception of science.
@@ -33,13 +32,29 @@ Previous work has highlighted that published enrichment analyses frequently suff
 and reporting flaws.
 We sought to determine whether this translates into irreproducibility by examining whether the
 findings of 20 open-access articles describing enrichment analysis were reproducible.
-We find that only three articles exhibited a high degree of concordance, while seven exhibited poor
-reproducibility.
+We find that only three articles exhibited a high degree of concordance, while seven exhibited major
+discrepancies.
 The findings indicate that current enrichment analysis practices and reporting are inadequate.
 To address this, we provide a set of template scripts and a step-by-step protocol to adapt them to
 a new project's enrichment analysis needs.
 This recipe is built according to the "five pillars" framework, which facilitates extreme
 reproducibility.
+
+# Keywords
+
+* Bioinformatics
+
+* Reproducibility
+
+* Enrichment analysis
+
+* Pathway analysis
+
+* Gene set enrichment analysis
+
+* Docker
+
+# Main Body
 
 ## Introduction
 
@@ -545,22 +560,33 @@ Solutions to this could include mandates by funding agencies or institutions @Ga
 badging of articles that comply with best practices @Kidwell2016-pm, and recognition of research rigour
 in track record evaluations.
 
-## Acknowledgements
+# Data and Software Availability
 
-We thank Ms Megan Soria (Deakin University) for discussions on the concept and manuscript.
-This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
-platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
+## Underlying data
+
+
 
 ## Availability of materials
 
 * Protocol: can be found at protocols.io @Ziemann2023-kz.
 
-* Instructional video guides are available on YouTube: https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
+* Instructional video guides are available on YouTube:
+https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
 
-* Code repository including template Dockerfile and R Markdown script: https://github.com/markziemann/enrichment_recipe
+## Software and Code
+
+* Code repository including template Dockerfile and R Markdown script:
+https://github.com/markziemann/enrichment_recipe
 
 * Example Docker image: https://hub.docker.com/r/mziemann/enrichment_recipe
 
-* The code repository and Docker image have been uploaded to Zenodo for lon-term archiving and are available from: [TBA].
+* The code repository and Docker image have been uploaded to Zenodo for lon-term archiving and are
+available from: [TBA].
+
+## Acknowledgements
+
+We thank Ms Megan Soria (Deakin University) for discussions on the concept and manuscript.
+This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
+platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
 
 ## Bibliography
