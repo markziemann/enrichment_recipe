@@ -50,8 +50,12 @@ CPU with 2 or more threads
 20 GB of available system storage
 
 You'll also need to create an account for the following services:
-https://github.com/
-https://hub.docker.com/
+
+* https://github.com/
+
+* https://hub.docker.com/
+
+* https://zenodo.org/
 
 Also you will need some omics data to analyse. In this protocol we will begin with RNA-seq count data,
 but it can be customised to work with a differential expression table or even a list of genes.
@@ -957,6 +961,10 @@ This is a good idea if you want to share it openly, however Dockerhub is not a g
 and might decide to remove your image in future.
 If you don't want to push to dockerhub, skip to the next step.
 
+There are many available Docker registries, and Dockerhub is the most popular, however there are
+alternatives such as [Biocontainers](https://biocontainers.pro/), which is specifically designed for
+bioinformatics software.
+
 You will need to visit dockerhub.com and make an account the "yourname" alias you used to build your
 image previously.
 You will also need to run a command to let the docker command line tool know who you are:
@@ -1038,4 +1046,4 @@ From the repository homepage on GitHub.com you can download the full repo as a z
 This file can be uploaded to Zenodo for long term archiving.
 Zenodo has an edit feature so you can update when future changes are made to the repo.
 If the repository is expected to undergo frequent updates, consider depositing the repo at 
-[Software Heritage](https://www.softwareheritage.org/).
+[Software Heritage](https://www.softwareheritage.org/), where you can "push" changes directly.
