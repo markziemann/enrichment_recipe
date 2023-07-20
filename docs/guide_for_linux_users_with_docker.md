@@ -35,6 +35,10 @@ scripting.
 Figure 1: The five pillars of computational reproducibility.
 </p>
 
+A series of instructional videos demonstrating these steps have been uploaded to YouTube
+[here](https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db) so you can follow
+along!
+
 ## Requirements
 
 An internet-connected computer with Ubuntu 22.04 LTS installed.
