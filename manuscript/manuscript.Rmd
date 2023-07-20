@@ -555,10 +555,12 @@ platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
 
 * Protocol: can be found at protocols.io @Ziemann2023-kz.
 
-* Video series is uploaded to YouTube: https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
+* Instructional video guides are available on YouTube: https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
 
 * Code repository including template Dockerfile and R Markdown script: https://github.com/markziemann/enrichment_recipe
 
 * Example Docker image: https://hub.docker.com/r/mziemann/enrichment_recipe
+
+* The code repository and Docker image have been uploaded to Zenodo for lon-term archiving and are available from: [TBA].
 
 ## Bibliography
