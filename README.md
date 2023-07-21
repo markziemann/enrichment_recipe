@@ -68,3 +68,30 @@ Note that the Dockerfile must be in the current directory.
 The "no cache" option forces docker to repeat the entire build,
 even if a cached occurrance is saved.
 
+# Data and Software Availability
+
+## Underlying data
+
+Publicly available data were obtained from Digital Expression Explorer 2 (dee2.io).
+Expression data from untreated and Aza treated AML3 cells.
+Accession Number SRP038101.
+Data are available under the terms of the GNU General Public License v3.0.
+
+## Software and Code
+
+* Code repository including template Dockerfile and R Markdown script is available on GitHub
+(https://github.com/markziemann/enrichment_recipe).
+
+* The example Docker image was deposited to DockerHub
+(https://hub.docker.com/r/mziemann/enrichment_recipe).
+
+* The code repository and Docker image have been uploaded to Zenodo for long-term archiving and are
+available from: [TBA].
+
+## Availability of other materials
+
+* Protocol: can be found at protocols.io
+(https://www.protocols.io/view/a-recipe-for-extremely-reproducible-enrichment-ana-j8nlkwpdxl5r/v2).
+
+* Instructional video guides are available on YouTube
+(https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db).
