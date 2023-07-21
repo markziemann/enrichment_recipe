@@ -577,8 +577,8 @@ Data are available under the terms of the GNU General Public License v3.0.
 
 * The example Docker image is available on DockerHub (https://hub.docker.com/r/mziemann/enrichment_recipe).
 
-* The code repository and Docker image have been uploaded to Zenodo for long-term archiving and are
-available from: [TBA].
+* The code repository and Docker image have been uploaded to Zenodo for long-term archiving
+(https://zenodo.org/record/8170984).
 
 ## Availability of other materials
 
