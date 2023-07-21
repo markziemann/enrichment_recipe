@@ -393,17 +393,17 @@ The software versions used in this example analysis are provided in Table 3.
 | Software | Version | Purpose |
 | --- | --- | --- |
 | Ubuntu | 22.04 | Operating System |
-| R | 4.2.2 | Statistical computing language |
+| R | 4.3.0 | Statistical computing language |
 | nano | 6.2 | text editing |
 | git | 2.34.1 | source control |
 | R/kableExtra | 1.3.4 | render formatted tables |
 | R/vioplot | 0.4.0 | violin charts |
 | R/gplots | 3.1.3 | heatmaps |
 | R/eulerr | 7.0.0 | Venn diagrams |
-| BioC/getDEE2 | 1.8.0 | fetch example RNA-seq data |
-| BioC/DESeq2 | 1.38.3 | differential expression |
-| BioC/fgsea | 1.24.0 | functional class scoring |
-| BioC/clusterProfiler | 4.6.1 | over-representation analysis |
+| BioC/getDEE2 | 1.6.0 | fetch example RNA-seq data |
+| BioC/DESeq2 | 1.36.0 | differential expression |
+| BioC/fgsea | 1.22.0 | functional class scoring |
+| BioC/clusterProfiler | 4.4.4 | over-representation analysis |
 | BioC/mitch | 1.10.0 | multi-contrast enrichment |
 
 : Table 3. The software bundled in the example Docker image.
@@ -564,24 +564,54 @@ in track record evaluations.
 
 ## Underlying data
 
+Publicly available data were obtained from Digital Expression Explorer 2 (dee2.io).
+Expression data from untreated and Aza treated AML3 cells.
+Accession Number SRP038101.
 
-
-## Availability of materials
-
-* Protocol: can be found at protocols.io @Ziemann2023-kz.
-
-* Instructional video guides are available on YouTube:
-https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db
+Data are available under the terms of the GNU General Public License v3.0.
 
 ## Software and Code
 
-* Code repository including template Dockerfile and R Markdown script:
-https://github.com/markziemann/enrichment_recipe
+* The code repository including template Dockerfile and R Markdown script are available on GitHub
+(https://github.com/markziemann/enrichment_recipe).
 
-* Example Docker image: https://hub.docker.com/r/mziemann/enrichment_recipe
+* The example Docker image is available on DockerHub (https://hub.docker.com/r/mziemann/enrichment_recipe).
 
-* The code repository and Docker image have been uploaded to Zenodo for lon-term archiving and are
+* The code repository and Docker image have been uploaded to Zenodo for long-term archiving and are
 available from: [TBA].
+
+## Availability of other materials
+
+* The full protocol can be found at protocols.io
+(https://www.protocols.io/view/a-recipe-for-extremely-reproducible-enrichment-ana-j8nlkwpdxl5r/v2) @Ziemann2023-kz.
+
+* Instructional video guides are available on YouTube
+(https://www.youtube.com/playlist?list=PLAAydBPtqFMXDpLa796q7f7W1HK4t_6Db).
+
+## Author Contributions
+
+Conceptualization: MZ, AB.
+Data Curation: MZ.
+Formal Analysis: MZ.
+Funding Acquisition: N/A.
+Investigation: MZ, AB.
+Methodology: MZ, AB.
+Project Administration: MZ.
+Resources: MZ.
+Software: MZ, AB.
+Supervision: MZ.
+Validation: AB.
+Visualization: MZ, AB.
+Writing – Original Draft Preparation: MZ, AB.
+Writing – Review & Editing: MZ, AB.
+
+## Competing Interests
+
+No competing interests were disclosed.
+
+## Grant Information
+
+The authors declared that no grants were involved in supporting this work.
 
 ## Acknowledgements
 
@@ -589,4 +619,4 @@ We thank Ms Megan Soria (Deakin University) for discussions on the concept and m
 This research was supported by use of the Nectar Research Cloud, a collaborative Australian research
 platform supported by the NCRIS-funded Australian Research Data Commons (ARDC).
 
-## Bibliography
+# Bibliography
