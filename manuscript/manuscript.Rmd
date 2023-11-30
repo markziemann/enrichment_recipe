@@ -13,14 +13,16 @@ bibliography: references.bib
 csl: plos-computational-biology.csl
 ---
 
-[Mark Ziemann<sup>1</sup>*](https://orcid.org/0000-0002-7688-6974),
-[Anusuiya Bora<sup>2</sup>](https://orcid.org/0009-0006-2908-1352)
+[Anusuiya Bora<sup>1,2,3</sup>](https://orcid.org/0009-0006-2908-1352),
+[Mark Ziemann<sup>1,2</sup>*](https://orcid.org/0000-0002-7688-6974)
 
 **Affiliations**
 
-1. Deakin University, Geelong, Australia, School of Life and Environmental Sciences.
+1. Burnet Institute, Melbourne, Australia.
 
-2. Vellore Institute of Technology, Vellore, India.
+2. Deakin University, School of Life and Environmental Sciences, Geelong, Australia.
+
+3. Vellore Institute of Technology, Vellore, India.
 
 (*) Corresponding author: m.ziemann@deakin.edu.au
 
@@ -31,14 +33,17 @@ undermining the public perception of science.
 Previous work has highlighted that published enrichment analyses frequently suffer from statistical
 and reporting flaws.
 We sought to determine whether this translates into irreproducibility by examining whether the
-findings of 20 open-access articles describing enrichment analysis were reproducible.
+findings of 20 open-access articles published in 2019 describing enrichment analysis with the
+popular DAVID suite were reproducible.
 We find that only three articles exhibited a high degree of concordance, while seven exhibited major
-discrepancies.
-The findings indicate that current enrichment analysis practices and reporting are inadequate.
-To address this, we provide a set of template scripts and a step-by-step protocol to adapt them to
-a new project's enrichment analysis needs.
-This recipe is built according to the "five pillars" framework, which facilitates extreme
-reproducibility.
+discrepancies, which we mainly ascribe to deficiencies in methodological reporting.
+As the tool version used is no longer available, all articles using this tool pre-2021 (~20,800 studies)
+including this sample of 20 articles are no longer able to be reproduced with the original tools.
+Based on this, we suggest that results from web-based tools without long-term preservation features should
+not be included in scientific publications due to the threat of link decay and short reproducibility horizon.
+We advocate for the adoption of extremely reproducible research workflows, and we provide a detailed protocol
+for how to achieve it using a combination of best practices including literate programming, version control,
+containerisation, documentation and persistent sharing of data and software.
 
 # Keywords
 
@@ -98,8 +103,8 @@ avoiding any "file not found" errors @Peng2011-ia.
 Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
 for each part sequentially, making the entire manuscript reproducible by executing just one or a few
 commands, and without any manual steps @Lasser2020-mm.
-Taken together, computational reproducibility is a spectrum @Akalin2018-eg, and the *five pillars*
-framework has been described as a way of achieving extreme reproducibility @Ziemann2023-pt.
+Taken together, computational reproducibility is a spectrum, and the *five pillars*
+framework has been described as a way of achieving extreme reproducibility @Ziemann2023-dg.
 Currently, bioinformatics work at this gold standard is rare, despite the availability of such tools for
 over a decade.
 
@@ -107,7 +112,7 @@ In this article, we focus on enrichment analysis, which is one of the most used 
 computational biology, and involves the summarisation of omics data to reflect biological changes,
 such as the detection of pathway activation in development or disease
 [@Slonim2002-sf; @Khatri2012-do].
-As of August 2020, this type of analysis was cited 131,332 times [@Xie2021-ch].
+As of August 2020, the various types of enrichment analysis were collectively cited 131,332 times [@Xie2021-ch].
 The most popular tool for enrichment analysis appears to be DAVID [@Sherman2022-hf].
 Its 11 related journal articles have received a total of 37,035 citations from 27,129
 separate PubMed articles (as at 29th June 2023).
@@ -115,7 +120,7 @@ Examination of related keywords in PubMed suggests the number of articles descri
 "enrichment analysis" is doubling every two years, as omics analysis becomes accessible to
 more researchers around the world.
 
-These observations highlight that these tools are essential in the interpretation of omics data.
+These observations highlight that pathway enrichment tools are essential in the interpretation of omics data.
 However, there are concerns that inadvertent misuse of these methods leads to unreliable results.
 These potential problems include (i) the lack of a correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
@@ -164,7 +169,7 @@ This should provide a sound basis for recommendations.
 
 From a list of 186 PubMed central articles using enrichment analysis that we examined previously
 @Wijesooriya2022-li, we selected 20 articles that fulfilled the following criteria; (1) the
-organism under study is human; (2) the tool used was DAVID Version 6.8 (Database for Annotation,
+organism under study is human; (2) the tool used was DAVID (Database for Annotation,
 Visualization, and Integrated Discovery) @Huang2007-yw ; (3) the omics type was gene
 expression (array or RNA-seq); and (4) that the gene list was provided in the supplementary data.
 The basis for these selection criteria is that this combination represents the most common application
@@ -177,7 +182,7 @@ reanalyse the raw dataset from scratch. These articles are listed in the bibliog
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring @Zeeberg2004-na.
 The reproducibility analysis was performed using the respective methodologies stated in the methods
-sections of the 20 articles using DAVID version 6.8 (March-May 2022) [@Sherman2022-hf].
+sections of the 20 articles using the DAVID version specified in the articles (March-May 2022) [@Sherman2022-hf].
 
 Briefly, we used the DAVID "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
@@ -210,9 +215,9 @@ shown in the article observed again in reproduction, and all conclusions were su
 
 After conducting this reproduction study according to the methods described in the respective articles,
 the 20 articles were classified based on the degree of reproducibility (**Figure 1**).
-Six studies were classified as low reproducibility, while 10 were classified as medium and just three
+Seven studies were classified as low reproducibility, while 10 were classified as medium and just three
 were classified as high.
-Justifications for these classifications are provided in Table 1.
+Justifications for these classifications are provided in Table S1.
 
 ```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 1. Examining reproducibility of enrichment analysis in a sample of 20 journal articles."}
 
@@ -260,21 +265,24 @@ text(c(0.7,1.9,3.1),unlist(lapply(l,length))+0.4,labels=pc2)
 | 19.PMC6526186: Table 1 | A. Yes. B. Yes. | **2 (medium).** The top BP GO terms from the paper are no longer significantly higher in the replicated GO results. The top 2 KEGG Pathways after replication are “Human cytomegalovirus infection” followed by “Pathways in cancer”. The p-values have changed after the results were replicated, compared to the values given in the paper. The rest of the pathways are similar to the results given in the paper. |
 | 20.PMC6607402: Figure 1 A-D | A. Yes. B. Yes, many! | **2 (medium).** For GO analysis and their replication, top enriched BP, CC and MF GO terms are not mentioned. Most of the terms are mentioned in the replicated results, but different levels of enrichment. |
 
-: Table 1. Classification and justification of reproducibility scores for each article.
+: Table S1. Classification and justification of reproducibility scores for each article.
 
 Taken together, the ability to reproduce DAVID enrichment analysis using the supplementary gene
 lists was highly variable.
-The reliability of enrichment analysis results would benefit by adopting best practices in computational
-research.
+As DAVID version 6.8 has been retired, these and approximately 20,000 other PubMed articles have enrichment analyses
+that are no longer reproducible with the original tools.
+These observations highlight the need for better methodological reporting to reduce ambiguity in methods sections,
+and suggest that web-based tools without long-term reproducibility features are no longer suitable for inclusion in
+scientific publications.
 
-## A container-based approach to addressing reproducibility of enrichment analysis
+## A five-pillars approach to addressing reproducibility of enrichment analysis
 
 ### Method overview
 
 We have developed a step-by-step protocol for how to conduct an extremely reproducible
 enrichment analysis, which is attached as a supplementary file (Suppl Info 1) and published to
 protocols.io with a permissive license [@Ziemann2023-kz].
-This protocol is in accordance with the *five pillars*, and includes
+This protocol is prepared in accordance with the *five pillars* principles, and includes
 version control with git and GitHub, compute environment control using Docker, literate programming
 with R Markdown, persistent code and data sharing with Zenodo and documentation of all of these to
 empower others to reproduce the workflow.
@@ -384,7 +392,7 @@ An example checklist is shown in **Table 2**.
 | Gene Selection Criteria | DESeq2 FDR<0.05 |
 | ORA directionality | Separate tests for up- and down-regulation |
 | Data availability | via dee2.io at accession SRP038101 |
-| Other parameters | Min gene set size of 10 |
+| Other parameters | Minimum gene set size of 10 |
 
 : Table 2. An example reporting checklist for enrichment analysis.
 
@@ -408,7 +416,7 @@ The software versions used in this example analysis are provided in Table 3.
 
 : Table 3. The software bundled in the example Docker image.
 
-Reproducing this workflow is relatively quick and simple, requiring six commands and approximately 4-7
+Reproducing the example workflow is relatively quick and simple, requiring six commands and approximately 4-7
 minutes starting from a base Linux install.
 The steps include installing Docker, pulling and running the container, running the R Markdown script,
 exiting the container and copy the newly created report from the container to the current working
@@ -539,24 +547,30 @@ minutes, but we argue the time investment is well spent.
 It ensures analytical reproducibility, assists with auditing and makes the process of reproduction
 simple and fast (Box 1), which should aid the early identification of errors.
 
-We also want to emphasise that there is still a definite need for graphical and web-based tools.
-These are good for data exploration, to quickly identify trends that can be followed up with more
-rigorous and reproducible methods, such as this protocol.
+With the retirement of DAVID 6.8 and earlier versions, which occurred in June 2022, all DAVID analyses
+prior to 2021 have become irreproducible, including the sample of 20 studies featured here.
+This is concerning, as these studies were only three years old at the time of the tool's retirement.
+Moreover, according to PubMed citations, the DAVID project accrued 27,572 citations before 2021 from 20,878
+PubMed articles, suggesting that ~20,000 omics studies can no longer be reproducible with the original tools.
 
-Significant progress is being made to make such point-and-click tools more reproducible.
+With this, we must reconsider whether web-based tools are valid for scientific publications if they are at risk
+of becoming unavailable due to link decay.
+Some progress is being made to make web-based point-and-click tools more reproducible.
 The Galaxy, GenePattern and RNAlysis projects offer graphical tools to create, edit and import
 workflows that enable reproducibility [@Kuehn2008-su; @Goecks2010-lq; @Teichman2023-fx].
 The Degust differential expression suite is a graphical interface to popular
 expression tools like edgeR and limma, and allows users to download the computer script to facilitate
 future non-interactive reproducibility @Powell2019-lv.
-Such functionality could be written into existing enrichment analysis tools like DAVID, and
-could provide a "good enough" solution to reproducibility.
+The ShinyGO web-based enrichment tool is a satisfactory GUI-based alternative to DAVID as it provides Docker image
+downloads for all past versions[@Ge2020-qe], which aids future reproducibility.
+Still, such tools leave documentation and reproducibility gaps which are resolved with the "extremely reproducible"
+approach detailed here.
 
 Although we hope that extremely reproducible enrichment analysis will become more widespread, we do not
 anticipate any dramatic changes in researcher behaviour unless the motivating factors are addressed.
 Currently, reward structures in academia favour career progression for individuals who publish many
 articles as opposed to individuals who publish fewer but more rigorously conducted works.
-Solutions to this could include mandates by funding agencies or institutions @Garijo2013-zb,
+Solutions to this could include mandates by funding agencies, institutions or journals [@Garijo2013-zb],
 badging of articles that comply with best practices @Kidwell2016-pm, and recognition of research rigour
 in track record evaluations.
 
