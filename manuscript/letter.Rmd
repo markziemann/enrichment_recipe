@@ -1,0 +1,60 @@
+---
+title: "No publication without preservation: the argument against web-based tools in genomics"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::robobook:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_width: 5
+    fig_height: 5
+bibliography: references.bib
+csl: plos-computational-biology.csl
+---
+
+Alt title: "Time to abandon (most) web-based tools in genomics"
+
+[Anusuiya Bora<sup>1,2</sup>](https://orcid.org/0009-0006-2908-1352),
+[Mark Ziemann<sup>1,2</sup>*](https://orcid.org/0000-0002-7688-6974)
+
+**Affiliations**
+
+1. Burnet Institute, Melbourne, Australia.
+
+2. Deakin University, School of Life and Environmental Sciences, Geelong, Australia.
+
+(*) Corresponding author: mark.ziemann@burnet.edu.au
+
+According to a 2016 survey, 52% of researchers believe we are in a reproducibility crisis [@Baker2016-hm].
+In genomics we don't have a lot of data on study reproducibility, but a small survey from 2009 indicates that most
+studies are irreproducible due to a lack of shared data, software and documentation [@Ioannidis2009-hv].
+The types of tools we use for the analysis also play a role.
+Web-based point-and-click tools have become very popular in genomics for the analysis of gene lists, to
+interpret whether certain biochemical or signaling pathways are over-represented in a particular genomic study.
+These tools are so popular because they do not require the installation of any software, and a gene list analysis
+can be conducted in a matter of seconds.
+They also require little training to use, which on one hand simplifies bioinformatics tasks, but on the other hand
+these tools can easily be misused and results misreported, which can lead to misleading conclusions
+[ @Timmons2015-ex ; @Wijesooriya2022-li].
+Last year we sought to test whether a small group of articles published in 2019 involving enrichment analysis with the DAVID tool [@Sherman2022-hf]
+were reproducible using the authors' own methods.
+We found only 3/20 enrichment studies had a high degree of reproduction, while 7/20 had severe discrepancies.
+After our pilot study completed we were surprised to hear that the version of DAVID used for all of these studies (v6.8) would no longer be available from June 2022 onwards.
+This was disturbing, as according to analysis of PubMed citations, some 20,000 articles citing DAVID enrichment tools will no longer be reproducible with
+the original tools, some articles just one or two years old.
+This is a prime example of "link decay", a phenomenon where internet based resources are lost over time, which has been raised as a significant and ongoing problem for bioinformatic reproducibility [@Hennessey2013-tj].
+
+Therefore, we caution against using data from web-based tools for publication, unless there is a system in place to enable future reproducibility.
+Scripted workflows are perhaps the most suitable solution for fostering long-term reproduction, but require expertise in computer programming.
+We have written a protocol for extremely reproducible enrichment analysis in R, designed for novice bioinformaticians to fill in this gap [@Ziemann2023-kz], but we understand this isn't for everyone.
+ShinyGO is another potential remedy, as it provides most of the necessary features in a point-and-click web interface but also allows users to download all historical versions of the tool to be run as
+a Docker based web page on the users own hardware [@Ge2020-qe].
+In order to get genomics research to meet the ten-year reproducibility challenge [@Perkel2020-io], we need progress towards better tooling, a greater emphasis on investigator training, institutional support,
+funder mandates, stronger publication criteria, and more incentives for rigourous and reliable practices [@Lewis2016-qh; @Diong2021-ma].
+
+## Competing Interests
+
+No competing interests were disclosed.
+
+## Bibliography

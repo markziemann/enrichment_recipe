@@ -24,7 +24,7 @@ csl: plos-computational-biology.csl
 
 3. Vellore Institute of Technology, Vellore, India.
 
-(*) Corresponding author: m.ziemann@deakin.edu.au
+(*) Corresponding author: mark.ziemann@burnet.edu.au
 
 # Abstract
 
