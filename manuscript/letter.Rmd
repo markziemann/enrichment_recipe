@@ -45,8 +45,9 @@ This was disturbing, as according to analysis of PubMed citations, some 20,000 a
 the original tools, some articles just one or two years old.
 This is a prime example of "link decay", a phenomenon where internet based resources are lost over time, which has been raised as a significant and ongoing problem for bioinformatic reproducibility [@Hennessey2013-tj].
 
-Therefore, we caution against using data from web-based tools for publication, unless there is a system in place to enable future reproducibility.
-Scripted workflows are perhaps the most suitable solution for fostering long-term reproduction, but require expertise in computer programming.
+Researchers should keep in mind that institutional and funding mandates for data retention also apply to software and algorithms [@NHMRC2019-wu ; @Harvard_2023-cl].
+Therefore, to remain compliant with these mandates and support reproducibility, we caution against using data from web-based tools for publication unless there is a system in place to enable future reproducibility.
+Scripted workflows are perhaps the most suitable solution for enabling reproduction in the long-term, but require expertise in computer programming.
 We have written a protocol for extremely reproducible enrichment analysis in R, designed for novice bioinformaticians to fill in this gap [@Ziemann2023-kz], but we understand this isn't for everyone.
 ShinyGO is another potential remedy, as it provides most of the necessary features in a point-and-click web interface but also allows users to download all historical versions of the tool to be run as
 a Docker based web page on the users own hardware [@Ge2020-qe].
