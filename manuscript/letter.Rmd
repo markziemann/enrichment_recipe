@@ -1,5 +1,5 @@
 ---
-title: "No publication without preservation: the argument against web-based tools in genomics"
+title: "How vanishing web-based tools hamper reproducibility"
 date: "`r Sys.Date()`"
 output:
   rmdformats::robobook:
@@ -12,6 +12,8 @@ output:
 bibliography: references.bib
 csl: plos-computational-biology.csl
 ---
+
+Alt title: "No publication without preservation: the argument against web-based tools in genomics"
 
 Alt title: "Time to abandon (most) web-based tools in genomics"
 
@@ -51,11 +53,15 @@ Scripted workflows are perhaps the most suitable solution for enabling reproduct
 We have written a protocol for extremely reproducible enrichment analysis in R, designed for novice bioinformaticians to fill in this gap [@Ziemann2023-kz], but we understand this isn't for everyone.
 ShinyGO is another potential remedy, as it provides most of the necessary features in a point-and-click web interface but also allows users to download all historical versions of the tool to be run as
 a Docker based web page on the users own hardware [@Ge2020-qe].
-In order to get genomics research to meet the ten-year reproducibility challenge [@Perkel2020-io], we need progress towards better tooling, a greater emphasis on investigator training, institutional support,
-funder mandates, stronger publication criteria, and more incentives for rigourous and reliable practices [@Lewis2016-qh; @Diong2021-ma].
+In order to get genomics research to meet the ten-year reproducibility challenge [@Perkel2020-io], we need progress towards better tooling, a greater emphasis on investigator training, better institutional support,
+clearer funder mandates, stronger publication criteria, and more incentives for rigourous and reliable practices [@Lewis2016-qh; @Diong2021-ma].
 
 ## Competing Interests
 
 No competing interests were disclosed.
+
+## Acknowledgements
+
+We thank Ms Claudia Beyer for advice.
 
 ## Bibliography
