@@ -223,9 +223,9 @@ Justifications for these classifications are provided in Table S1.
 ```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 1. Examining reproducibility of enrichment analysis in a sample of 20 journal articles."}
 
 score1 <- c("PMC6405693","PMC6425008","PMC6535219","PMC6539328","PMC6542760","PMC6561911","PMC6663624")
-score2 <- c("PMC6368841","PMC6381667","PMC6463127","PMC6557785","PMC6580941","PMC6591946",
+score2 <- c("PMC6381667","PMC6463127","PMC6557785","PMC6580941","PMC6591946",
   "PMC6582306","PMC6333352","PMC6526186","PMC6607402")
-score3 <- c("PMC6349697","PMC6444048","PMC6587650")
+score3 <- c("PMC6349697","PMC6444048","PMC6587650", "PMC6368841")
 l <- list("1-low"=score1,"2-medium"=score2,"3-high"=score3)
 
 barplot(unlist(lapply(l,length)),col="lightgray",
