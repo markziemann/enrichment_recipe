@@ -41,11 +41,12 @@ these tools can easily be misused and results misreported, which can lead to mis
 [ @Timmons2015-ex ; @Wijesooriya2022-li].
 Last year we sought to test whether a small group of articles published in 2019 involving enrichment analysis with the DAVID tool [@Sherman2022-hf]
 were reproducible using the authors' own methods.
-We found only 3/20 enrichment studies had a high degree of reproduction, while 7/20 had severe discrepancies.
+We found only 4/20 enrichment studies had a high degree of reproduction, while 7/20 had severe discrepancies.
 After our pilot study completed we were surprised to hear that the version of DAVID used for all of these studies (v6.8) would no longer be available from June 2022 onwards.
 This was disturbing, as according to analysis of PubMed citations, some 20,000 articles citing DAVID enrichment tools will no longer be reproducible with
 the original tools, some articles just one or two years old.
 This is a prime example of "link decay", a phenomenon where internet based resources are lost over time, which has been raised as a significant and ongoing problem for bioinformatic reproducibility [@Hennessey2013-tj].
+Of course DAVID isn't the only webserver without the option of preservation; our analysis of the latest NAR Webserver issue shows 28% (23/81) of webserver tools lacked source code or other features to allow preservation [@Seelow2023-xk].
 
 Researchers should keep in mind that institutional and funding mandates for data retention also apply to software and algorithms [@NHMRC2019-wu ; @Harvard_2023-cl].
 Therefore, to remain compliant with these mandates and support reproducibility, we caution against using data from web-based tools for publication unless there is a system in place to enable future reproducibility.
