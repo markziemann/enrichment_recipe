@@ -35,7 +35,7 @@ and reporting flaws.
 We sought to determine whether this translates into irreproducibility by examining whether the
 findings of 20 open-access articles published in 2019 describing enrichment analysis with the
 popular DAVID suite were reproducible.
-We find that only three articles exhibited a high degree of concordance, while seven exhibited major
+We find that only four articles exhibited a high degree of concordance, while seven exhibited major
 discrepancies, which we mainly ascribe to deficiencies in methodological reporting.
 As the tool version used is no longer available, all articles using this tool pre-2021 (~20,800 studies)
 including this sample of 20 articles are no longer able to be reproduced with the original tools.
@@ -68,6 +68,8 @@ containerisation, documentation and persistent sharing of data and software.
 
 library("DiagrammeR")
 library("RColorBrewer")
+#library("kableExtra") there is a bug with kableextra - waiting for patch
+library("gt")
 
 ```
 
@@ -180,12 +182,16 @@ reanalyse the raw dataset from scratch. These articles are listed in the bibliog
 @Guo2019-fx; @Alebrahim2019-zc; @Hong2019-ym; @Han2019-ix; @McSweeney2019-ij; @Wang2019-yw; @Pan2019-iv;
 @Wang2019-jy; @Weigt2019-mk; @Najafi2019-ce; @Feltrin2019-to; @Wang2019-xx; @Sun2019-xr].
 
+We screened reporting criteria of these articles, including whether the version of the application
+is given, whether p-values underwent correction for multiple testing, whether a background list was
+described and whether gene selection was described unambiguously.
+
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring @Zeeberg2004-na.
 The reproducibility analysis was performed using the respective methodologies stated in the methods
 sections of the 20 articles using the DAVID version specified in the articles (March-May 2022) [@Sherman2022-hf].
 
-Briefly, we used the DAVID "Analysis Wizard" and pasted in the provided gene list into the text box,
+Briefly, we used the DAVID v6.8 "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
 Typically this was the official gene symbol.
 The species was specified as *Homo sapiens*.
@@ -214,9 +220,30 @@ shown in the article observed again in reproduction, and all conclusions were su
 
 ### Results
 
-After conducting this reproduction study according to the methods described in the respective articles,
-the 20 articles were classified based on the degree of reproducibility (**Figure 1**).
-Seven studies were classified as low reproducibility, while 10 were classified as medium and just three
+As reproducibility is associated with the quality of documentation we collected key methodological information
+about how the enrichment analysis was done and present in Table 1.
+From this, we can see that only seven articles reported the version of DAVID that was used.
+Version 6.7 was reportedly used in two articles while version 6.8 was specified in five.
+Correction of p-values for multiple testing was specified or inferred in 11 articles, while the results of
+the remaining nine articles did not take into consideration the importance of p-value correction for
+minimising false positives.
+Of the 20 articles, none mentioned explicitly that a background list was used for enrichment analysis.
+We also examined whether the gene selection criteria was unambiguously clear, which was true in 16 articles.
+
+```{r,table1,echo=FALSE}
+
+x <- read.table("../data/checklist.tsv",header=TRUE,row.names=1)
+
+colnames(x) <- gsub("_"," ",colnames(x))
+x |> gt(rownames_to_stub = TRUE) |> tab_header(title = "Table 1. Article reporting checklist results.")
+#x %>% kbl(caption = "Table 1. Article reporting checklist results.") %>% kable_paper("hover", full_width = F)
+
+```
+
+We attempted reproduction according to the methods described in the respective articles, with the limitation
+that we had to use DAVID v6.8 as v6.7 was no longer available.
+The 20 articles were classified based on the degree of reproducibility (**Figure 1**).
+Seven studies were classified as low reproducibility, while 9 were classified as medium and just four
 were classified as high.
 Justifications for these classifications are provided in Table S1.
 
@@ -505,7 +532,7 @@ index of 0.46 (**Figure 4E**).
 ## Concluding remarks
 
 Although this reproducibility study is relatively small, there are a few key observations.
-We observe that only 3/20(15%) of studies achieved a high degree of reproducibility.
+We observe that only 4/20(20%) of studies achieved a high degree of reproducibility.
 In a way, this is unexpected, given the simplicity of using DAVID.
 Users provide a list of gene idetifiers in a text box and select some options.
 There are several posible explanations for this inconsistency:
@@ -520,6 +547,8 @@ separately or together.
 * Ambiguity around whether all GO classes were considered or just one, such as "biological process".
 
 * Ambiguity around whether a custom background gene set was used.
+
+* Differences between DAVID version 6.7 and 6.8.
 
 This irreproducibility might be expected given that substantial methodological flaws and reporting
 deficiencies were present in 85% of enrichment analyses from which this set of 20 studies were
@@ -544,7 +573,7 @@ project's needs [@Ziemann2023-kz].
 Although we aimed to make this process as easy as possible, it requires a substantial time outlay, which
 we estimate at 15-20 hours.
 This is significantly longer than using a web-based tool that provides results in just a few
-minutes, but we argue the time investment is well spent.
+minutes, but we consider the time investment is well spent.
 It ensures analytical reproducibility, assists with auditing and makes the process of reproduction
 simple and fast (Box 1), which should aid the early identification of errors.
 
