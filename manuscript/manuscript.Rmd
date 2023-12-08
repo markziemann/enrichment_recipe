@@ -534,7 +534,7 @@ index of 0.46 (**Figure 4E**).
 Although this reproducibility study is relatively small, there are a few key observations.
 We observe that only 4/20(20%) of studies achieved a high degree of reproducibility.
 In a way, this is unexpected, given the simplicity of using DAVID.
-Users provide a list of gene idetifiers in a text box and select some options.
+Users provide a list of gene identifiers in a text box and select some options.
 There are several posible explanations for this inconsistency:
 
 * The methods stated in the respective articles are inconsistent with what was actually done.
@@ -583,7 +583,7 @@ This is concerning, as these studies were only three years old at the time of th
 Moreover, according to PubMed citations, the DAVID project accrued 27,572 citations before 2021 from 20,878
 PubMed articles, suggesting that ~20,000 omics studies can no longer be reproducible with the original tools.
 
-The problem of bioinformatic resources becoming unavailable is not a new one, being thoroughly describes a decade ago [@Hennessey2013-tj].
+The problem of bioinformatic resources becoming unavailable is not a new one, being thoroughly described a decade ago [@Hennessey2013-tj].
 We are worried that a reliance on web tools can leave researchers in violation of their data management responsibilities, as preservation mandates include software as well as original research data [@NHMRC2019-wu ; @Harvard_2023-cl ].
 
 With this, we must reconsider whether web-based tools are valid for scientific publications if they are at risk
@@ -613,9 +613,7 @@ in track record evaluations.
 
 Publicly available data were obtained from Digital Expression Explorer 2 (dee2.io).
 Expression data from untreated and Aza treated AML3 cells.
-Accession Number SRP038101.
-
-Data are available under the terms of the GNU General Public License v3.0.
+NCBI Sequence Read Archive accession Number SRP038101.
 
 ## Software and Code
 
