@@ -99,7 +99,7 @@ Thorough documentation makes the reproducibility process a great deal easier and
 accessible, especially to novice bioinformaticians.
 Version control keeps track of code and documentation changes over time and manages the edits made by
 multiple contributors.
-Literate programming using R Markdown or Jupyter notebooks provides optimal documentation by embedding
+Literate programming using R Markdown or Jupyter notebooks enables thorough documentation by embedding
 free text explanations together with the code and outputs such as charts and tables.
 Code and data can be linked. This means that the code "knows" the location of the data,
 avoiding any "file not found" errors @Peng2011-ia.
@@ -553,6 +553,9 @@ separately or together.
 This irreproducibility might be expected given that substantial methodological flaws and reporting
 deficiencies were present in 85% of enrichment analyses from which this set of 20 studies were
 drawn @Wijesooriya2022-li.
+Authors can prevent these reporting decifiencies providing a checklist of methodological details similar
+to ours (**Table 2**).
+Checklists like these are a useful resource as they are simple for journals to enforce and reviewers to check.
 
 While researching the literature on computational reproducibility in bioinformatics, we identified
 many case studies, but only two systematic examinations of multiple journal articles.
@@ -583,11 +586,14 @@ This is concerning, as these studies were only three years old at the time of th
 Moreover, according to PubMed citations, the DAVID project accrued 27,572 citations before 2021 from 20,878
 PubMed articles, suggesting that ~20,000 omics studies can no longer be reproducible with the original tools.
 
-The problem of bioinformatic resources becoming unavailable is not a new one, being thoroughly described a decade ago [@Hennessey2013-tj].
-We are worried that a reliance on web tools can leave researchers in violation of their data management responsibilities, as preservation mandates include software as well as original research data [@NHMRC2019-wu ; @Harvard_2023-cl ].
+The problem of bioinformatic resources becoming unavailable is not a new one, being thoroughly described a
+decade ago [@Hennessey2013-tj].
+We are worried that a reliance on web tools can leave researchers in violation of their data management
+responsibilities, as preservation mandates include software as well as original research data
+[@NHMRC2019-wu ; @Harvard_2023-cl ].
 
-With this, we must reconsider whether web-based tools are valid for scientific publications if they are at risk
-of becoming unavailable due to link decay.
+With this, we must reconsider whether web-based tools are valid for scientific publications if they are at
+risk of becoming unavailable wthout notice due to link decay.
 Some progress is being made to make web-based point-and-click tools more reproducible.
 The Galaxy, GenePattern and RNAlysis projects offer graphical tools to create, edit and import
 workflows that enable reproducibility [@Kuehn2008-su; @Goecks2010-lq; @Teichman2023-fx].
@@ -595,7 +601,7 @@ The Degust differential expression suite is a graphical interface to popular
 expression tools like edgeR and limma, and allows users to download the computer script to facilitate
 future non-interactive reproducibility @Powell2019-lv.
 The ShinyGO web-based enrichment tool is a satisfactory GUI-based alternative to DAVID as it provides Docker image
-downloads for all past versions[@Ge2020-qe], which aids future reproducibility.
+downloads for all past versions[@Ge2020-qe], facilitating preservation and aiding future reproducibility.
 Still, such tools leave documentation and reproducibility gaps which are resolved with the "extremely reproducible"
 approach detailed here.
 
