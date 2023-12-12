@@ -28,6 +28,15 @@ Alt title: "Time to abandon (most) web-based tools in genomics"
 
 (*) Corresponding author: mark.ziemann@burnet.edu.au
 
+## Abstract
+
+Web-based tools are an indispensable resource for conducting genomic and bioinformatics analysis, but if they disappear
+it can leave reproducibility gaps in research projects.
+Unless such tools allow for preservation of key materials for reproduction, researchers may unwittingly be in breach of
+data management mandates.
+
+## Main text
+
 According to a 2016 survey, 52% of researchers believe we are in a reproducibility crisis [@Baker2016-hm].
 In genomics we don't have a lot of data on study reproducibility, but a small survey from 2009 indicates that most
 studies are irreproducible due to a lack of shared data, software and documentation [@Ioannidis2009-hv].
