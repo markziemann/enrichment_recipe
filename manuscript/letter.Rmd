@@ -10,14 +10,11 @@ output:
     fig_width: 5
     fig_height: 5
 bibliography: references.bib
-csl: plos-computational-biology.csl
+csl: genome-biology.csl
 ---
 
-Alt title: "No publication without preservation: the argument against web-based tools in genomics"
-
-Alt title: "Time to abandon (most) web-based tools in genomics"
-
 [Anusuiya Bora<sup>1,2</sup>](https://orcid.org/0009-0006-2908-1352),
+[Nhi Nguyen<sup>2</sup>](https://orcid.org/XXXX-XXXX-XXXX-XXXX),
 [Mark Ziemann<sup>1,2</sup>*](https://orcid.org/0000-0002-7688-6974)
 
 **Affiliations**
@@ -33,7 +30,7 @@ Alt title: "Time to abandon (most) web-based tools in genomics"
 Web-based tools are an indispensable resource for conducting genomic and bioinformatics analysis, but if they disappear
 it can leave reproducibility gaps in research projects.
 Unless such tools allow for preservation of key materials for reproduction, researchers may unwittingly be in breach of
-data management mandates.
+data retention mandates.
 
 ## Main text
 
@@ -56,6 +53,7 @@ This was disturbing, as according to analysis of PubMed citations, some 20,000 a
 the original tools, some articles just one or two years old.
 This is a prime example of "link decay", a phenomenon where internet based resources are lost over time, which has been raised as a significant and ongoing problem for bioinformatic reproducibility [@Hennessey2013-tj].
 Of course DAVID isn't the only webserver without the option of preservation; our analysis of the latest NAR Webserver issue shows 28% (23/81) of webserver tools lacked source code or other features to allow preservation [@Seelow2023-xk].
+A look at NAR Webservers from 2013 shows 68% of tools did not provide any preservation options, and 35% (33/95) are no longer online.
 
 Researchers should keep in mind that institutional and funding mandates for data retention also apply to software and algorithms [@NHMRC2019-wu ; @Harvard_2023-cl].
 Therefore, to remain compliant with these mandates and support reproducibility, we caution against using data from web-based tools for publication unless there is a system in place to enable future reproducibility.
