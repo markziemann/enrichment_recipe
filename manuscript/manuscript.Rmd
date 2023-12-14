@@ -1,7 +1,12 @@
 ---
 title: "A recipe for extremely reproducible enrichment analysis (and why we need it)"
 date: "`r Sys.Date()`"
-output: word_document
+output:
+  rmdformats::robobook:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
     fig_width: 5
     fig_height: 5
 bibliography: references.bib
@@ -263,6 +268,19 @@ pc <- unlist(lapply(l,length)) / sum(unlist(lapply(l,length))) * 100
 pc2 <- paste(pc,"%",sep="")
 text(c(0.7,1.9,3.1),unlist(lapply(l,length))+0.4,labels=pc2)
 
+pdf("fig1.pdf",width=6,height=5)
+barplot(unlist(lapply(l,length)),col="lightgray",
+  xlab="reproducibility score",ylab="no. articles",
+  ylim=c(0,11))
+grid()
+text(0.7,1:7-0.5,labels=score1)
+text(1.9,1:9-0.5,labels=score2)
+text(3.1,1:4-0.5,labels=score3)
+pc <- unlist(lapply(l,length)) / sum(unlist(lapply(l,length))) * 100
+pc2 <- paste(pc,"%",sep="")
+text(c(0.7,1.9,3.1),unlist(lapply(l,length))+0.4,labels=pc2)
+dev.off()
+
 ```
 
 | S.No. Pubmed ID: Replication of (Table/Figure) | A. Was Replication possible? B. Were there other significant terms found which were not mentioned in the article? | Replication score and justification |
@@ -352,6 +370,36 @@ text( 7.6, -2.5, lab="8. Long Term Archiving: 180 mins",cex=1.5)
 #Arrows(3.5, 3, 4, 2.5, lwd=2, arr.type="triangle")
 #Arrows(4, 1.5, 4.5, 1, lwd=2, arr.type="triangle")
 
+pdf("fig2.pdf",width=8,height=6)
+cols <- brewer.pal(5, "Set2")
+cols2 <- adjustcolor( cols, alpha.f = 0.7)
+plot(0,type='n',axes=FALSE,ann=FALSE, xaxs="i", yaxs="i", xlim=c(0, 11), ylim=c(-3, 8.5))
+
+polygon(c(0,6,6,0),c(8.5,8.5,7.5,7.5), col=cols2[1], border = NA)
+text( 3, 8.0, lab="1. Install Docker: 7 mins",cex=1.5)
+
+polygon(c(0.5,7.5,7.5,0.5),c(7.0,7.0,6.0,6.0), col=cols2[2], border = NA)
+text( 3.9, 6.5, lab="2. Validate example: 14 mins",cex=1.5)
+
+polygon(c(1,8.5,8.5,1),c(5.5,5.5,4.5,4.5), col=cols2[3], border = NA)
+text( 4.8, 5.0, lab="3. Create GitHub repo: 29 mins",cex=1.5)
+
+polygon(c(1.5,10.5,10.5,1.5),c(4,4,3,3), col=cols2[4], border = NA)
+text( 6.1, 3.5, lab="4. Build custom Docker image: 45 mins",cex=1.5)
+
+polygon(c(2,10.5,10.5,2),c(2.5,2.5,1.5,1.5), col=cols2[5], border = NA)
+text( 6.3, 2, lab="5. Customize R Markdown: 3-12 hrs",cex=1.5)
+
+polygon(c(2.5,9.5,9.5,2.5),c(1,1,0,0),col="lightgray", border = NA)
+text( 6.1, 0.5, lab="6. Update repository: 70 mins",cex=1.5)
+
+polygon(c(3,11,11,3),c(-0.5,-0.5,-1.5,-1.5), col=cols2[1], border = NA)
+text( 7.0, -1, lab="7. Update Docker image: 40 mins",cex=1.5)
+
+polygon(c(3.5,12,12,3.5),c(-2,-2,-3,-3), col=cols2[2], border = NA)
+text( 7.6, -2.5, lab="8. Long Term Archiving: 180 mins",cex=1.5)
+dev.off()
+
 ```
 
 The Dockerfile uses a base image from Bioconductor that corresponds to the latest available
@@ -398,6 +446,27 @@ grViz("digraph flowchart {
       [5]: 'Functional class scoring'
       [6]: 'Euler diagram'
 ")
+
+grViz("digraph flowchart {
+      node [fontname = Helvetica, shape = rectangle]
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab3 [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+      tab1 -> tab2 -> tab3 -> tab4 -> tab6;
+      tab3 -> tab5 -> tab6 }
+      [1]: 'Fetch RNA-seq from DEE2'
+      [2]: 'Quality control'
+      [3]: 'Differential expression'
+      [4]: 'Over-representation analysis'
+      [5]: 'Functional class scoring'
+      [6]: 'Euler diagram'
+") %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  rsvg::rsvg_pdf("fig3.pdf")
 
 ```
 
