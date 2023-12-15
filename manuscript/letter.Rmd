@@ -47,7 +47,7 @@ these tools can easily be misused and results misreported, which can lead to mis
 [ @Timmons2015-ex ; @Wijesooriya2022-li].
 Last year we sought to test whether a small group of articles published in 2019 involving enrichment analysis with the DAVID tool [@Sherman2022-hf]
 were reproducible using the authors' own methods.
-We found only 4/20 enrichment studies had a high degree of reproduction, while 7/20 had severe discrepancies.
+We found only 4/20 enrichment studies had a high degree of reproduction, while 7/20 had severe discrepancies [@Bora2023-ab].
 After our pilot study completed we were surprised to hear that the version of DAVID used for all of these studies (v6.8) would no longer be available from June 2022 onwards.
 This was disturbing, as according to an analysis of PubMed citations, some 20,000 articles citing DAVID enrichment tools will no longer be reproducible with
 the original tools, some articles just one or two years old.
@@ -58,7 +58,7 @@ A look at NAR Webservers from 2013 shows 68% of tools did not provide any preser
 Researchers should keep in mind that institutional and funding mandates for data retention also apply to software and algorithms [@NHMRC2019-wu ; @Harvard_2023-cl].
 Therefore, to remain compliant with these mandates and support reproducibility, we caution against using data from web-based tools for publication unless there is a system in place to enable future reproducibility.
 Scripted workflows are perhaps the most suitable solution for enabling reproduction in the long-term, but require expertise in computer programming.
-We have written a protocol for extremely reproducible enrichment analysis in R, designed for novice bioinformaticians to fill in this gap [@Ziemann2023-kz], but we understand this isn't for everyone.
+We have written a protocol for extremely reproducible enrichment analysis in R, designed for novice bioinformaticians to fill in this gap [@Bora2023-ab], but we understand this isn't for everyone.
 ShinyGO is another potential remedy, as it provides most of the necessary features in a point-and-click web interface but also allows users to download all historical versions of the tool to be run as
 a Docker based web page on the users own hardware [@Ge2020-qe].
 In order to get genomics research to meet the ten-year reproducibility challenge [@Perkel2020-io], we need progress towards better tooling, a greater emphasis on investigator training, better institutional support,
