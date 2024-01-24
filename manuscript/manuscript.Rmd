@@ -516,7 +516,7 @@ directory (Box 1).
 
 ```bash
 sudo apt update && sudo apt install docker.io -y  # 30 sec
-sudo docker run -it --platform linux/amd64 mziemann/enrichment_recipe Rscript -e 'rmarkdown::render("example.Rmd")'
+sudo docker run -it --platform linux/amd64 mziemann/enrichment_recipe Rscript -e 'rmarkdown::render("example.Rmd")' # 150 sec
 docker cp $(docker ps -aql):/enrichment_recipe/example.html . # instant
 firefox example.html
 ```
