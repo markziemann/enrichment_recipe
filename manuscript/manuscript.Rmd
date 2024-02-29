@@ -1,5 +1,5 @@
 ---
-title: "A recipe for extremely reproducible enrichment analysis (and why we need it)"
+title: "A recipe for highly reproducible enrichment analysis (and why we need it)"
 date: "`r Sys.Date()`"
 output:
   rmdformats::robobook:
@@ -28,7 +28,7 @@ csl: plos-computational-biology.csl
 
 # Abstract
 
-Unreliable and irreproducible research is a significant problem that wastes resources and risks
+Irreproducible research is a significant problem that wastes resources and risks
 undermining the public perception of science.
 Previous work has highlighted that published enrichment analyses frequently suffer from statistical
 and reporting flaws.
@@ -37,14 +37,11 @@ findings of 20 open-access articles published in 2019 describing enrichment anal
 popular DAVID suite were reproducible.
 We find that only four articles exhibited a high degree of concordance, while seven exhibited major
 discrepancies, which we mainly ascribe to deficiencies in methodological reporting.
-As the tool version used is no longer available, all articles using this tool pre-2021 (~20,800 studies)
-including this sample of 20 articles are no longer able to be reproduced with the original tools.
-Based on this, we suggest that results from web-based tools without long-term preservation features should
-not be included in scientific publications due to the threat of link decay and short reproducibility horizon.
-Relying exclusively on webtools for analysis may also be in breach of institutional and funder data management mandates.
-We advocate for the adoption of extremely reproducible research workflows, and we provide a detailed protocol
-for how to achieve it using a combination of best practices including literate programming, version control,
-containerisation, documentation and persistent sharing of data and software.
+To help combat such issues, we provide a detailed beginner-friendly enrichment analysis protocol
+exemplifying current best practices including literate programming, version control, containerisation,
+documentation and persistent sharing of data and code.
+Finally, we discuss how web-based tools without long-term preservation features might inadvertently put
+researchers in breach of their data retention mandates.
 
 # Keywords
 
@@ -103,11 +100,11 @@ Literate programming using R Markdown or Jupyter notebooks enables thorough docu
 free text explanations together with the code and outputs such as charts and tables.
 Code and data can be linked. This means that the code "knows" the location of the data,
 avoiding any "file not found" errors @Peng2011-ia.
-Lastly, reanalysis can be made as simple as possible by creating a master script that executes analysis
+Lastly, reanalysis can be made as simple as possible by creating a "main" script that executes analysis
 for each part sequentially, making the entire manuscript reproducible by executing just one or a few
 commands, and without any manual steps @Lasser2020-mm.
 Taken together, computational reproducibility is a spectrum, and the *five pillars*
-framework has been described as a way of achieving extreme reproducibility @Ziemann2023-dg.
+framework has been described as a way of achieving a high degree of reproducibility @Ziemann2023-dg.
 Currently, bioinformatics work at this gold standard is rare, despite the availability of such tools for
 over a decade.
 
@@ -124,13 +121,13 @@ Examination of related keywords in PubMed suggests the number of articles descri
 more researchers around the world.
 
 These observations highlight that pathway enrichment tools are essential in the interpretation of omics data.
-However, there are concerns that inadvertent misuse of these methods leads to unreliable results.
+However, there are concerns that inadvertent misuse of these methods leads to invalid results.
 These potential problems include (i) the lack of a correct background for over-representation tests,
 (ii) lack of p-value correction for multiple testing and (iii) lack of reporting detail
 [@Timmons2015-ex; @Reimand2019-uw; @Wijesooriya2022-li; @Zhao2023-ok].
 Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
 the validity of the methods and results.
-We are concerned about the reliability of published enrichment analyses, as web-based and
+We are concerned about the validity of published enrichment analyses, as web-based and
 point-and-click tools appear to be far more popular than computer script-based methods for this type
 of work @Wijesooriya2022-li.
 Although web-based tools are convenient, they are a potential reproducibility concern.
@@ -145,7 +142,7 @@ of being "containerised" and with archived historical versions [@Ge2020-qe; @Per
 This helps reproducibility greatly but is not a complete solution as it lacks information about how
 the input data was used and a record of any parameter selections.
 
-A solution to this is to use containerisation to provide a complete scripted workflow with prescribed
+One potential solution to this is to use containerisation to provide a complete scripted workflow with prescribed
 links to research data, external databases and complete record of parameter selection.
 When designed correctly, these containers encapsulate bioinformatics workflows and could ensure their
 computational reproducibility for decades to come with a few simple commands.
@@ -153,7 +150,7 @@ There are multiple barriers to entry for such workflows including (i) the added 
 existing point-and-click solutions; (ii) time poorness of researchers to learn new skills; and (iii)
 a lack of step-by-step guides and templates aimed at non-expert bioinformaticians.
 
-We address this firstly by providing working templates for Docker image and R Markdown scripts for
+We address this firstly by providing working example templates for Docker image and R Markdown scripts for
 common transcriptome and enrichment analysis routines.
 Secondly, we provide step-by-step written and video guides to help users customise these templates for
 their own work, deploy the analysis, verify the results, and share the materials.
@@ -256,10 +253,10 @@ score3 <- c("PMC6349697","PMC6444048","PMC6587650", "PMC6368841")
 l <- list("1-low"=score1,"2-medium"=score2,"3-high"=score3)
 
 barplot(unlist(lapply(l,length)),col="lightgray",
-  xlab="reproducibility score",ylab="no. articles",
+  xlab="Reproducibility score",ylab="no. articles",
   ylim=c(0,11))
 
-grid()
+#grid()
 text(0.7,1:7-0.5,labels=score1)
 text(1.9,1:9-0.5,labels=score2)
 text(3.1,1:4-0.5,labels=score3)
@@ -320,7 +317,7 @@ scientific publications.
 
 ### Method overview
 
-We have developed a step-by-step protocol for how to conduct an extremely reproducible
+We have developed a step-by-step protocol for how to conduct a highly reproducible
 enrichment analysis, which is attached as a supplementary file (Suppl Info 1) and published to
 protocols.io with a permissive license [@Ziemann2023-kz].
 This protocol is prepared in accordance with the *five pillars* principles [@Ziemann2023-dg], and includes
@@ -521,7 +518,8 @@ docker cp $(docker ps -aql):/enrichment_recipe/example.html . # instant
 firefox example.html
 ```
 <p style="text-align: center;">
-*Box 1. Linux shell commands to reproduce a transcriptome and enrichment analysis using a Docker image.*
+*Box 1. Linux shell commands to reproduce a transcriptome and enrichment analysis using a Docker image.
+Ubuntu 22.04 was used.*
 </p>
 
 ### Demonstration
@@ -591,7 +589,7 @@ Regarding up-regulated pathways, the similarity between ORA and FCS was relative
 Jaccard index of 0.58, while this agreement was lower for down-regulated pathways, with a Jaccard
 index of 0.46 (**Figure 4E**).
 
-## Concluding remarks
+## Discussion
 
 Although this reproducibility study is relatively small, there are a few key observations.
 We observe that only 4/20(20%) of studies achieved a high degree of reproducibility.
@@ -650,8 +648,9 @@ PubMed articles, suggesting that ~20,000 omics studies can no longer be reproduc
 
 The problem of bioinformatic resources becoming unavailable is not a new one, being thoroughly described a
 decade ago [@Hennessey2013-tj].
-We are worried that a reliance on web tools can leave researchers in violation of their data management
-responsibilities, as preservation mandates include software as well as original research data
+We are worried that a reliance on web tools that lack open source code or containers can leave
+researchers in violation of their data management responsibilities, as preservation mandates
+include software as well as original research data
 [@NHMRC2019-wu ; @Harvard_2023-cl].
 
 With this, we must reconsider whether web-based tools are valid for scientific publications if they are at
@@ -664,10 +663,14 @@ expression tools like edgeR and limma and allows users to download the computer 
 future non-interactive reproducibility @Powell2019-lv.
 The ShinyGO web-based enrichment tool is a satisfactory GUI-based alternative to DAVID as it provides Docker image
 downloads for all past versions [@Ge2020-qe], facilitating preservation and aiding future reproducibility.
-Still, such tools leave documentation and reproducibility gaps which are resolved with the "extremely reproducible"
+Still, such tools leave documentation and reproducibility gaps which are resolved with the highly reproducible
 approach detailed here.
 
-Although we hope that extremely reproducible enrichment analysis will become more widespread, we do not
+Although the recipe described here is designed for gene expression analysis, it is modifiable to accommodate
+other omics, for example genomic, epigenomic and proteomic data, given the names of analytes measured are
+consistent with the annotation databases.
+
+Although we hope that highly reproducible enrichment analysis will become more widespread, we do not
 anticipate any dramatic changes in researcher behaviour unless the motivating factors are addressed.
 Currently, reward structures in academia favour career progression for individuals who publish many
 articles as opposed to individuals who publish fewer but more rigorously conducted works.
