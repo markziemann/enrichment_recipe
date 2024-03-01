@@ -186,7 +186,7 @@ described and whether gene selection was described unambiguously.
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring @Zeeberg2004-na.
 The reproducibility analysis was performed using the respective methodologies stated in the methods
-sections of the 20 articles using the DAVID version specified in the articles (March-May 2022) [@Sherman2022-hf].
+sections of the 20 articles using DAVID version 6.8 (conducted March-May 2022) [@Sherman2022-hf].
 
 Briefly, we used the DAVID v6.8 "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
@@ -591,7 +591,18 @@ index of 0.46 (**Figure 4E**).
 
 ## Discussion
 
-Although this reproducibility study is relatively small, there are a few key observations.
+There are some notable limitations of this reproduction work.
+The sample size of 20 is relatively small.
+The articles were selected randomly from a list of articles that cited DAVID, and they are mostly from
+low and mid-tier journals (mean SJR 2022: 1.2, SD=0.68) and the results may not be representative of
+higher-tier journal articles.
+This is not a complete reproduction of all work in those papers; we only reproduced the DAVID functional enrichment analysis,
+which typically is just one component of an article that can have several other parts, including
+experimental validation of key findings.
+Therefore, if we identified that the enrichment analysis was not reproducible, it does not automatically mean that
+all results and conclusions are flawed.
+
+Despite these limitations, there are a few key observations.
 We observe that only 4/20(20%) of studies achieved a high degree of reproducibility.
 In a way, this is unexpected, given the simplicity of using DAVID.
 Users provide a list of gene identifiers in a text box and select some options.
