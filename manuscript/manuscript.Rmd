@@ -89,15 +89,11 @@ These potential problems include (i) the lack of a correct background for over-r
 (ii) lack of p-value correction for multiple testing and (iii) general lack of reporting detail
 [@Timmons2015-ex; @Reimand2019-uw; @Wijesooriya2022-li; @Zhao2023-ok].
 Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
-the validity of the methods and results.
+the validity of the methods and results [@Sandve2013-lk].
 
-To determine whether web based enrichment analysis is reproducible, we systematically examine the
-reproducibilty of DAVID enrichment analysis in 20 published articles.
-The results show that poor reporting and lack of preservation of web-tools is to blame for poor
-reproducibility.
-There is a need to bring enrichment analysis in line with bioinformatics best practices, so
-we present a beginner-friendly protocol that guides researchers through the process of
-literate scripting, version control, containerisation, documentation and code/data sharing.
+To determine whether web based enrichment analysis is reproducible, here we systematically examine the
+reproducibilty of DAVID enrichment analysis in 20 published articles, investigate root causes of
+reproduction failure and describe some potential solutions.
 
 ## A systematic assessment of reproducibility in enrichment analysis
 
@@ -122,13 +118,14 @@ described and whether gene selection was described unambiguously.
 The lists of genes were collected from the supplementary files and stored in a spreadsheet, paying
 special attention to preventing gene name errors from occurring @Zeeberg2004-na.
 The reproducibility analysis was performed using the respective methodologies stated in the methods
-sections of the 20 articles using DAVID version 6.8 (conducted March-May 2022) [@Sherman2022-hf].
+sections of the 20 articles using DAVID v6.8 as at this time v6.7 was not available
+(conducted March-May 2022) [@Sherman2022-hf].
 
 Briefly, we used the DAVID v6.8 "Analysis Wizard" and pasted in the provided gene list into the text box,
 selecting this as "gene list", together with the appropriate gene identifier type.
 Typically, this was the official gene symbol.
 The species was specified as *Homo sapiens*.
-Next, we clicked on the "Functional Annotation Tool" link, bringing up the "Annotation Summary Results”
+Next, we clicked on the "Functional Annotation Tool" link, bringing up the "Annotation Summary Results"
 page.
 We followed the steps indicated in the respective papers to select appropriate gene sets investigated
 in the articles such as Gene Ontology (GO; biological process, molecular function), Kyoto Encyclopedia
@@ -180,12 +177,13 @@ Seven studies were classified as low reproducibility, while 9 were classified as
 were classified as high.
 Justifications for these classifications are provided in Table S1.
 
-```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 1. Examining reproducibility of enrichment analysis in a sample of 20 journal articles."}
+```{r,barchart,fig.width=6,fig.height=5,echo=FALSE,fig.cap = "Figure 1. Examining reproducibility of enrichment analysis in a sample of 20 journal articles. Beside the PubMed Central identifier, the reported version of DAVID used in the original publication (blank if none given)."}
 
-score1 <- c("PMC6405693","PMC6425008","PMC6535219","PMC6539328","PMC6542760","PMC6561911","PMC6663624")
+score1 <- c("PMC6405693 (v6.7)","PMC6425008 (v6.8)","PMC6535219","PMC6539328 (v6.8)",
+  "PMC6542760","PMC6561911 (v6.8)","PMC6663624")
 score2 <- c("PMC6381667","PMC6463127","PMC6557785","PMC6580941","PMC6591946",
-  "PMC6582306","PMC6333352","PMC6526186","PMC6607402")
-score3 <- c("PMC6349697","PMC6444048","PMC6587650", "PMC6368841")
+  "PMC6582306","PMC6333352 (v6.8)","PMC6526186","PMC6607402 (v6.7)")
+score3 <- c("PMC6349697 (v6.8)","PMC6444048","PMC6587650", "PMC6368841")
 l <- list("1-low"=score1,"2-medium"=score2,"3-high"=score3)
 
 barplot(unlist(lapply(l,length)),col="lightgray",
@@ -193,9 +191,9 @@ barplot(unlist(lapply(l,length)),col="lightgray",
   ylim=c(0,11))
 
 #grid()
-text(0.7,1:7-0.5,labels=score1)
-text(1.9,1:9-0.5,labels=score2)
-text(3.1,1:4-0.5,labels=score3)
+text(0.7,1:7-0.5,labels=score1,cex=0.85)
+text(1.9,1:9-0.5,labels=score2,cex=0.85)
+text(3.1,1:4-0.5,labels=score3,cex=0.85)
 
 pc <- unlist(lapply(l,length)) / sum(unlist(lapply(l,length))) * 100
 pc2 <- paste(pc,"%",sep="")
@@ -250,6 +248,12 @@ and suggest that web-based tools without long-term reproducibility features are 
 scientific publications.
 
 ## A five-pillars approach to addressing reproducibility of enrichment analysis
+
+The results show that poor reporting and lack of preservation of web-tools is to blame for poor
+reproducibility.
+There is a need to bring enrichment analysis in line with bioinformatics best practices, so
+we present a beginner-friendly protocol that guides researchers through the process of
+literate scripting, version control, containerisation, documentation and code/data sharing.
 
 ### Method overview
 
