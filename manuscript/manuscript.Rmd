@@ -86,16 +86,22 @@ Examination of related keywords in PubMed suggests the number of articles descri
 more researchers around the world.
 
 These observations highlight that pathway enrichment tools are essential in the interpretation of omics data.
-However, there are concerns that inadvertent misuse of these methods leads to invalid results.
-These potential problems include (i) the lack of a correct background for over-representation tests,
-(ii) lack of p-value correction for multiple testing and (iii) general lack of reporting detail
+However, there are concerns that inadvertent misuse of these methods leads to invalid results
 [@Timmons2015-ex; @Reimand2019-uw; @Wijesooriya2022-li; @Zhao2023-ok].
-Without comprehensive methodological documentation and reproducibility, it isn't possible to verify
-the validity of the methods and results [@Sandve2013-lk].
+According to a recent survey of 186 articles, incorrect methods are very common [@Wijesooriya2022-li].
+For example, a suitable background list for over-representation tests is reported in only 4.1% of studies.
+Correction of p-values to account for multiple testing was reported in only 54% of studies.
+This survey also revealed a general lack of reporting detail around other aspects of enrichment analysis,
+such as the tool version used.
 
-To determine whether web based enrichment analysis is reproducible, here we systematically examine the
-reproducibilty of DAVID enrichment analysis in 20 published articles, investigate root causes of
-reproduction failure and describe some potential solutions.
+We hypothesise that the quality of enrichment analysis studies could be dramatically improved by adopting
+established simple rules for reproducible computing [@Sandve2013-lk], and specific guidelines for
+reporting enrichment analysis [@Zhao2023-ok].
+
+Our aim is to determine how reproducible published enrichment analyses are.
+To achieve this, we systematically examined the reproducibility of 20 published articles that used a web-based
+enrichment tool.
+We investigate root causes of reproduction failure and describe some potential solutions.
 
 ## A systematic assessment of reproducibility in enrichment analysis
 
@@ -135,26 +141,34 @@ of Genes and Genomes (KEGG) pathways, etc.
 Next, the "Functional Annotation Chart" was clicked on, opening a new window with a table of
 enrichment results, which were saved for future reference.
 
-The results presented in the paper were compared to those we obtained, recording any
-discrepancies.
-Additionally, the statements made in the abstract, results, and discussion sections were carefully
-examined and cross-checked with our results to understand whether those assertions survived reproduction
-or not.
+The pathway enrichment results presented in the paper were compared to those we obtained.
+It would be ideal to compare standardised effect sizes (fold enrichment scores) between original and
+reproduction results, however these were reported in the main text of only 3/20 articles.
+Therefore we adopted a binary classification system, based on head-counting pathways that were presented as
+statistically significant in the original article.
+We defined a pathway as confirmed when it reached a similar level of statistical significance
+upon reproduction.
+We define "similar significance level" to be a value within 50% of the value presented in the original article.
+For example if an article shows a pathway with FDR=0.04, then an acceptable FDR in reproduction could be in
+the range of 0.02 to 0.06.
+Additionally, statements made in the abstract, results, and discussion sections based on specific pathway
+enrichment results were carefully examined and cross-checked with our results to understand whether those
+assertions survived reproduction or not.
 
-Each article was critically evaluated and given a score of one (1) to three (3).
-Articles rated 1 showed overall poor reproducibility.
-For example, less than 50% of GO and/or KEGG terms mentioned in the results and discussion were confirmed
-upon reproduction, and the conclusions of the study were overall not supported.
-Articles were rated 2 when at least 50% of the terms are observed as significant after replication
-according to the original study's significance threshold, and most conclusions were supported.
-Articles were rated 3 when they showed a high level of reproducibility, with 80% or more of the terms
-shown in the article observed again in reproduction, and all conclusions were supported in reproduction.
+Each article was critically evaluated and given a score of one (1; low) to three (3; high).
+Articles were rated 1 when <50% of pathways shown in the results were confirmed
+upon reproduction, and most conclusions derived from enrichment analysis were not supported by reproduction.
+Articles were rated 2 when ≥50% of pathways shown in the results were confirmed
+upon reproduction, and most conclusions derived from the pathway enrichment analysis were supported.
+Articles were rated 3 when ≥80% of terms shown in the original article were observed again in
+reproduction with a similar significance value, and all conclusions derived from the pathway analysis were
+supported in reproduction.
 
 ### Results
 
 As reproducibility is closely associated with the quality of documentation, we collected key methodological
-information about how the enrichment analysis was done and present in Table 1.
-From this, we can see that only seven articles reported the version of DAVID that was used.
+information about how the enrichment analysis was done and reported (Table 1).
+Only seven articles reported the version of DAVID that was used.
 Version 6.7 was reportedly used in two articles while version 6.8 was specified in five.
 Correction of p-values for multiple testing was specified or inferred in 11 articles, while the results of
 the remaining nine articles did not take into consideration the importance of p-value correction for
@@ -167,6 +181,7 @@ We also examined whether the gene selection criteria were unambiguously clear, w
 x <- read.table("../data/checklist.tsv",header=TRUE,row.names=1)
 
 colnames(x) <- gsub("_"," ",colnames(x))
+x[,3]=NULL
 x |> gt(rownames_to_stub = TRUE) |> tab_header(title = "Table 1. Article reporting checklist results.")
 #x %>% kbl(caption = "Table 1. Article reporting checklist results.") %>% kable_paper("hover", full_width = F)
 
@@ -367,6 +382,7 @@ The R Markdown script called `example.Rmd` undertakes the transcriptome and enri
 R Markdown allows the unification of extended descriptions, code and results into a single document,
 which is becoming ubiquitous in bioinformatics and data science more generally
 @Grolemund2017-zl.
+R Markdown supports languages other than R, including Python, Shell, Julia and others.
 The ability to provide extended descriptions is helpful for providing contextualising information about
 the purpose of the work, detailed methods and interpretations derived from the analysis.
 The R Markdown script contains code chunks that perform specific tasks including fetching an example
@@ -545,7 +561,7 @@ index of 0.46 (**Figure 4E**).
 There are some notable limitations of this reproduction work.
 The sample size of 20 is relatively small.
 The articles were selected randomly from a list of articles that cited DAVID, and they are mostly from
-low and mid-tier journals (mean SJR 2022: 1.2, SD=0.68) and the results may not be representative of
+low and mid-tier journals (mean Scimago Journal Rank for 2022: 1.2, SD=0.68) and the results may not be representative of
 higher-tier journal articles.
 This is not a complete reproduction of all work in those papers; we only reproduced the DAVID functional enrichment analysis,
 which typically is just one component of an article that can have several other parts, including
@@ -553,8 +569,13 @@ experimental validation of key findings.
 Therefore, if we identified that the enrichment analysis was not reproducible, it does not automatically mean that
 all results and conclusions are flawed.
 
-Furthermore, our reproducibility assessment is based on "head-counting" pathways that meet an arbitrary significance threshold.
-This binary classification of results is less powerful as opposed to comparison of standardised effect sizes.
+Furthermore, our reproducibility assessment is based on "head-counting" pathways that meet an arbitrary significance range.
+This binary classification of reproduction results is less powerful as opposed to comparison of standardised effect sizes [@Lakens2013-fx; @Goodman2016-ie].
+For DAVID analysis, the fold enrichment score could be reported as a type of effect size.
+Unfortunately, fold enrichment scores are infrequently reported, so it was not a feasible approach for a systematic and representative
+reproduction study like this.
+In future, we recommend researchers use both significance values and enrichment scores to prioritise and report
+enrichment results.
 
 Despite these limitations, there are a few key observations.
 We observe that only 4/20(20%) of studies achieved a high degree of reproducibility.
@@ -574,6 +595,9 @@ separately or together.
 * Ambiguity around whether a custom background gene set was used.
 
 * Differences between DAVID version 6.7 and 6.8.
+
+* Ambiguity around which tool was used, as some articles described using other tools in addition to DAVID
+but did not label figures and tables with the tool used.
 
 This irreproducibility might be expected given that substantial methodological flaws and reporting
 deficiencies were present in 85% of enrichment analyses from which this set of 20 studies were
@@ -604,6 +628,9 @@ This is significantly longer than using a web-based tool that provides results i
 minutes, but we consider the time investment is well spent.
 It ensures analytical reproducibility, assists with auditing and makes the process of reproduction
 simple and fast (Box 1), which should aid the early identification of errors.
+Using a literate scripting approach such as R Markdown, Jupyter or Quarto notebook, enables very high
+levels of workflow transparency including inspection of intermediate data objects, and evidence that
+the published methods were followed.
 
 With the retirement of DAVID 6.8 and earlier versions, which occurred in June 2022, all DAVID analyses
 prior to 2021 have become irreproducible, including the sample of 20 studies featured here.
@@ -630,6 +657,17 @@ The ShinyGO web-based enrichment tool is a satisfactory GUI-based alternative to
 downloads for all past versions [@Ge2020-qe], facilitating preservation and aiding future reproducibility.
 Still, such tools leave documentation and reproducibility gaps which are resolved with the highly reproducible
 approach detailed here.
+
+Although container-based workflows are frequently described as being a complete solution to computational
+reproducibility, they have some limitations.
+For example, building a Docker image relies on a network of servers providing software packages which may work now
+but not in a decade's time.
+Therefore building such images has a short reproducibility horizon.
+The Guix package and container manager, together with the Software Heritage code repository enables reproducible
+image builds, which enhances the transparency of compute environments, and lengthening the reproducibility horizon
+[@Vallet2022-gw].
+It is also not guaranteed that Docker images published now will be compatible with future Docker versions,
+whereas Guix can build an older version of itself.
 
 Although the recipe described here is designed for gene expression analysis, it is modifiable to accommodate
 other omics, for example genomic, epigenomic and proteomic data, given the names of analytes measured are
