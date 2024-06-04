@@ -38,7 +38,7 @@ p-values.
 
 ```{r,chi1}
 
-l <- lapply(0:80, function(x) {
+l <- lapply(0:150, function(x) {
   tulip <- c(200+x, 200-x)
   res <- chisq.test(tulip, p = c(1/2, 1/2))
   c("stat"=res$stat,"p"=res$p.value)
@@ -90,6 +90,13 @@ format(res,digits=3) %>%
 
 That looks good but the bounds can be quite wide, approximately two orders of
 magnitude in either direction.
+
+## 20% window
+
+This is the range we will use for determining the similarity of p-values.
+
+The below table will be used to judge whether the p-values are reproducible.
+
 
 ```{r,bound2}
 
