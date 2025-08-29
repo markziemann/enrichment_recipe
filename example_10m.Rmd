@@ -1,0 +1,254 @@
+---
+title: "Supporting 10 common mistakes article"
+author: "Mark Ziemann & Anusuiya Bora"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_width: 5
+    fig_height: 5
+theme: cosmo
+---
+
+Source: https://github.com/markziemann/enrichment_recipe
+
+## Introduction
+
+```{r,libs}
+
+RhpcBLASctl::blas_set_num_threads(1)
+
+
+suppressPackageStartupMessages({
+  library("getDEE2")
+  library("DESeq2")
+  library("kableExtra")
+  library("clusterProfiler")
+  library("eulerr")
+  library("gplots")
+  library("mitch")
+})
+
+```
+
+For this guide I will be using bulk RNA-seq data from a previous study, which is
+deposited at NCBI GEO and SRA under accession numbers: GSE55123 and SRP038101 (Lund et al, 2014).
+The experiment is designed to investigate the effect of Azacitidine treatment on AML3 cells.
+
+The raw data have been processed by the DEE2 project, and the summary gene expression counts are
+available at the dee2.io website, and programmatically with the getDEE2 bioconductor package
+(Ziemann et al, 2019).
+
+The gene counts have also been deposited to the `/data` folder in the `example.Rdata` file in case
+the DEE2 resource becomes unavailable.
+To import it, use the command: `load("data/example.Rdata")`
+
+Alternatively, you could fetch data from another resource like NCBI GEO, Zenodo or from the host
+storage drive.
+
+```{r,fetch}
+
+mdat <- getDEE2Metadata("hsapiens")
+
+# get sample sheet
+ss <- subset(mdat,SRP_accession=="SRP038101")
+
+# fetch the whole set of RNA-seq data
+x <- getDEE2("hsapiens",ss$SRR_accession , metadata=mdat, legacy=TRUE)
+mx <- x$GeneCounts
+rownames(mx) <- paste(rownames(mx),x$GeneInfo$GeneSymbol)
+dim(mx)
+
+# aza no filtering
+ss$trt <- grepl("Treated",ss$Experiment_title)
+
+ss %>%
+  kbl(caption="sample sheet for Aza treatment in AML3 cells") %>%
+  kable_paper("hover", full_width = F)
+
+```
+
+## Data quality control
+
+QC is important, even if you are using public transcriptome data.
+For RNA-seq it is a good idea to show the number of reads for each sample.
+
+```{r,counts1}
+
+par(mar=c(5,7,5,1))
+barplot(rev(colSums(mx)),horiz=TRUE,las=1,main="number of reads per sample in SRP038101")
+
+```
+
+Now make a MDS plot.
+
+```{r,mds1}
+
+mds <- cmdscale(dist(t(mx)))
+
+# expand plot area
+XMIN=min(mds[,1])*1.3
+XMAX=max(mds[,1])*1.3
+YMIN=min(mds[,2])*1.3
+YMAX=max(mds[,2])*1.3
+
+cols <- as.character(grepl("Treated",ss$Experiment_title))
+cols <- gsub("FALSE","lightblue",cols)
+cols <- gsub("TRUE","pink",cols)
+plot(mds, xlab="Coordinate 1", ylab="Coordinate 2",
+  xlim=c(XMIN,XMAX),ylim=c(YMIN,YMAX),
+  pch=19,cex=2,col=cols, main="MDS plot")
+text(cmdscale(dist(t(mx))), labels=colnames(mx) )
+
+```
+
+## Differential expression analysis
+
+I will be using DESeq2 for DE analysis, the count matrix is prefiltered using
+a detection threshold of 10 reads per sample across all samples.
+All genes that meet the detection threshold will comprise the background list.
+The first 6 rows of the count matrix are shows.
+
+```{r,de1}
+
+mxf <- mx[which(rowMeans(mx)>=10),]
+dim(mxf)
+
+head(mxf,6) %>%
+  kbl(caption="Count matrix format") %>%
+  kable_paper("hover", full_width = F)
+
+dds <- DESeqDataSetFromMatrix(countData = mxf , colData = ss, design = ~ trt )
+res <- DESeq(dds)
+z <- results(res)
+vsd <- vst(dds, blind=FALSE)
+zz <-cbind(as.data.frame(z),mxf)
+def <-as.data.frame(zz[order(zz$pvalue),])
+
+head(def,10) %>%
+  kbl(caption="Top DE genes for Aza treatment") %>%
+  kable_paper("hover", full_width = F)
+
+```
+
+Make a smear plot.
+
+```{r,smearplot}
+
+sigf <- subset(def,padj<=0.05)
+
+DET=nrow(mxf)
+NSIG=nrow(sigf)
+NUP=nrow(subset(sigf,log2FoldChange>0))
+NDN=nrow(subset(sigf,log2FoldChange<0))
+
+HEADER=paste(DET,"detected genes;",NSIG,"w/FDR<0.05;",NUP,"up;",NDN,"down")
+
+plot(log10(def$baseMean) ,def$log2FoldChange,
+  cex=0.6,pch=19,col="darkgray",
+  main="5-azacitidine treatment in AML3 cells",
+  xlab="log10(basemean)",ylab="log2(fold change)")
+
+points(log10(sigf$baseMean) ,sigf$log2FoldChange,
+  cex=0.6,pch=19,col="red")
+
+mtext(HEADER)
+
+```
+
+In the next sections I will run enrichment analysis with over-representation test
+and compare it to functional class scoring.
+
+## Get gene sets
+
+```{r,gs}
+# from https://reactome.org/download/current/ReactomePathways.gmt.zip
+genesets2 <- read.gmt("ref/ReactomePathways_2023-03-06.gmt")
+gsets <- gmtPathways("ref/ReactomePathways_2023-03-06.gmt")
+
+```
+
+## Enrichment analysis with functional class scoring
+
+| Reporting criteria | Method/resource used |
+| --- | --- |
+| Origin of gene sets | Reactome (2023-03-06) |
+| Tool used | FGSEA (check version at foot of report) |
+| Statistical test used | Kolmogorov-Smirnov test |
+| P-value correction for multiple comparisons | FDR method |
+| Background list | Genes with >=10 reads per sample on average across all samples |
+| Gene Selection Criteria | DESeq2 FDR<0.05 |
+| ORA directionality | Separate tests for up- and down-regulation |
+| Data availability | via DEE2 at accession SRP038101 (human) |
+| Other parameters | Min gene set size of 10 |
+
+```{r,fgsea}
+
+
+gt <- def
+gt$genename <- sapply(strsplit(rownames(gt)," "),"[[",2)
+gt <- gt[,"genename",drop=FALSE]
+gt$id <- rownames(gt)
+m <- mitch_import(x=def,DEtype="deseq2",geneTable=gt)
+mres <- mitch_calc(x=m,genesets=gsets,minsetsize=5,cores=4,priority="significance")
+
+mres_sig_up <- head(subset(mres$enrichment_result,s.dist>0),10)
+mres_sig_dn <- head(subset(mres$enrichment_result,s.dist<0),10)
+
+mres_sig_up %>%
+  kbl(caption="Top upregulated pathways when prioritised by FDR") %>%
+  kable_paper("hover", full_width = F)
+
+mres_sig_dn %>%
+  kbl(caption="Top downregulated pathways when prioritised by FDR") %>%
+  kable_paper("hover", full_width = F)
+
+mres <- mitch_calc(x=m,genesets=gsets,minsetsize=5,cores=4,priority="effect")
+
+mres_es_up <- head(subset(mres$enrichment_result,s.dist>0 & p.adjustANOVA < 0.05),10)
+mres_es_dn <- head(subset(mres$enrichment_result,s.dist<0 & p.adjustANOVA < 0.05),10)
+
+mres_es_up %>%
+  kbl(caption="Top upregulated pathways when prioritised by ES (discarding any with FDR>0.05)") %>%
+  kable_paper("hover", full_width = F)
+
+mres_es_dn %>%
+  kbl(caption="Top upregulated pathways when prioritised by ES (discarding any with FDR>0.05)") %>%
+  kable_paper("hover", full_width = F)
+
+```
+
+Make a barplot
+
+```{r,topbarplot3}
+
+par(mar=c(5,20,5,1))
+
+cols <- c(rep("blue",n_pw),rep("red",n_pw))
+
+barplot(c(fgsea_dn_vec,fgsea_up_vec),
+  horiz=TRUE,las=1,cex.names=0.65,col=cols,
+  main="top DE Reactomes",
+  xlab="ES",
+  cex.main=0.9)
+
+mtext("FCS test")
+
+```
+
+## Session information
+
+For reproducibility
+
+<br><details><summary><b>Click HERE to show session info</b></summary><br><p>
+
+```{r,session}
+
+save.image("example_10m.Rdata")
+sessionInfo()
+
+```
+
+</details>
