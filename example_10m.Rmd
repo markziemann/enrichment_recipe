@@ -26,6 +26,7 @@ suppressPackageStartupMessages({
   library("eulerr")
   library("gplots")
   library("mitch")
+  library("fgsea")
   library("RhpcBLASctl")
 })
 
@@ -170,22 +171,82 @@ gsets <- gmtPathways("ref/ReactomePathways_2023-03-06.gmt")
 
 ```
 
-## Enrichment analysis with functional class scoring
+## Mistake 1 - Raw p-values
+
+## Mistake 2 - Background
+
+## Mistake 4 - prioritisation by p-values
 
 | Reporting criteria | Method/resource used |
 | --- | --- |
 | Origin of gene sets | Reactome (2023-03-06) |
-| Tool used | FGSEA (check version at foot of report) |
-| Statistical test used | Kolmogorov-Smirnov test |
+| Tool used | FORA (check fgsea version at foot of report) |
+| Statistical test used | hypergeometric |
 | P-value correction for multiple comparisons | FDR method |
 | Background list | Genes with >=10 reads per sample on average across all samples |
-| Gene Selection Criteria | DESeq2 FDR<0.05 |
-| ORA directionality | Separate tests for up- and down-regulation |
+| Gene Selection | DESeq2 FDR<0.05 and log2FC>0 or log2FC<0 |
 | Data availability | via DEE2 at accession SRP038101 (human) |
-| Other parameters | Min gene set size of 10 |
+| Other parameters | Min gene set size of 5 |
 
-```{r,fgsea}
+```{r,mistake2}
 
+up <- unique(sapply(strsplit(rownames(subset(def, log2FoldChange>0 & padj<0.05))," "),"[[",2))
+
+dn <- unique(sapply(strsplit(rownames(subset(def, log2FoldChange<0 & padj<0.05))," "),"[[",2))
+
+bg <- unique(sapply(strsplit(rownames(def)," "),"[[",2))
+
+gt <- read.table("https://dee2.io/data/hsapiens/hsa_gene_info.tsv",header=TRUE)
+head(gt)
+
+all <- unique(gt$GeneSymbol)
+
+lapply(list(up,dn,bg,all),length)
+
+fres_up_bg <- fora(pathways=gsets, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+fres_up_bg <- subset(fres_up_bg,padj<0.05)$pathway
+length(fres_up_bg)
+
+fres_up_all <- fora(pathways=gsets, genes=up, universe=all, minSize = 5, maxSize = Inf)
+fres_up_all <- subset(fres_up_all,padj<0.05)$pathway
+length(fres_up_all)
+
+fres_dn_bg <- fora(pathways=gsets, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+fres_dn_bg <- subset(fres_dn_bg,padj<0.05)$pathway
+length(fres_dn_bg)
+
+fres_dn_all <- fora(pathways=gsets, genes=dn, universe=all, minSize = 5, maxSize = Inf)
+fres_dn_all <- subset(fres_dn_all,padj<0.05)$pathway
+length(fres_dn_all)
+
+v1 <- list("up"=fres_up_bg, "up*"=fres_up_all, "dn"=fres_dn_bg, "dn*"=fres_dn_all)
+
+par(mar=c(1,1,1,1))
+par(mfrow=c(1,1))
+plot(euler(v1),quantities = list(cex = 2), labels = list(cex = 2))
+
+v2 <- list("up"=fres_up_bg, "up*"=fres_up_all)
+plot(euler(v2),quantities = list(cex = 2), labels = list(cex = 2))
+
+par(mar=c(5.1,4.1,4.1,2.1))
+
+
+```
+
+## Mistake 4 - prioritisation by p-values
+
+| Reporting criteria | Method/resource used |
+| --- | --- |
+| Origin of gene sets | Reactome (2023-03-06) |
+| Tool used | mitch (check version at foot of report) |
+| Statistical test used | Rank ANOVA (Kruskal Wallis) |
+| P-value correction for multiple comparisons | FDR method |
+| Background list | Genes with >=10 reads per sample on average across all samples |
+| Gene Scoring | DESeq2 Wald stat |
+| Data availability | via DEE2 at accession SRP038101 (human) |
+| Other parameters | Min gene set size of 5 |
+
+```{r,mistake4a}
 
 gt <- def
 gt$genename <- sapply(strsplit(rownames(gt)," "),"[[",2)
@@ -222,19 +283,87 @@ mres_es_dn %>%
 
 Make a barplot
 
-```{r,topbarplot3}
+```{r,mistake4b,fig.height=6,fig.width=6}
 
-par(mar=c(5,20,5,1))
+par(mar=c(2,20,2,0))
 
-cols <- c(rep("blue",n_pw),rep("red",n_pw))
+mres_sig_up_vals <- -log(mres_sig_up$pANOVA)
+names(mres_sig_up_vals) <- mres_sig_up$set
 
-barplot(c(fgsea_dn_vec,fgsea_up_vec),
-  horiz=TRUE,las=1,cex.names=0.65,col=cols,
-  main="top DE Reactomes",
+mres_sig_dn_vals <- -log(mres_sig_dn$pANOVA)
+names(mres_sig_dn_vals) <- mres_sig_dn$set
+
+mres_es_up_vals <- mres_es_up$s.dist
+names(mres_es_up_vals) <- mres_es_up$set
+
+mres_es_dn_vals <- -1 * mres_es_dn$s.dist
+names(mres_es_dn_vals) <- mres_es_dn$set
+
+par(mfrow=c(2,1))
+
+barplot( mres_sig_up_vals,
+  horiz=TRUE,las=1,cex.names=0.65,col="gray",
+  main="Up Sig (-log10 p-value)",
+  xlab="-log10 p-value",
+  cex.main=0.9)
+
+barplot( mres_es_up_vals,
+  horiz=TRUE,las=1,cex.names=0.65,col="gray",
+  main="Up ES",
   xlab="ES",
   cex.main=0.9)
 
-mtext("FCS test")
+barplot( mres_sig_dn_vals,
+  horiz=TRUE,las=1,cex.names=0.65,col="gray",
+  main="Down Sig (-log10 p-value)",
+  xlab="-log10 p-value",
+  cex.main=0.9)
+
+barplot( mres_es_dn_vals,
+  horiz=TRUE,las=1,cex.names=0.65,col="gray",
+  main="Down ES",
+  xlab="-ES",
+  cex.main=0.9)
+
+par(mfrow=c(1,1))
+par(mar=c(5.1,4.1,4.1,2.1))
+
+```
+
+## Mistake 5 - gene set list size too small or long
+
+```{r,mistake5}
+
+bg <- unique(sapply(strsplit(rownames(def)," "),"[[",2))
+
+nrow(subset(def,padj<0.05 & log2FoldChange>0))
+nrow(subset(def,padj<0.05 & log2FoldChange<0))
+nrow(def)
+
+sizes <- c(50,100,200,300,400,500,750,1000,1500,2000,2500,3000,4000,5000,6000,7000)
+
+fup <- nrow(subset(fora(pathways=gsets, genes=up, universe=bg, minSize = 5, maxSize = Inf),padj<0.05))
+fdn <- nrow(subset(fora(pathways=gsets, genes=dn, universe=bg, minSize = 5, maxSize = Inf),padj<0.05))
+
+nups <- unlist(lapply(sizes, function(i) {
+  genes <- unique(sapply(strsplit(rownames(head(subset(def, log2FoldChange>0),i))," "),"[[",2))
+  fres <- fora(pathways=gsets, genes=genes, universe=bg, minSize = 5, maxSize = Inf)
+  nrow(subset(fres,padj<0.05))
+}))
+
+ndns <- unlist(lapply(sizes, function(i) {
+  genes <- unique(sapply(strsplit(rownames(head(subset(def, log2FoldChange<0),i))," "),"[[",2))
+  fres <- fora(pathways=gsets, genes=genes, universe=bg, minSize = 5, maxSize = Inf)
+  nrow(subset(fres,padj<0.05))
+}))
+
+df <- data.frame("up"=nups,"dn"=ndns,row.names=sizes)
+df
+plot(sizes,df$up,type="b",col="red",ylab="no. gene sets with FDR<0.05",xlab="gene list length")
+lines(sizes,df$dn,type="b",col="blue")
+
+plot(sizes,df$up,type="b",col="red",ylab="no. gene sets with FDR<0.05",xlab="gene list length",xlim=c(0,500))
+lines(sizes,df$dn,type="b",col="blue")
 
 ```
 
