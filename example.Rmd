@@ -35,7 +35,10 @@ suppressPackageStartupMessages({
   library("fgsea")
   library("eulerr")
   library("gplots")
+  library("RhpcBLASctl")
 })
+
+RhpcBLASctl::blas_set_num_threads(1)
 
 ```
 
@@ -467,6 +470,7 @@ For reproducibility
 
 ```{r,session}
 
+save.image("example.Rdata")
 sessionInfo()
 
 ```

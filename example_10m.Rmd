@@ -18,9 +18,6 @@ Source: https://github.com/markziemann/enrichment_recipe
 
 ```{r,libs}
 
-RhpcBLASctl::blas_set_num_threads(1)
-
-
 suppressPackageStartupMessages({
   library("getDEE2")
   library("DESeq2")
@@ -29,7 +26,10 @@ suppressPackageStartupMessages({
   library("eulerr")
   library("gplots")
   library("mitch")
+  library("RhpcBLASctl")
 })
+
+RhpcBLASctl::blas_set_num_threads(1)
 
 ```
 
