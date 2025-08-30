@@ -177,6 +177,8 @@ gsets <- gmtPathways("ref/ReactomePathways_2023-03-06.gmt")
 
 ## Mistake 4 - prioritisation by p-values
 
+Will try FORA and mitch.
+
 | Reporting criteria | Method/resource used |
 | --- | --- |
 | Origin of gene sets | Reactome (2023-03-06) |
@@ -232,8 +234,6 @@ par(mar=c(5.1,4.1,4.1,2.1))
 
 
 ```
-
-## Mistake 4 - prioritisation by p-values
 
 | Reporting criteria | Method/resource used |
 | --- | --- |
@@ -358,12 +358,34 @@ ndns <- unlist(lapply(sizes, function(i) {
 }))
 
 df <- data.frame("up"=nups,"dn"=ndns,row.names=sizes)
+df$tot <- df$up + df$dn
 df
+
 plot(sizes,df$up,type="b",col="red",ylab="no. gene sets with FDR<0.05",xlab="gene list length")
 lines(sizes,df$dn,type="b",col="blue")
 
-plot(sizes,df$up,type="b",col="red",ylab="no. gene sets with FDR<0.05",xlab="gene list length",xlim=c(0,500))
+plot(sizes,df$up,type="b",col="red",ylab="no. gene sets with FDR<0.05",xlab="gene list length",
+  xlim=c(0,500), ylim=c(0,125))
 lines(sizes,df$dn,type="b",col="blue")
+
+```
+
+## Mistake 6 - combining up and downregulated genes into the same test.
+
+```{r,mistake6a}
+
+updn <- unique(c(up,dn))
+
+fres_updn_bg <- fora(pathways=gsets, genes=updn, universe=bg, minSize = 5, maxSize = Inf)
+fres_updn_bg <- subset(fres_updn_bg,padj<0.05)$pathway
+length(fres_updn_bg)
+
+length(fres_up_bg)
+length(fres_dn_bg)
+length(unique(c(fres_up_bg,fres_dn_bg)))
+
+v1 <- list("up"=fres_up_bg,"dn"=fres_dn_bg,"both"=fres_updn_bg)
+plot(euler(v1),quantities = list(cex = 2), labels = list(cex = 2))
 
 ```
 
