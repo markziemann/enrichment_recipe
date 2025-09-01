@@ -28,6 +28,8 @@ suppressPackageStartupMessages({
   library("mitch")
   library("fgsea")
   library("RhpcBLASctl")
+  library("msigdb")
+  library("ExperimentHub")
 })
 
 RhpcBLASctl::blas_set_num_threads(1)
@@ -386,6 +388,69 @@ length(unique(c(fres_up_bg,fres_dn_bg)))
 
 v1 <- list("up"=fres_up_bg,"dn"=fres_dn_bg,"both"=fres_updn_bg)
 plot(euler(v1),quantities = list(cex = 2), labels = list(cex = 2))
+
+```
+
+## Mistake 8 - using shallow gene annotations
+
+```{r,m8a}
+
+msdb <- gmtPathways("msigdb.v2025.1.Hs.symbols.gmt")
+kegg <- msdb[grep("KEGG",names(msdb))]
+kegg_med <- msdb[grep("KEGG_MED",names(msdb))]
+kegg <- kegg[grep("KEGG_MED",names(kegg),invert=TRUE)] #separate KEGG LEG from KEGG MED
+gobp <- msdb[grep("GOBP",names(msdb))]
+reactome <- msdb[grep("REACTOME",names(msdb))]
+gslist <- list("KEGG"=kegg,"KEGGM"=kegg_med,"Reactome"=reactome,"GOBP"=gobp,"MSigDB"=msdb)
+
+# no. gene sets
+d1 <- unlist( lapply(gslist,length) )
+
+# total number of annotations
+d2 <- unlist( lapply(gslist,function(i) { length(unlist(i)) } ) )
+
+# median gene set size
+d3 <- unlist(lapply(gslist,function(i) { median(unlist(lapply(i,length))) } ))
+
+# number of genes with one or more functions
+d4 <- unlist( lapply(gslist,function(i) { length(unique(unlist(i))) } ))
+
+d5 <- unlist(lapply(gslist,function(i) { median(unlist(lapply(i,length))) } ))
+
+data.frame(d1,d2,d3,d4) %>%
+  kbl(caption="Gene set metrics") %>%
+  kable_paper("hover", full_width = F)
+
+kegg_up <- fora(pathways=kegg, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+kegg_dn <- fora(pathways=kegg, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+nrow(subset(kegg_up,padj<0.05))
+nrow(subset(kegg_dn,padj<0.05))
+sum(nrow(subset(kegg_up,padj<0.05)), nrow(subset(kegg_dn,padj<0.05) ))
+
+kegg_med_up <- fora(pathways=kegg_med, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+kegg_med_dn <- fora(pathways=kegg_med, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+nrow(subset(kegg_med_up,padj<0.05))
+nrow(subset(kegg_med_dn,padj<0.05))
+sum(nrow(subset(kegg_med_up,padj<0.05)), nrow(subset(kegg_med_dn,padj<0.05) ))
+
+reactome_up <- fora(pathways=reactome, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+reactome_dn <- fora(pathways=reactome, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+nrow(subset(reactome_up,padj<0.05))
+nrow(subset(reactome_dn,padj<0.05))
+sum(nrow(subset(reactome_up,padj<0.05)), nrow(subset(reactome_dn,padj<0.05) ))
+
+gobp_up <- fora(pathways=gobp, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+gobp_dn <- fora(pathways=gobp, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+nrow(subset(gobp_up,padj<0.05))
+nrow(subset(gobp_dn,padj<0.05))
+sum(nrow(subset(gobp_up,padj<0.05)), nrow(subset(gobp_dn,padj<0.05) ))
+
+msdb_up <- fora(pathways=msdb, genes=up, universe=bg, minSize = 5, maxSize = Inf)
+msdb_dn <- fora(pathways=msdb, genes=dn, universe=bg, minSize = 5, maxSize = Inf)
+nrow(subset(msdb_up,padj<0.05))
+nrow(subset(msdb_dn,padj<0.05))
+sum(nrow(subset(msdb_up,padj<0.05)), nrow(subset(msdb_dn,padj<0.05) ))
+
 
 ```
 
